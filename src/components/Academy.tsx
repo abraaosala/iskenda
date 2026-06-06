@@ -179,7 +179,7 @@ export default function Academy() {
                 <button
                   id={`course-apply-btn-${activeCourse.id}`}
                   onClick={handleContactScroll}
-                  className="px-6 py-3 rounded-xl bg-brand-gold hover:bg-[#ffdf6d] text-brand-dark font-extrabold text-xs uppercase tracking-wider transform hover:scale-[1.02] shadow-md transition-all cursor-pointer whitespace-nowrap"
+                  className="px-6 py-3 rounded-xl bg-brand-gold hover:bg-brand-orange-dark text-brand-dark font-extrabold text-xs uppercase tracking-wider transform hover:scale-[1.02] shadow-md transition-all cursor-pointer whitespace-nowrap"
                 >
                   Inscrever-me Agora
                 </button>

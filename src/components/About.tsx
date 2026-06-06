@@ -52,7 +52,7 @@ export default function About() {
             <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full filter blur-xl pointer-events-none" />
             
             <div>
-              <h3 className="text-lg font-extrabold text-[#003366] mb-6 flex items-center space-x-2.5">
+              <h3 className="text-lg font-extrabold text-brand-royal mb-6 flex items-center space-x-2.5">
                 <span className="w-1.5 h-6 bg-brand-gold rounded-full" />
                 <span>Os Nossos Pilares Corporativos</span>
               </h3>
