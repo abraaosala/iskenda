@@ -52,7 +52,7 @@ export default function App() {
   }, []);
 
   return (
-    <div id="full-page-container" className="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 selection:bg-brand-gold selection:text-brand-dark">
+    <div id="full-page-container" className="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 selection:bg-brand-orange selection:text-brand-dark">
       {/* Dynamic Header Navbar sticky */}
       <Navbar currentSection={currentSection} />
 

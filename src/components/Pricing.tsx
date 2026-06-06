@@ -93,13 +93,13 @@ export default function Pricing() {
   return (
     <section id="honorarios" className="py-24 bg-white relative overflow-hidden text-left">
       {/* Decorative Lights */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-gold/5 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-orange/5 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div id="pricing-badge" className="inline-flex items-center space-x-2 bg-brand-gold/10 px-4 py-1.5 rounded-full text-brand-gold text-xs font-bold uppercase tracking-wider">
+          <div id="pricing-badge" className="inline-flex items-center space-x-2 bg-brand-orange/10 px-4 py-1.5 rounded-full text-brand-orange text-xs font-bold uppercase tracking-wider">
             <span>Investimento Planeado</span>
           </div>
           <h2 id="pricing-title" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -119,7 +119,7 @@ export default function Pricing() {
               
               <div className="z-10">
                 <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 flex items-center space-x-2">
-                  <DollarSign className="h-6 w-6 text-brand-gold" />
+                  <DollarSign className="h-6 w-6 text-brand-orange" />
                   <span>Termos e Valores de Referência</span>
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-550 leading-relaxed mb-6">
@@ -137,7 +137,7 @@ export default function Pricing() {
                     { title: "Necessidade de Organização Física", desc: "Se houver demanda de triagem de arquivos físicos no local do cliente." }
                   ].map((f, i) => (
                     <div key={i} className="flex space-x-3 items-start">
-                      <div className="p-1 bg-white rounded-lg border border-slate-200 text-brand-royal flex-shrink-0 mt-0.5">
+                      <div className="p-1 bg-white rounded-lg border border-slate-200 text-brand-blue flex-shrink-0 mt-0.5">
                         <Check className="h-3.5 w-3.5" />
                       </div>
                       <div>
@@ -149,7 +149,7 @@ export default function Pricing() {
                 </div>
               </div>
 
-              <div id="pricing-contract-note" className="mt-8 p-4 bg-[#f8fafc] border border-slate-200 rounded-2xl flex items-start space-x-3 text-brand-royal z-10">
+              <div id="pricing-contract-note" className="mt-8 p-4 bg-[#f8fafc] border border-slate-200 rounded-2xl flex items-start space-x-3 text-brand-blue z-10">
                 <FileSignature className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <span className="text-[11px] sm:text-xs font-semibold leading-relaxed text-slate-650">
                   <strong>Segurança Jurídica:</strong> Todos os serviços iniciam única e exclusivamente após a celebração de contrato formal para zelar pela sua tranquilidade legal.
@@ -160,14 +160,14 @@ export default function Pricing() {
 
           {/* Column 2: Interactive Pricing Simulator */}
           <div className="lg:col-span-7">
-            <div id="pricing-simulator-card" className="bg-gradient-to-br from-brand-dark to-brand-royal p-8 sm:p-10 rounded-3xl text-white shadow-xl relative overflow-hidden flex flex-col justify-between h-full">
+            <div id="pricing-simulator-card" className="bg-gradient-to-br from-brand-dark to-brand-navy p-8 sm:p-10 rounded-3xl text-white shadow-xl relative overflow-hidden flex flex-col justify-between h-full">
               {/* background vector gradient */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full filter blur-xl transform translate-x-10 -translate-y-10" />
 
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                   <div>
-                    <span className="text-xs text-brand-gold font-bold uppercase tracking-wider">Inovação Tecnológica</span>
+                    <span className="text-xs text-brand-orange font-bold uppercase tracking-wider">Inovação Tecnológica</span>
                     <h3 className="text-xl font-bold mt-1">Simulador Prático de Honorários</h3>
                   </div>
                   <span className="text-[10px] bg-white/10 px-3 py-1 rounded-full border border-white/10 text-slate-300 font-mono self-start sm:self-auto">
@@ -192,7 +192,7 @@ export default function Pricing() {
                         onClick={() => setCompanyScale(item.id as any)}
                         className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                           companyScale === item.id
-                            ? "bg-gradient-to-r from-brand-gold to-amber-500 text-brand-dark border-brand-gold font-bold shadow-md shadow-brand-gold/15"
+                            ? "bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark border-brand-orange font-bold shadow-md shadow-brand-orange/15"
                             : "bg-white/5 border-white/10 text-slate-200 hover:bg-white/10"
                         }`}
                       >
@@ -227,12 +227,12 @@ export default function Pricing() {
                           onClick={() => toggleService(item.id as keyof typeof selectedServices)}
                           className={`flex items-center space-x-3 p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                             isSelected
-                              ? "bg-white/10 border-brand-gold/50 text-white font-semibold"
+                              ? "bg-white/10 border-brand-orange/50 text-white font-semibold"
                               : "bg-white/5 border-white/5 text-slate-400 hover:bg-white/10"
                           }`}
                         >
                           <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
-                            isSelected ? "bg-brand-gold border-brand-gold text-brand-dark" : "border-white/20 bg-transparent text-transparent"
+                            isSelected ? "bg-brand-orange border-brand-orange text-brand-dark" : "border-white/20 bg-transparent text-transparent"
                           }`}>
                             <Check className="h-3.5 w-3.5 stroke-[3]" />
                           </div>
@@ -247,8 +247,8 @@ export default function Pricing() {
               {/* Step 3: Result Estimation Box */}
               <div id="pricing-result-panel" className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="text-center sm:text-left">
-                  <span className="text-[10px] text-brand-gold font-bold uppercase tracking-wider">Investimento Mensal Estimado</span>
-                  <div className="text-2xl sm:text-3xl font-black mt-1 text-transparent bg-clip-text bg-gradient-to-r from-brand-gold via-yellow-200 to-white">
+                  <span className="text-[10px] text-brand-orange font-bold uppercase tracking-wider">Investimento Mensal Estimado</span>
+                  <div className="text-2xl sm:text-3xl font-black mt-1 text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-yellow-200 to-white">
                     {formatCurrency(estimatedMin)} – {formatCurrency(estimatedMax)}
                   </div>
                   <p className="text-[9px] text-slate-400 mt-1 uppercase tracking-wider">Sob aprovação contratual e auditoria prévia</p>
@@ -257,7 +257,7 @@ export default function Pricing() {
                 <button
                   id="pricing-simulation-cta"
                   onClick={handleContactScroll}
-                  className="px-6 py-3.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-gold to-amber-500 text-brand-dark font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-brand-gold/30 hover:scale-[1.02] transition-all cursor-pointer"
+                  className="px-6 py-3.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-brand-orange/30 hover:scale-[1.02] transition-all cursor-pointer"
                 >
                   Solicitar Proposta
                 </button>

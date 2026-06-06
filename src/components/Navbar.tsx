@@ -63,18 +63,18 @@ export default function Navbar({ currentSection }: NavbarProps) {
             className="flex items-center space-x-3 group"
           >
             <div className={`p-2 rounded-xl transition-all duration-300 ${
-              isScrolled ? "bg-brand-royal/10 text-brand-royal" : "bg-white/10 text-brand-gold"
+              isScrolled ? "bg-brand-navy/10 text-brand-navy" : "bg-white/10 text-brand-orange"
             }`}>
               <Landmark className="h-6 w-6" />
             </div>
             <div className="flex flex-col">
               <span className={`font-extrabold text-xl tracking-tight leading-none ${
-                isScrolled ? "text-brand-royal" : "text-white"
+                isScrolled ? "text-brand-navy" : "text-white"
               }`}>
                 {COMPANY_INFO.name}
               </span>
               <span className={`text-[9px] font-semibold tracking-wider uppercase mt-1 ${
-                isScrolled ? "text-brand-azure" : "text-brand-gold"
+                isScrolled ? "text-brand-blue" : "text-brand-orange"
               }`}>
                 Consultoria & Academia
               </span>
@@ -94,10 +94,10 @@ export default function Navbar({ currentSection }: NavbarProps) {
                   className={`px-4 py-2 rounded-md text-sm font-medium tracking-wide transition-all duration-200 ${
                     active
                       ? isScrolled
-                        ? "text-brand-azure bg-brand-royal/5 font-semibold"
-                        : "text-brand-gold font-semibold"
+                        ? "text-brand-blue bg-brand-navy/5 font-semibold"
+                        : "text-brand-orange font-semibold"
                       : isScrolled
-                      ? "text-slate-600 hover:text-brand-azure hover:bg-slate-50"
+                      ? "text-slate-600 hover:text-brand-blue hover:bg-slate-50"
                       : "text-slate-200 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -115,8 +115,8 @@ export default function Navbar({ currentSection }: NavbarProps) {
               onClick={(e) => handleLinkClick(e, "#contactos")}
               className={`flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 ${
                 isScrolled
-                  ? "bg-brand-royal text-white hover:bg-brand-azure hover:shadow-md"
-                  : "bg-brand-gold text-brand-dark hover:bg-white hover:text-brand-royal"
+                  ? "bg-brand-navy text-white hover:bg-brand-blue hover:shadow-md"
+                  : "bg-brand-orange text-brand-dark hover:bg-white hover:text-brand-navy"
               }`}
             >
               <PhoneCall className="h-3.5 w-3.5" />
@@ -162,8 +162,8 @@ export default function Navbar({ currentSection }: NavbarProps) {
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={`flex items-center px-4 py-3 rounded-xl text-base font-medium transition-all ${
                   active
-                    ? "bg-brand-royal/10 text-brand-royal font-semibold"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-brand-royal"
+                    ? "bg-brand-navy/10 text-brand-navy font-semibold"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-brand-navy"
                 }`}
               >
                 {link.label}
@@ -175,7 +175,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
               id="mobile-nav-cta"
               href="#contactos"
               onClick={(e) => handleLinkClick(e, "#contactos")}
-              className="flex justify-center items-center space-x-2 w-full py-3.5 rounded-xl bg-brand-royal text-white font-bold text-center uppercase tracking-wider text-sm shadow-md"
+              className="flex justify-center items-center space-x-2 w-full py-3.5 rounded-xl bg-brand-navy text-white font-bold text-center uppercase tracking-wider text-sm shadow-md"
             >
               <PhoneCall className="h-4 w-4" />
               <span>Contactar IS KENDA</span>

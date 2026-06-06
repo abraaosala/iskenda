@@ -24,7 +24,7 @@ export default function Footer() {
 
   return (
     <footer id="footer" className="bg-brand-dark text-slate-400 py-16 border-t border-white/5 relative overflow-hidden text-left">
-      <div className="absolute top-0 left-1/4 w-80 h-80 bg-brand-royal/10 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-80 h-80 bg-brand-navy/10 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
         
@@ -39,14 +39,14 @@ export default function Footer() {
               onClick={handleScrollToTop}
               className="flex items-center space-x-3 group"
             >
-              <div className="p-2.5 bg-white/5 text-brand-gold rounded-xl border border-white/10 group-hover:bg-brand-gold/20 transition-all">
+              <div className="p-2.5 bg-white/5 text-brand-orange rounded-xl border border-white/10 group-hover:bg-brand-orange/20 transition-all">
                 <Landmark className="h-6 w-6" />
               </div>
               <div className="flex flex-col">
                 <span className="font-extrabold text-lg text-white tracking-tight leading-none">
                   {COMPANY_INFO.name}
                 </span>
-                <span className="text-[9px] font-bold tracking-wider uppercase mt-1 text-brand-gold">
+                <span className="text-[9px] font-bold tracking-wider uppercase mt-1 text-brand-orange">
                   Consultoria & Academia
                 </span>
               </div>
@@ -69,7 +69,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 bg-white/5 hover:bg-brand-gold hover:text-brand-dark rounded-xl border border-white/5 transition-all text-slate-205"
+                  className="p-2.5 bg-white/5 hover:bg-brand-orange hover:text-brand-dark rounded-xl border border-white/5 transition-all text-slate-205"
                   aria-label={social.label}
                   referrerPolicy="no-referrer"
                 >
@@ -81,7 +81,7 @@ export default function Footer() {
 
           {/* Block 2: Quick Links */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-xs font-bold text-white uppercase tracking-widest border-l-2 border-brand-gold pl-2">
+            <h4 className="text-xs font-bold text-white uppercase tracking-widest border-l-2 border-brand-orange pl-2">
               Menu de Navegação
             </h4>
             <ul className="space-y-2.5 text-xs">
@@ -96,7 +96,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="hover:text-brand-gold transition-colors block py-0.5"
+                    className="hover:text-brand-orange transition-colors block py-0.5"
                   >
                     {link.label}
                   </a>
@@ -107,7 +107,7 @@ export default function Footer() {
 
           {/* Block 3: Secondary business lines */}
           <div className="lg:col-span-4 space-y-4">
-            <h4 className="text-xs font-bold text-white uppercase tracking-widest border-l-2 border-brand-gold pl-2">
+            <h4 className="text-xs font-bold text-white uppercase tracking-widest border-l-2 border-brand-orange pl-2">
               IS KENDA Academia
             </h4>
             <ul className="space-y-2.5 text-xs">
@@ -122,7 +122,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="hover:text-brand-gold transition-colors block py-0.5"
+                    className="hover:text-brand-orange transition-colors block py-0.5"
                   >
                     {link.label}
                   </a>
@@ -150,7 +150,7 @@ export default function Footer() {
           <button
             id="footer-back-to-top"
             onClick={handleScrollToTop}
-            className="flex items-center space-x-2 bg-white/5 hover:bg-brand-gold hover:text-brand-dark px-4 py-2.5 rounded-xl border border-white/10 text-xs font-bold text-white uppercase tracking-wider shadow-md transition-all cursor-pointer"
+            className="flex items-center space-x-2 bg-white/5 hover:bg-brand-orange hover:text-brand-dark px-4 py-2.5 rounded-xl border border-white/10 text-xs font-bold text-white uppercase tracking-wider shadow-md transition-all cursor-pointer"
             aria-label="Voltar ao início"
           >
             <span>Subir ao Início</span>

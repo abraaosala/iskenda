@@ -11,7 +11,7 @@ export default function Clients() {
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <div id="clients-badge" className="inline-flex items-center space-x-2 bg-brand-royal/5 px-4 py-1.5 rounded-full text-brand-royal text-xs font-bold uppercase tracking-wider">
+          <div id="clients-badge" className="inline-flex items-center space-x-2 bg-brand-blue/10 px-4 py-1.5 rounded-full text-brand-blue text-xs font-bold uppercase tracking-wider">
             <span>Confiança & Solidez</span>
           </div>
           <h2 id="clients-title" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -54,9 +54,9 @@ export default function Clients() {
               <div
                 key={client.name}
                 id={`client-card-${client.name.toLowerCase().replace(/\s+/g, "-")}`}
-                className="group flex flex-col items-center justify-center p-5 bg-slate-50/80 border border-slate-200 rounded-2xl hover:bg-brand-royal hover:border-brand-royal transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-royal/5"
+                className="group flex flex-col items-center justify-center p-5 bg-slate-50/80 border border-slate-200 rounded-2xl hover:bg-brand-navy hover:border-brand-navy transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-navy/5"
               >
-                <div className={`w-10 h-10 rounded-xl ${client.colorClass} flex items-center justify-center font-extrabold text-white text-base mb-3 shadow-md group-hover:bg-white group-hover:text-brand-royal transition-all duration-305`}>
+                <div className={`w-10 h-10 rounded-xl ${client.colorClass} flex items-center justify-center font-extrabold text-white text-base mb-3 shadow-md group-hover:bg-white group-hover:text-brand-navy transition-all duration-305`}>
                   {client.logoLetter}
                 </div>
                 <span className="text-xs font-bold text-slate-800 group-hover:text-white transition-colors duration-300 text-center uppercase tracking-wide">
@@ -72,7 +72,7 @@ export default function Clients() {
 
         {/* Footer info showing security assurance */}
         <div id="clients-subinfo" className="mt-12 text-center text-xs text-slate-400 flex items-center justify-center space-x-2">
-          <Landmark className="h-4 w-4 text-brand-gold" />
+          <Landmark className="h-4 w-4 text-brand-orange" />
           <span>Contratos regulados de prestação de serviços com sigilo absoluto e conformidade regulatória.</span>
         </div>
 

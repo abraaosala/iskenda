@@ -216,8 +216,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     role: "Director Executivo",
     description: "Lidera a estratégia corporativa da IS KENDA com mais de 10 anos de experiência em consultoria empresarial e gestão financeira em Angola.",
     initials: "JM",
-    colorClass: "bg-brand-royal text-white",
-    gradient: "from-brand-royal to-blue-900",
+    colorClass: "bg-brand-navy text-white",
+    gradient: "from-brand-navy to-blue-900",
     icon: "UserCircle"
   },
   {
@@ -225,8 +225,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     role: "Contabilista Sénior",
     description: "Especialista em PGC angolano e encerramento de contas, garante a conformidade contabilística de todas as empresas parceiras.",
     initials: "MS",
-    colorClass: "bg-brand-azure text-white",
-    gradient: "from-brand-azure to-cyan-700",
+    colorClass: "bg-brand-blue text-white",
+    gradient: "from-brand-blue to-cyan-700",
     icon: "Calculator"
   },
   {
@@ -234,7 +234,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     role: "Fiscalista Sénior",
     description: "Perito em regime tributário angolano, assegura a submissão correta de IVA, IRT e Imposto Industrial junto à AGT.",
     initials: "CF",
-    colorClass: "bg-brand-gold text-brand-dark",
+    colorClass: "bg-brand-orange text-brand-dark",
     gradient: "from-amber-500 to-yellow-700",
     icon: "FileText"
   },
@@ -272,7 +272,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: "escritorio",
     title: "Nosso Escritório",
     category: "Instalações",
-    gradient: "from-slate-800 to-brand-royal",
+    gradient: "from-slate-800 to-brand-navy",
     icon: "Building2",
     src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop"
   },
@@ -280,7 +280,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: "formacao-academia",
     title: "Sessão de Formação",
     category: "Academia",
-    gradient: "from-brand-royal to-brand-azure",
+    gradient: "from-brand-navy to-brand-blue",
     icon: "GraduationCap",
     src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop"
   },
@@ -288,7 +288,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: "workshop",
     title: "Workshop de Fiscalidade",
     category: "Eventos",
-    gradient: "from-brand-azure to-emerald-500",
+    gradient: "from-brand-blue to-emerald-500",
     icon: "Presentation",
     src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&h=600&fit=crop"
   },

@@ -50,12 +50,12 @@ export default function Gallery() {
   return (
     <>
       <section id="galeria" className="py-24 bg-[#f8fafc] relative overflow-hidden">
-        <div className="absolute top-1/4 left-10 w-96 h-96 bg-brand-azure/5 rounded-full filter blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-brand-royal/5 rounded-full filter blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 left-10 w-96 h-96 bg-brand-blue/5 rounded-full filter blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-brand-navy/5 rounded-full filter blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-            <div className="inline-flex items-center space-x-2 bg-brand-royal/5 px-4 py-1.5 rounded-full text-brand-royal text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center space-x-2 bg-brand-blue/10 px-4 py-1.5 rounded-full text-brand-blue text-xs font-bold uppercase tracking-wider">
               <span>Registo Visual</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -72,8 +72,8 @@ export default function Gallery() {
                 onClick={() => setActiveCategory(null)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                   activeCategory === null
-                    ? "bg-brand-royal text-white shadow-md"
-                    : "bg-white text-slate-500 border border-slate-200 hover:border-brand-royal hover:text-brand-royal"
+                    ? "bg-brand-navy text-white shadow-md"
+                    : "bg-white text-slate-500 border border-slate-200 hover:border-brand-blue hover:text-brand-blue"
                 }`}
               >
                 Todas
@@ -84,8 +84,8 @@ export default function Gallery() {
                   onClick={() => setActiveCategory(cat)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                     activeCategory === cat
-                      ? "bg-brand-royal text-white shadow-md"
-                      : "bg-white text-slate-500 border border-slate-200 hover:border-brand-royal hover:text-brand-royal"
+                      ? "bg-brand-navy text-white shadow-md"
+                      : "bg-white text-slate-500 border border-slate-200 hover:border-brand-blue hover:text-brand-blue"
                   }`}
                 >
                   {cat}
@@ -124,7 +124,7 @@ export default function Gallery() {
                 </div>
 
                 <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/50 transition-all duration-300 flex items-center justify-center">
-                  <div className="p-3 rounded-full bg-white/90 text-brand-royal opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                  <div className="p-3 rounded-full bg-white/90 text-brand-navy opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
                     <Search className="h-5 w-5" />
                   </div>
                 </div>
