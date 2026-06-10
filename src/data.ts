@@ -109,22 +109,22 @@ export const VALUES: CompanyValue[] = [
 ];
 
 export const CLIENTS: Client[] = [
-  { name: "MPC", logoLetter: "M", colorClass: "bg-blue-600 text-white" },
-  { name: "FMR", logoLetter: "F", colorClass: "bg-amber-600 text-white" },
-  { name: "Rebentos", logoLetter: "R", colorClass: "bg-emerald-600 text-white" },
-  { name: "Naynat", logoLetter: "N", colorClass: "bg-indigo-600 text-white" },
-  { name: "Ghebrezghi Haila", logoLetter: "G", colorClass: "bg-rose-600 text-white" },
-  { name: "Hedanto", logoLetter: "H", colorClass: "bg-sky-600 text-white" },
-  { name: "Barba", logoLetter: "B", colorClass: "bg-violet-600 text-white" },
-  { name: "Ambrocent", logoLetter: "A", colorClass: "bg-teal-600 text-white" },
-  { name: "Svete", logoLetter: "S", colorClass: "bg-cyan-600 text-white" },
-  { name: "Cambuzina", logoLetter: "C", colorClass: "bg-orange-600 text-white" },
-  { name: "AT Gebremuse", logoLetter: "A", colorClass: "bg-fuchsia-600 text-white" },
-  { name: "Asmeron", logoLetter: "A", colorClass: "bg-purple-600 text-white" },
-  { name: "Hagos", logoLetter: "H", colorClass: "bg-lime-600 text-white" },
-  { name: "Kizz", logoLetter: "K", colorClass: "bg-pink-600 text-white" },
-  { name: "Anicab", logoLetter: "A", colorClass: "bg-red-600 text-white" },
-  { name: "Afri Hind", logoLetter: "A", colorClass: "bg-emerald-700 text-white" }
+  { id: "1", name: "MPC", logoLetter: "M", colorClass: "bg-blue-600 text-white" },
+  { id: "2", name: "FMR", logoLetter: "F", colorClass: "bg-amber-600 text-white" },
+  { id: "3", name: "Rebentos", logoLetter: "R", colorClass: "bg-emerald-600 text-white" },
+  { id: "4", name: "Naynat", logoLetter: "N", colorClass: "bg-indigo-600 text-white" },
+  { id: "5", name: "Ghebrezghi Haila", logoLetter: "G", colorClass: "bg-rose-600 text-white" },
+  { id: "6", name: "Hedanto", logoLetter: "H", colorClass: "bg-sky-600 text-white" },
+  { id: "7", name: "Barba", logoLetter: "B", colorClass: "bg-violet-600 text-white" },
+  { id: "8", name: "Ambrocent", logoLetter: "A", colorClass: "bg-teal-600 text-white" },
+  { id: "9", name: "Svete", logoLetter: "S", colorClass: "bg-cyan-600 text-white" },
+  { id: "10", name: "Cambuzina", logoLetter: "C", colorClass: "bg-orange-600 text-white" },
+  { id: "11", name: "AT Gebremuse", logoLetter: "A", colorClass: "bg-fuchsia-600 text-white" },
+  { id: "12", name: "Asmeron", logoLetter: "A", colorClass: "bg-purple-600 text-white" },
+  { id: "13", name: "Hagos", logoLetter: "H", colorClass: "bg-lime-600 text-white" },
+  { id: "14", name: "Kizz", logoLetter: "K", colorClass: "bg-pink-600 text-white" },
+  { id: "15", name: "Anicab", logoLetter: "A", colorClass: "bg-red-600 text-white" },
+  { id: "16", name: "Afri Hind", logoLetter: "A", colorClass: "bg-emerald-700 text-white" }
 ];
 
 export const ACADEMIA_COURSES: Course[] = [
@@ -212,6 +212,7 @@ export const ACADEMIA_OFFERS: AcademyOffer[] = [
 
 export const TEAM_MEMBERS: TeamMember[] = [
   {
+    id: "1",
     name: "João Pedro Miguel",
     role: "Director Executivo",
     description: "Lidera a estratégia corporativa da IS KENDA com mais de 10 anos de experiência em consultoria empresarial e gestão financeira em Angola.",
@@ -221,6 +222,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     icon: "UserCircle"
   },
   {
+    id: "2",
     name: "Maria Luísa dos Santos",
     role: "Contabilista Sénior",
     description: "Especialista em PGC angolano e encerramento de contas, garante a conformidade contabilística de todas as empresas parceiras.",
@@ -230,6 +232,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     icon: "Calculator"
   },
   {
+    id: "3",
     name: "Carlos Alberto Fernandes",
     role: "Fiscalista Sénior",
     description: "Perito em regime tributário angolano, assegura a submissão correta de IVA, IRT e Imposto Industrial junto à AGT.",
@@ -239,6 +242,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     icon: "FileText"
   },
   {
+    id: "4",
     name: "Ana Paula Correia",
     role: "Gestora de Recursos Humanos",
     description: "Responsável pelo processamento salarial, gestão de contratos e conformidade com a Lei Geral do Trabalho de Angola.",
@@ -248,6 +252,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     icon: "Users"
   },
   {
+    id: "5",
     name: "Miguel Sebastião Domingos",
     role: "Administrativo Sénior",
     description: "Estrutura e otimiza os fluxos documentais e processos administrativos internos das empresas parceiras.",
@@ -257,6 +262,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     icon: "Building2"
   },
   {
+    id: "6",
     name: "Helena Henda Quissanga",
     role: "Coordenadora Académica",
     description: "Lidera a IS KENDA Academia, desenhando currículos e coordenando formações profissionais alinhadas ao mercado angolano.",

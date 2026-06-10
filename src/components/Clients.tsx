@@ -1,9 +1,9 @@
-import { CLIENTS } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 import { Landmark } from "lucide-react";
 
 export default function Clients() {
-  // Double list to allow seamless loop in infinite slider
-  const doubleClients = [...CLIENTS, ...CLIENTS];
+  const { clients } = useSiteData();
+  const doubleClients = [...clients, ...clients];
 
   return (
     <section id="clientes" className="py-24 bg-white relative overflow-hidden">
@@ -50,7 +50,7 @@ export default function Clients() {
           </h3>
           
           <div id="clients-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
-            {CLIENTS.map((client) => (
+            {clients.map((client) => (
               <div
                 key={client.name}
                 id={`client-card-${client.name.toLowerCase().replace(/\s+/g, "-")}`}

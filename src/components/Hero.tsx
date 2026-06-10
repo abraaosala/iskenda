@@ -1,7 +1,8 @@
 import { ArrowRight, BookOpen, Briefcase, Landmark } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 
 export default function Hero() {
+  const { company } = useSiteData();
   const handleScrollTo = (sectionId: string) => {
     const targetElement = document.querySelector(sectionId);
     if (targetElement) {
@@ -21,7 +22,7 @@ export default function Hero() {
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/src/assets/images/hero_workspace_1780489385386.png"
+          src={company.heroImage || "/src/assets/images/hero_workspace_1780489385386.png"}
           alt="IS KENDA Escritório"
           className="w-full h-full object-cover object-center opacity-30 transform scale-105"
           referrerPolicy="no-referrer"
@@ -55,7 +56,7 @@ export default function Hero() {
 
             {/* Slogan */}
             <p id="hero-subtitle" className="text-lg sm:text-xl text-slate-300 font-medium max-w-2xl leading-relaxed border-l-4 border-brand-orange pl-4">
-              "{COMPANY_INFO.slogan}"
+              "{company.slogan}"
             </p>
 
             {/* Call To Actions */}
@@ -83,11 +84,11 @@ export default function Hero() {
             {/* Quick trust metrics */}
             <div id="hero-fast-stats" className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10 max-w-lg">
               <div>
-                <p className="text-3xl font-extrabold text-brand-orange">{COMPANY_INFO.yearsExperience}+ Anos</p>
+                <p className="text-3xl font-extrabold text-brand-orange">{company.yearsExperience}+ Anos</p>
                 <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">De Experiência no Mercado</p>
               </div>
               <div>
-                <p className="text-3xl font-extrabold text-white">{COMPANY_INFO.activeClientsCount}+ Clientes</p>
+                <p className="text-3xl font-extrabold text-white">{company.activeClientsCount}+ Clientes</p>
                 <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">Cooperando Ativamente</p>
               </div>
             </div>

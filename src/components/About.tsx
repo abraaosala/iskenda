@@ -1,7 +1,8 @@
 import { FileCheck2, ShieldCheck, HeartHandshake, Award } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 
 export default function About() {
+  const { company } = useSiteData();
   return (
     <section id="quem-somos" className="py-24 bg-[#f8fafc] relative overflow-hidden">
       {/* Decorative ambient blobs */}
@@ -29,7 +30,7 @@ export default function About() {
                   A <strong>IS KENDA CONSULTORIA</strong> é uma empresa angolana especializada em Consultoria Empresarial, oferecendo soluções de ponta e sob medida nas áreas de <strong>Contabilidade, Fiscalidade Tributária, Gestão de Recursos Humanos (GRH)</strong> e <strong>Organização Administrativa</strong>.
                 </p>
                 <p>
-                  Com mais de <strong>{COMPANY_INFO.yearsExperience} anos de experiência sólida</strong> no mercado nacional, temos como missão precípua apoiar empresas e empreendedores na estruturação, sustentabilidade financeira e conformidade legal das suas operações comerciais.
+                  Com mais de <strong>{company.yearsExperience} anos de experiência sólida</strong> no mercado nacional, temos como missão precípua apoiar empresas e empreendedores na estruturação, sustentabilidade financeira e conformidade legal das suas operações comerciais.
                 </p>
                 <p>
                   Trabalhamos de forma transparente mediante a celebração de <strong>contratos formais de prestação de serviços</strong>, garantindo proteção jurídica ampla, estabilidade contratual de longo prazo e compromisso total com o sucesso tangível dos nossos parceiros.
@@ -39,7 +40,7 @@ export default function About() {
 
             <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between z-10">
               <p className="font-bold text-sm text-brand-blue">
-                Atualmente contamos com mais de {COMPANY_INFO.activeClientsCount} clientes ativos.
+                Atualmente contamos com mais de {company.activeClientsCount} clientes ativos.
               </p>
               <span className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-widest">
                 Luanda • Angola

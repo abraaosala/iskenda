@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Check, ClipboardList, HelpingHand } from "lucide-react";
-import { SERVICES } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 import { SmartIcon } from "./SmartIcon";
 
 export default function Services() {
+  const { services } = useSiteData();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleContactScroll = () => {
@@ -40,7 +41,7 @@ export default function Services() {
 
         {/* Dynamic Grid Layout */}
         <div id="services-grid" className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {SERVICES.map((serv, index) => {
+          {services.map((serv, index) => {
             const isHovered = hoveredIndex === index;
             return (
               <div

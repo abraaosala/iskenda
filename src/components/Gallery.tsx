@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { GALLERY_ITEMS } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 import { SmartIcon } from "./SmartIcon";
 import { Search, X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -9,11 +9,12 @@ export default function Gallery() {
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
-  const categories = [...new Set(GALLERY_ITEMS.map((item) => item.category))];
+  const { gallery } = useSiteData();
+  const categories = [...new Set(gallery.map((item) => item.category))];
 
   const filtered = activeCategory
-    ? GALLERY_ITEMS.filter((item) => item.category === activeCategory)
-    : GALLERY_ITEMS;
+    ? gallery.filter((item) => item.category === activeCategory)
+    : gallery;
 
   const open = useCallback((index: number) => setSelectedIndex(index), []);
   const close = useCallback(() => setSelectedIndex(null), []);

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { DollarSign, ShieldAlert, FileSignature, Check } from "lucide-react";
-import { COMPANY_INFO } from "../data";
 
 export default function Pricing() {
   // Simulator State

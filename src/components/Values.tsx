@@ -1,7 +1,8 @@
-import { VALUES } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 import { SmartIcon } from "./SmartIcon";
 
 export default function Values() {
+  const { values } = useSiteData();
   return (
     <section id="valores" className="py-24 bg-white relative overflow-hidden">
       {/* Decorative vector points */}
@@ -25,7 +26,7 @@ export default function Values() {
 
         {/* Corporate Values Bento / Grid list */}
         <div id="values-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {VALUES.map((value, index) => {
+          {values.map((value, index) => {
             // Give specific cards subtle custom structures to make it design-focused
             const isLargeSpan = index === 0 || index === 6; // make Ethical & Commitment stand out beautifully
             return (

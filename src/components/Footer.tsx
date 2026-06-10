@@ -1,8 +1,9 @@
 import { MouseEvent } from "react";
 import { Facebook, Instagram, Linkedin, MessageSquareCode, Landmark, ArrowUp } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 
 export default function Footer() {
+  const { company } = useSiteData();
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -39,12 +40,16 @@ export default function Footer() {
               onClick={handleScrollToTop}
               className="flex items-center space-x-3 group"
             >
-              <div className="p-2.5 bg-white/5 text-brand-orange rounded-xl border border-white/10 group-hover:bg-brand-orange/20 transition-all">
-                <Landmark className="h-6 w-6" />
-              </div>
+              {company.logo ? (
+                <img src={company.logo} alt={company.name} className="h-12 w-auto" />
+              ) : (
+                <div className="p-2.5 bg-white/5 text-brand-orange rounded-xl border border-white/10 group-hover:bg-brand-orange/20 transition-all">
+                  <Landmark className="h-6 w-6" />
+                </div>
+              )}
               <div className="flex flex-col">
                 <span className="font-extrabold text-lg text-white tracking-tight leading-none">
-                  {COMPANY_INFO.name}
+                  {company.name}
                 </span>
                 <span className="text-[9px] font-bold tracking-wider uppercase mt-1 text-brand-orange">
                   Consultoria & Academia
@@ -53,7 +58,7 @@ export default function Footer() {
             </a>
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              "{COMPANY_INFO.slogan}"
+              "{company.slogan}"
             </p>
 
             {/* Social media icons with hover triggers */}
@@ -139,7 +144,7 @@ export default function Footer() {
           {/* Copyright section */}
           <div className="text-left">
             <p className="text-[11px] text-slate-500 font-medium">
-              {COMPANY_INFO.copyright}
+              {company.copyright}
             </p>
             <p className="text-[9px] text-slate-600 mt-0.5 font-mono">
               Registada na República de Angola | Luanda

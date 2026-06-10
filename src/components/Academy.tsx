@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { BookOpen, Award, CheckCircle2, Milestone, GraduationCap, ChevronRight, Clock } from "lucide-react";
-import { ACADEMIA_COURSES, ACADEMIA_OFFERS } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 import { SmartIcon } from "./SmartIcon";
 
 export default function Academy() {
-  const [activeCourseId, setActiveCourseId] = useState(ACADEMIA_COURSES[0].id);
+  const { courses, academyOffers } = useSiteData();
+  const [activeCourseId, setActiveCourseId] = useState(courses[0]?.id ?? "");
 
-  const activeCourse = ACADEMIA_COURSES.find((c) => c.id === activeCourseId) || ACADEMIA_COURSES[0];
+  const activeCourse = courses.find((c) => c.id === activeCourseId) || courses[0];
 
   const handleContactScroll = () => {
     const targetElement = document.querySelector("#contactos");
@@ -76,7 +77,7 @@ export default function Academy() {
               </h3>
 
               <div id="academia-offers" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {ACADEMIA_OFFERS.map((offer, index) => (
+                {academyOffers.map((offer, index) => (
                   <div
                     key={index}
                     className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors"
@@ -111,7 +112,7 @@ export default function Academy() {
                 </h3>
                 
                 <div className="space-y-2">
-                  {ACADEMIA_COURSES.map((course) => (
+                  {courses.map((course) => (
                     <button
                       key={course.id}
                       id={`course-tab-${course.id}`}
