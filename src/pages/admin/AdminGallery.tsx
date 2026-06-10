@@ -5,6 +5,7 @@ import type { GalleryItem } from "../../types";
 import DropZone from "../../components/DropZone";
 import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import SavingOverlay from "../../components/SavingOverlay";
 import { Image, Plus, Pencil, Trash2, AlertCircle, RefreshCw, X, Save } from "lucide-react";
 
 const gradients = [
@@ -98,7 +99,9 @@ function GalleryModal({ item, onClose, onSaved }: { item: GalleryItem | null; on
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <>
+      <SavingOverlay show={saving} />
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <h2 className="text-lg font-bold text-brand-navy">{item ? "Editar Item" : "Novo Item"}</h2>
@@ -122,10 +125,11 @@ function GalleryModal({ item, onClose, onSaved }: { item: GalleryItem | null; on
           <div><label className="block text-sm font-medium text-slate-700 mb-1">Gradiente</label><div className="flex flex-wrap gap-2">{gradients.map(g => <button key={g} type="button" onClick={() => setForm({...form, gradient: g})} className={`w-8 h-8 rounded-lg bg-gradient-to-br ${g} border-2 ${form.gradient === g ? "border-brand-navy" : "border-transparent"}`} />)}</div></div>
           <div className="flex items-center justify-end space-x-3 pt-2">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100">Cancelar</button>
-            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" />{saving ? <ThreeDot variant="bounce" color="#ffffff" size="small" /> : <span>Salvar</span>}</button>
+            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" /><span>{saving ? "A salvar…" : "Salvar"}</span></button>
           </div>
         </form>
       </div>
     </div>
+    </>
   );
 }

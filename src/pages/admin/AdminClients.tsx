@@ -5,6 +5,7 @@ import type { Client } from "../../types";
 import DropZone from "../../components/DropZone";
 import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import SavingOverlay from "../../components/SavingOverlay";
 import { Star, Plus, Pencil, Trash2, AlertCircle, RefreshCw, X, Save } from "lucide-react";
 
 const colors = [
@@ -93,7 +94,9 @@ function ClientModal({ client, onClose, onSaved }: { client: Client | null; onCl
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <>
+      <SavingOverlay show={saving} />
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <h2 className="text-lg font-bold text-brand-navy">{client ? "Editar Cliente" : "Novo Cliente"}</h2>
@@ -107,10 +110,11 @@ function ClientModal({ client, onClose, onSaved }: { client: Client | null; onCl
           <DropZone label="Logotipo" currentUrl={client?.logo} file={logoFile} onFileSelect={setLogoFile} />
           <div className="flex items-center justify-end space-x-3 pt-2">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100">Cancelar</button>
-            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" />{saving ? <ThreeDot variant="bounce" color="#ffffff" size="small" /> : <span>Salvar</span>}</button>
+            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" /><span>{saving ? "A salvar…" : "Salvar"}</span></button>
           </div>
         </form>
       </div>
     </div>
+    </>
   );
 }

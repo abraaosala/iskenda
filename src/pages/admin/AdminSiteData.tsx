@@ -6,6 +6,7 @@ import {
 } from "../../services/api";
 import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import SavingOverlay from "../../components/SavingOverlay";
 import {
   Settings, AlertCircle, RefreshCw, Save, Building2,
   Phone, Mail, Clock, MapPin, FileText, Image,
@@ -159,12 +160,13 @@ export default function AdminSiteData() {
             <div className="flex items-center justify-end space-x-3 pb-8">
               <button type="submit" disabled={saving || !hasChanges()} className="flex items-center space-x-2 px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50 transition-colors">
                 <Save className="h-4 w-4" />
-                {saving ? <ThreeDot variant="bounce" color="#ffffff" size="small" /> : <span>Salvar alterações</span>}
+                <span>{saving ? "A salvar…" : "Salvar alterações"}</span>
               </button>
             </div>
           </form>
         )}
       </div>
+      <SavingOverlay show={saving} />
     </>
   );
 }

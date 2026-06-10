@@ -6,6 +6,7 @@ import DropZone from "../../components/DropZone";
 import IconPicker from "../../components/IconPicker";
 import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
+import SavingOverlay from "../../components/SavingOverlay";
 import { Users, Plus, Pencil, Trash2, AlertCircle, RefreshCw, X, Save } from "lucide-react";
 
 const gradients = [
@@ -104,7 +105,9 @@ function TeamModal({ member, onClose, onSaved }: { member: TeamMember | null; on
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <>
+      <SavingOverlay show={saving} />
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <h2 className="text-lg font-bold text-brand-navy">{member ? "Editar Membro" : "Novo Membro"}</h2>
@@ -133,11 +136,12 @@ function TeamModal({ member, onClose, onSaved }: { member: TeamMember | null; on
           </div>
           <div className="flex items-center justify-end space-x-3 pt-4">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100">Cancelar</button>
-            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" />{saving ? <ThreeDot variant="bounce" color="#ffffff" size="small" /> : <span>Salvar</span>}</button>
+            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" /><span>{saving ? "A salvar…" : "Salvar"}</span></button>
           </div>
         </form>
       </div>
     </div>
+    </>
   );
 }
 

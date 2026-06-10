@@ -2,6 +2,7 @@ import { useState, FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "@tanstack/react-router";
 import { ThreeDot } from "react-loading-indicators";
+import SavingOverlay from "../components/SavingOverlay";
 import { Landmark, LogIn, AlertCircle, Eye, EyeOff, Mail, Lock, Building2, ArrowLeft } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -194,7 +195,7 @@ export default function LoginPage() {
                 className="w-full flex items-center justify-center space-x-2.5 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark font-bold text-sm uppercase tracking-wider shadow-lg hover:shadow-brand-orange/30 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:hover:scale-100"
               >
                 <LogIn className="h-4 w-4" />
-                {loading ? <ThreeDot variant="bounce" color="#1a1a2e" size="small" /> : <span>Entrar</span>}
+                <span>{loading ? "A entrar…" : "Entrar"}</span>
               </button>
 
               <div className="pt-2">
@@ -212,6 +213,7 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+    <SavingOverlay show={loading} />
     </>
   );
 }
