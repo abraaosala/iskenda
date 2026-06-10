@@ -1,7 +1,8 @@
 import { ArrowRight, BookOpen, Briefcase, Landmark } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 
 export default function Hero() {
+  const { company } = useSiteData();
   const handleScrollTo = (sectionId: string) => {
     const targetElement = document.querySelector(sectionId);
     if (targetElement) {
@@ -21,7 +22,7 @@ export default function Hero() {
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/src/assets/images/hero_workspace_1780489385386.png"
+          src={company.heroImage || "/src/assets/images/hero_workspace_1780489385386.png"}
           alt="IS KENDA Escritório"
           className="w-full h-full object-cover object-center opacity-30 transform scale-105"
           referrerPolicy="no-referrer"
@@ -32,8 +33,8 @@ export default function Hero() {
       </div>
 
       {/* Decorative Golden Ambient Light */}
-      <div className="absolute top-1/4 right-10 w-96 h-96 bg-brand-gold/10 rounded-full filter blur-3xl" />
-      <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-brand-azure/20 rounded-full filter blur-3xl animate-pulse" />
+      <div className="absolute top-1/4 right-10 w-96 h-96 bg-brand-orange/10 rounded-full filter blur-3xl" />
+      <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-brand-orange/10 rounded-full filter blur-3xl animate-pulse" />
 
       {/* Hero Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
@@ -43,19 +44,19 @@ export default function Hero() {
           <div className="lg:col-span-7 space-y-8 text-left">
             
             {/* Tag/Badge */}
-            <div id="hero-badge" className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-brand-gold text-xs font-bold uppercase tracking-wider">
+            <div id="hero-badge" className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-brand-orange text-xs font-bold uppercase tracking-wider">
               <Landmark className="h-4 w-4" />
               <span>IS KENDA Angola</span>
             </div>
 
             {/* Main Display Typography */}
             <h1 id="hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-              Apoio Empresarial & <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold via-yellow-300 to-amber-400">Capacitação</span> Prática
+              Apoio Empresarial & <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-yellow-300 to-amber-400">Capacitação</span> Prática
             </h1>
 
             {/* Slogan */}
-            <p id="hero-subtitle" className="text-lg sm:text-xl text-slate-300 font-medium max-w-2xl leading-relaxed border-l-4 border-brand-gold pl-4">
-              "{COMPANY_INFO.slogan}"
+            <p id="hero-subtitle" className="text-lg sm:text-xl text-slate-300 font-medium max-w-2xl leading-relaxed border-l-4 border-brand-orange pl-4">
+              "{company.slogan}"
             </p>
 
             {/* Call To Actions */}
@@ -63,7 +64,7 @@ export default function Hero() {
               <button
                 id="hero-cta-consulting"
                 onClick={() => handleScrollTo("#servicos")}
-                className="flex items-center justify-center space-x-3 px-8 py-4 rounded-xl bg-gradient-to-r from-brand-gold to-amber-500 text-brand-dark font-bold text-base shadow-lg shadow-brand-gold/25 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-brand-gold/40 active:translate-y-0 cursor-pointer"
+                className="flex items-center justify-center space-x-3 px-8 py-4 rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark font-bold text-base shadow-lg shadow-brand-orange/25 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-brand-orange/40 active:translate-y-0 cursor-pointer"
               >
                 <Briefcase className="h-5 w-5" />
                 <span>Consultoria Empresarial</span>
@@ -83,11 +84,11 @@ export default function Hero() {
             {/* Quick trust metrics */}
             <div id="hero-fast-stats" className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10 max-w-lg">
               <div>
-                <p className="text-3xl font-extrabold text-brand-gold">{COMPANY_INFO.yearsExperience}+ Anos</p>
+                <p className="text-3xl font-extrabold text-brand-orange">{company.yearsExperience}+ Anos</p>
                 <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">De Experiência no Mercado</p>
               </div>
               <div>
-                <p className="text-3xl font-extrabold text-white">{COMPANY_INFO.activeClientsCount}+ Clientes</p>
+                <p className="text-3xl font-extrabold text-white">{company.activeClientsCount}+ Clientes</p>
                 <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">Cooperando Ativamente</p>
               </div>
             </div>
@@ -96,10 +97,10 @@ export default function Hero() {
 
           {/* Visual Presentation Card Box */}
           <div className="lg:col-span-5 relative mt-6 lg:mt-0 hidden md:block">
-            <div id="hero-glamour-card" className="relative mx-auto max-w-sm bg-gradient-to-tr from-brand-royal/40 to-white/5 backdrop-blur-lg p-8 rounded-3xl border border-white/10 shadow-2xl">
+            <div id="hero-glamour-card" className="relative mx-auto max-w-sm bg-gradient-to-tr from-brand-navy/40 to-white/5 backdrop-blur-lg p-8 rounded-3xl border border-white/10 shadow-2xl">
               
               <div className="flex justify-between items-start mb-6">
-                <div className="p-3 bg-brand-azure/20 rounded-2xl text-brand-gold">
+                <div className="p-3 bg-brand-orange/20 rounded-2xl text-brand-orange">
                   <Landmark className="h-8 w-8" />
                 </div>
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-3 py-1 bg-white/5 rounded-full border border-white/10">
@@ -120,15 +121,15 @@ export default function Hero() {
                   "Estrutura contratual fidedigna e transparente"
                 ].map((item, index) => (
                   <div key={index} className="flex items-center space-x-3 text-xs font-semibold text-slate-200">
-                    <div className="w-2 h-2 rounded-full bg-brand-gold" />
+                    <div className="w-2 h-2 rounded-full bg-brand-orange" />
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
 
               {/* Angle Highlights decorative */}
-              <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-brand-gold rounded-tr-lg" />
-              <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-brand-gold rounded-bl-lg" />
+              <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-brand-orange rounded-tr-lg" />
+              <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-brand-orange rounded-bl-lg" />
             </div>
           </div>
 

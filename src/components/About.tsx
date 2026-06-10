@@ -1,7 +1,8 @@
 import { FileCheck2, ShieldCheck, HeartHandshake, Award } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { useSiteData } from "../contexts/SiteDataContext";
 
 export default function About() {
+  const { company } = useSiteData();
   return (
     <section id="quem-somos" className="py-24 bg-[#f8fafc] relative overflow-hidden">
       {/* Decorative ambient blobs */}
@@ -15,8 +16,8 @@ export default function About() {
             <div className="absolute top-0 right-0 w-48 h-48 bg-slate-50 rounded-full -mr-16 -mt-16 opacity-60 pointer-events-none" />
             
             <div className="z-10">
-              <div id="about-brand-tag" className="inline-flex items-center space-x-2 bg-brand-royal/5 px-4.5 py-2 rounded-full text-brand-royal text-xs font-bold uppercase tracking-wider mb-6">
-                <span className="w-2 h-2 rounded-full bg-brand-gold" />
+              <div id="about-brand-tag" className="inline-flex items-center space-x-2 bg-brand-blue/10 px-4.5 py-2 rounded-full text-brand-blue text-xs font-bold uppercase tracking-wider mb-6">
+                <span className="w-2 h-2 rounded-full bg-brand-orange" />
                 <span>IS KENDA Consultoria</span>
               </div>
 
@@ -29,7 +30,7 @@ export default function About() {
                   A <strong>IS KENDA CONSULTORIA</strong> é uma empresa angolana especializada em Consultoria Empresarial, oferecendo soluções de ponta e sob medida nas áreas de <strong>Contabilidade, Fiscalidade Tributária, Gestão de Recursos Humanos (GRH)</strong> e <strong>Organização Administrativa</strong>.
                 </p>
                 <p>
-                  Com mais de <strong>{COMPANY_INFO.yearsExperience} anos de experiência sólida</strong> no mercado nacional, temos como missão precípua apoiar empresas e empreendedores na estruturação, sustentabilidade financeira e conformidade legal das suas operações comerciais.
+                  Com mais de <strong>{company.yearsExperience} anos de experiência sólida</strong> no mercado nacional, temos como missão precípua apoiar empresas e empreendedores na estruturação, sustentabilidade financeira e conformidade legal das suas operações comerciais.
                 </p>
                 <p>
                   Trabalhamos de forma transparente mediante a celebração de <strong>contratos formais de prestação de serviços</strong>, garantindo proteção jurídica ampla, estabilidade contratual de longo prazo e compromisso total com o sucesso tangível dos nossos parceiros.
@@ -38,8 +39,8 @@ export default function About() {
             </div>
 
             <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between z-10">
-              <p className="font-bold text-sm text-brand-royal">
-                Atualmente contamos com mais de {COMPANY_INFO.activeClientsCount} clientes ativos.
+              <p className="font-bold text-sm text-brand-blue">
+                Atualmente contamos com mais de {company.activeClientsCount} clientes ativos.
               </p>
               <span className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-widest">
                 Luanda • Angola
@@ -49,28 +50,28 @@ export default function About() {
 
           {/* Column 2: Visual Cards & Corporate Trust Indicators as a complementary Bento Card */}
           <div className="lg:col-span-5 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between text-left relative overflow-hidden">
-            <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full filter blur-xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full filter blur-xl pointer-events-none" />
             
             <div>
-              <h3 className="text-lg font-extrabold text-[#003366] mb-6 flex items-center space-x-2.5">
-                <span className="w-1.5 h-6 bg-brand-gold rounded-full" />
+              <h3 className="text-lg font-extrabold text-brand-blue mb-6 flex items-center space-x-2.5">
+                <span className="w-1.5 h-6 bg-brand-orange rounded-full" />
                 <span>Os Nossos Pilares Corporativos</span>
               </h3>
 
               <div className="space-y-5">
                 {[
                   {
-                    icon: <ShieldCheck className="h-5 w-5 text-brand-royal" />,
+                    icon: <ShieldCheck className="h-5 w-5 text-brand-blue" />,
                     title: "Conformidade Total",
                     description: "Seguimos à risca as regras vigentes do PGC e AGT, blindando a sua organização contra coimas e sanções."
                   },
                   {
-                    icon: <FileCheck2 className="h-5 w-5 text-brand-azure" />,
+                    icon: <FileCheck2 className="h-5 w-5 text-brand-blue" />,
                     title: "Contratos Transparentes",
                     description: "Todos os escopos, prazos e honorários são formalizados para zelar pela sua tranquilidade jurídica."
                   },
                   {
-                    icon: <HeartHandshake className="h-5 w-5 text-brand-gold" />,
+                    icon: <HeartHandshake className="h-5 w-5 text-brand-orange" />,
                     title: "Relações Próximas",
                     description: "Atendimento humano, ágil e customizado, estando disponíveis no dia a dia para esclarecer dúvidas."
                   },

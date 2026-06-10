@@ -1,8 +1,10 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { Phone, Mail, Clock, Send, Landmark, CheckCircle } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { Phone, Mail, Clock, Send, Landmark, CheckCircle, AlertCircle } from "lucide-react";
+import { useSiteData } from "../contexts/SiteDataContext";
+import { submitContact } from "../services/api";
 
 export default function Contact() {
+  const { company } = useSiteData();
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -11,19 +13,29 @@ export default function Contact() {
     mensagem: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (formData.nome && formData.telefone) {
-      setIsSubmitted(true);
-      // Reset form variables
-      setFormData({
-        nome: "",
-        email: "",
-        telefone: "",
-        servico: "consultoria",
-        mensagem: ""
+    if (!formData.nome || !formData.telefone) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      await submitContact({
+        name: formData.nome,
+        phone: formData.telefone,
+        email: formData.email || undefined,
+        service_area: formData.servico,
+        message: formData.mensagem || undefined,
       });
+      setIsSubmitted(true);
+      setFormData({ nome: "", email: "", telefone: "", servico: "consultoria", mensagem: "" });
+    } catch {
+      setSubmitError("Ocorreu um erro ao enviar. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -35,13 +47,13 @@ export default function Contact() {
   return (
     <section id="contactos" className="py-24 bg-[#f8fafc] relative overflow-hidden text-left">
       {/* Decorative vector overlays */}
-      <div className="absolute top-1/4 left-10 w-80 h-80 bg-brand-royal/5 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-10 w-80 h-80 bg-brand-navy/5 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Title Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div id="contact-badge" className="inline-flex items-center space-x-2 bg-brand-royal/5 px-4 py-1.5 rounded-full text-brand-royal text-xs font-bold uppercase tracking-wider">
+          <div id="contact-badge" className="inline-flex items-center space-x-2 bg-brand-blue/10 px-4 py-1.5 rounded-full text-brand-blue text-xs font-bold uppercase tracking-wider">
             <span>Fale Connosco</span>
           </div>
           <h2 id="contact-title" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -59,7 +71,7 @@ export default function Contact() {
             <div id="contact-info-panel" className="bg-white p-8 rounded-3xl border border-slate-200 space-y-8 flex-1">
               <div>
                 <h3 className="text-lg font-bold text-slate-950 flex items-center space-x-2.5">
-                  <Landmark className="h-5.5 w-5.5 text-brand-royal" />
+                  <Landmark className="h-5.5 w-5.5 text-brand-blue" />
                   <span>Canais Oficiais</span>
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed mt-2">
@@ -71,21 +83,21 @@ export default function Contact() {
               <div className="space-y-6">
                 {[
                   {
-                    icon: <Phone className="h-5 w-5 text-brand-royal" />,
+                    icon: <Phone className="h-5 w-5 text-brand-blue" />,
                     title: "Telefone de Contacto",
-                    desc: COMPANY_INFO.phone,
-                    link: `tel:${COMPANY_INFO.phone.replace(/\s+/g, "")}`
+                    desc: company.phone,
+                    link: `tel:${company.phone.replace(/\s+/g, "")}`
                   },
                   {
-                    icon: <Mail className="h-5 w-5 text-brand-azure" />,
+                    icon: <Mail className="h-5 w-5 text-brand-blue" />,
                     title: "Endereço Eletrónico",
-                    desc: COMPANY_INFO.email,
-                    link: `mailto:${COMPANY_INFO.email}`
+                    desc: company.email,
+                    link: `mailto:${company.email}`
                   },
                   {
-                    icon: <Clock className="h-5 w-5 text-brand-gold" />,
+                    icon: <Clock className="h-5 w-5 text-brand-orange" />,
                     title: "Horário de Atendimento",
-                    desc: COMPANY_INFO.workingHours,
+                    desc: company.workingHours,
                     link: null
                   }
                 ].map((item, index) => (
@@ -98,7 +110,7 @@ export default function Contact() {
                       {item.link ? (
                         <a
                           href={item.link}
-                          className="text-base font-bold text-slate-800 hover:text-brand-royal transition-colors mt-1 block"
+                          className="text-base font-bold text-slate-800 hover:text-brand-blue transition-colors mt-1 block"
                         >
                           {item.desc}
                         </a>
@@ -133,11 +145,11 @@ export default function Contact() {
           <div className="lg:col-span-7">
             <div id="contact-form-card" className="bg-slate-900 text-white p-8 sm:p-10 rounded-3xl shadow-xl relative overflow-hidden h-full">
               {/* Abstract decorative graphic */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-azure/10 rounded-full filter blur-xl transform translate-x-10 -translate-y-10 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 rounded-full filter blur-xl transform translate-x-10 -translate-y-10 pointer-events-none" />
 
               {isSubmitted ? (
                 <div id="contact-success-alert" className="flex flex-col items-center justify-center h-full space-y-6 text-center py-12">
-                  <div className="p-4 bg-brand-gold/15 rounded-full text-brand-gold animate-bounce">
+                  <div className="p-4 bg-brand-orange/15 rounded-full text-brand-orange animate-bounce">
                     <CheckCircle className="h-16 w-16" />
                   </div>
                   <h3 className="text-2xl font-black text-white">Mensagem Enviada!</h3>
@@ -155,7 +167,7 @@ export default function Contact() {
               ) : (
                 <form id="contact-actual-form" onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <span className="text-xs text-brand-gold font-bold uppercase tracking-wider">Apoio Personalizado</span>
+                    <span className="text-xs text-brand-orange font-bold uppercase tracking-wider">Apoio Personalizado</span>
                     <h3 className="text-xl font-bold mt-1">Formulário de Pedido de Contacto</h3>
                   </div>
 
@@ -172,7 +184,7 @@ export default function Contact() {
                         value={formData.nome}
                         onChange={handleChange}
                         placeholder="Ex: João Manuel"
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold text-white text-sm transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-orange focus:outline-none focus:ring-1 focus:ring-brand-orange text-white text-sm transition-colors"
                       />
                     </div>
 
@@ -188,7 +200,7 @@ export default function Contact() {
                         value={formData.telefone}
                         onChange={handleChange}
                         placeholder="Ex: +244 912 345 678"
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold text-white text-sm transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-orange focus:outline-none focus:ring-1 focus:ring-brand-orange text-white text-sm transition-colors"
                       />
                     </div>
                   </div>
@@ -205,7 +217,7 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Ex: joao@empresa.com"
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold text-white text-sm transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-orange focus:outline-none focus:ring-1 focus:ring-brand-orange text-white text-sm transition-colors"
                       />
                     </div>
 
@@ -218,7 +230,7 @@ export default function Contact() {
                         name="servico"
                         value={formData.servico}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-white/10 text-white text-sm focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-white/10 text-white text-sm focus:border-brand-orange focus:outline-none focus:ring-1 focus:ring-brand-orange transition-colors"
                       >
                         <option value="consultoria">Consultoria Empresarial Completa</option>
                         <option value="contabilidade">Somente Apoio Contábil</option>
@@ -240,7 +252,7 @@ export default function Contact() {
                       value={formData.mensagem}
                       onChange={handleChange}
                       placeholder="Descreva brevemente as necessidades da sua empresa..."
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold text-white text-sm transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 focus:border-brand-orange focus:outline-none focus:ring-1 focus:ring-brand-orange text-white text-sm transition-colors resize-none"
                     />
                   </div>
 
@@ -248,13 +260,20 @@ export default function Contact() {
                     <span className="text-[10px] text-slate-450 text-left">
                       * Ao submeter este formulário, concorda com a recolha segura das suas informações sob a nossa política de confidencialidade de Angola.
                     </span>
+                    {submitError && (
+                      <p className="text-[11px] text-red-400 flex items-center space-x-1.5">
+                        <AlertCircle className="h-3.5 w-3.5" />
+                        <span>{submitError}</span>
+                      </p>
+                    )}
                     <button
                       id="contact-submit-btn"
                       type="submit"
-                      className="px-6 py-3.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-gold to-amber-500 text-brand-dark font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-brand-gold/30 hover:scale-[1.02] flex items-center justify-center space-x-2.5 transition-all cursor-pointer shrink-0"
+                      disabled={isSubmitting}
+                      className="px-6 py-3.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-brand-orange/30 hover:scale-[1.02] flex items-center justify-center space-x-2.5 transition-all cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="h-4 w-4" />
-                      <span>Contactar</span>
+                      <span>{isSubmitting ? "A Enviar…" : "Contactar"}</span>
                     </button>
                   </div>
                 </form>

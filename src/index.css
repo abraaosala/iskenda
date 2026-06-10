@@ -5,9 +5,10 @@
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   
-  --color-brand-royal: #003366;
-  --color-brand-azure: #0ea5e9;
-  --color-brand-gold: #e2b83b;
+  --color-brand-navy: #092b55;
+  --color-brand-blue: #1a4989;
+  --color-brand-orange: #fdb721;
+  --color-brand-orange-dark: #de9800;
   --color-brand-dark: #0f172a;
   
   --animate-carousel-left: carousel-left 40s linear infinite;

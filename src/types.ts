@@ -4,12 +4,15 @@ export interface Service {
   description: string;
   features: string[];
   icon: string;
+  sortOrder?: number;
 }
 
 export interface Client {
+  id: string;
   name: string;
   logoLetter: string;
   colorClass: string;
+  logo?: string | null;
 }
 
 export interface Course {
@@ -34,6 +37,7 @@ export interface CompanyValue {
 }
 
 export interface TeamMember {
+  id: string;
   name: string;
   role: string;
   description: string;
@@ -41,6 +45,7 @@ export interface TeamMember {
   colorClass: string;
   gradient: string;
   icon: string;
+  photo?: string | null;
 }
 
 export interface GalleryItem {

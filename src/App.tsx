@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -52,7 +53,11 @@ export default function App() {
   }, []);
 
   return (
-    <div id="full-page-container" className="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 selection:bg-brand-gold selection:text-brand-dark">
+    <>
+      <Helmet>
+        <title>IS KENDA — Consultoria & Academia</title>
+      </Helmet>
+      <div id="full-page-container" className="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 selection:bg-brand-orange selection:text-brand-dark">
       {/* Dynamic Header Navbar sticky */}
       <Navbar currentSection={currentSection} />
 
@@ -88,6 +93,7 @@ export default function App() {
 
       {/* Corporate detailed footer */}
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }
