@@ -1,8 +1,10 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { Phone, Mail, Clock, Send, Landmark, CheckCircle } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { Phone, Mail, Clock, Send, Landmark, CheckCircle, AlertCircle } from "lucide-react";
+import { useSiteData } from "../contexts/SiteDataContext";
+import { submitContact } from "../services/api";
 
 export default function Contact() {
+  const { company } = useSiteData();
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -11,19 +13,29 @@ export default function Contact() {
     mensagem: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (formData.nome && formData.telefone) {
-      setIsSubmitted(true);
-      // Reset form variables
-      setFormData({
-        nome: "",
-        email: "",
-        telefone: "",
-        servico: "consultoria",
-        mensagem: ""
+    if (!formData.nome || !formData.telefone) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    try {
+      await submitContact({
+        name: formData.nome,
+        phone: formData.telefone,
+        email: formData.email || undefined,
+        service_area: formData.servico,
+        message: formData.mensagem || undefined,
       });
+      setIsSubmitted(true);
+      setFormData({ nome: "", email: "", telefone: "", servico: "consultoria", mensagem: "" });
+    } catch {
+      setSubmitError("Ocorreu um erro ao enviar. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -73,19 +85,19 @@ export default function Contact() {
                   {
                     icon: <Phone className="h-5 w-5 text-brand-blue" />,
                     title: "Telefone de Contacto",
-                    desc: COMPANY_INFO.phone,
-                    link: `tel:${COMPANY_INFO.phone.replace(/\s+/g, "")}`
+                    desc: company.phone,
+                    link: `tel:${company.phone.replace(/\s+/g, "")}`
                   },
                   {
                     icon: <Mail className="h-5 w-5 text-brand-blue" />,
                     title: "Endereço Eletrónico",
-                    desc: COMPANY_INFO.email,
-                    link: `mailto:${COMPANY_INFO.email}`
+                    desc: company.email,
+                    link: `mailto:${company.email}`
                   },
                   {
                     icon: <Clock className="h-5 w-5 text-brand-orange" />,
                     title: "Horário de Atendimento",
-                    desc: COMPANY_INFO.workingHours,
+                    desc: company.workingHours,
                     link: null
                   }
                 ].map((item, index) => (
@@ -248,13 +260,20 @@ export default function Contact() {
                     <span className="text-[10px] text-slate-450 text-left">
                       * Ao submeter este formulário, concorda com a recolha segura das suas informações sob a nossa política de confidencialidade de Angola.
                     </span>
+                    {submitError && (
+                      <p className="text-[11px] text-red-400 flex items-center space-x-1.5">
+                        <AlertCircle className="h-3.5 w-3.5" />
+                        <span>{submitError}</span>
+                      </p>
+                    )}
                     <button
                       id="contact-submit-btn"
                       type="submit"
-                      className="px-6 py-3.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-brand-orange/30 hover:scale-[1.02] flex items-center justify-center space-x-2.5 transition-all cursor-pointer shrink-0"
+                      disabled={isSubmitting}
+                      className="px-6 py-3.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-brand-orange/30 hover:scale-[1.02] flex items-center justify-center space-x-2.5 transition-all cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="h-4 w-4" />
-                      <span>Contactar</span>
+                      <span>{isSubmitting ? "A Enviar…" : "Contactar"}</span>
                     </button>
                   </div>
                 </form>
