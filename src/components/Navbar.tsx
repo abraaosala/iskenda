@@ -82,7 +82,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
               <span className={`font-extrabold text-xl tracking-tight leading-none ${
                 isScrolled ? "text-brand-navy" : "text-white"
               }`}>
-                {company.name}
+                {/* {company.name} */}
               </span>
               <span className={`text-[9px] font-semibold tracking-wider uppercase mt-1 ${
                 isScrolled ? "text-brand-blue" : "text-brand-orange"

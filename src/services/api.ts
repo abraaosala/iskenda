@@ -349,7 +349,7 @@ export interface CompanyInfoData {
   hero_image: string | null;
 }
 
-export interface CompanyInfoPayload extends Partial<CompanyInfoData> {
+export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image"> {
   logo?: File;
   favicon?: File;
   hero_image?: File;
