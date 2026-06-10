@@ -1,12 +1,15 @@
 import { useState, useEffect, MouseEvent } from "react";
 import { Menu, X, Landmark, PhoneCall } from "lucide-react";
-import { COMPANY_INFO } from "../data";
+import { useNavigate } from "@tanstack/react-router";
+import { useSiteData } from "../contexts/SiteDataContext";
 
 interface NavbarProps {
   currentSection: string;
 }
 
 export default function Navbar({ currentSection }: NavbarProps) {
+  const { company } = useSiteData();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -60,18 +63,26 @@ export default function Navbar({ currentSection }: NavbarProps) {
             id="nav-logo"
             href="#inicio"
             onClick={(e) => handleLinkClick(e, "#inicio")}
-            className="flex items-center space-x-3 group"
+            onDoubleClick={(e) => {
+              e.preventDefault();
+              navigate({ to: "/login" });
+            }}
+            className="flex items-center space-x-3 group select-none"
           >
-            <div className={`p-2 rounded-xl transition-all duration-300 ${
-              isScrolled ? "bg-brand-navy/10 text-brand-navy" : "bg-white/10 text-brand-orange"
-            }`}>
-              <Landmark className="h-6 w-6" />
-            </div>
+            {company.logo ? (
+              <img src={company.logo} alt={company.name} className="h-10 w-auto" />
+            ) : (
+              <div className={`p-2 rounded-xl transition-all duration-300 ${
+                isScrolled ? "bg-brand-navy/10 text-brand-navy" : "bg-white/10 text-brand-orange"
+              }`}>
+                <Landmark className="h-6 w-6" />
+              </div>
+            )}
             <div className="flex flex-col">
               <span className={`font-extrabold text-xl tracking-tight leading-none ${
                 isScrolled ? "text-brand-navy" : "text-white"
               }`}>
-                {COMPANY_INFO.name}
+                {company.name}
               </span>
               <span className={`text-[9px] font-semibold tracking-wider uppercase mt-1 ${
                 isScrolled ? "text-brand-blue" : "text-brand-orange"
