@@ -1,4 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from "react";
+import { ThreeDot } from "react-loading-indicators";
 import { Phone, Mail, Clock, Send, Landmark, CheckCircle, AlertCircle } from "lucide-react";
 import { useSiteData } from "../contexts/SiteDataContext";
 import { submitContact } from "../services/api";
@@ -273,7 +274,7 @@ export default function Contact() {
                       className="px-6 py-3.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-brand-orange/30 hover:scale-[1.02] flex items-center justify-center space-x-2.5 transition-all cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="h-4 w-4" />
-                      <span>{isSubmitting ? "A Enviar…" : "Contactar"}</span>
+                      {isSubmitting ? <ThreeDot variant="bounce" color="#1a1a2e" size="small" /> : <span>Contactar</span>}
                     </button>
                   </div>
                 </form>

@@ -1,4 +1,5 @@
 import { useState, useEffect, FormEvent } from "react";
+import { ThreeDot } from "react-loading-indicators";
 import { X, Save } from "lucide-react";
 import type { Service } from "../types";
 import { createService, updateService, type ServicePayload } from "../services/api";
@@ -161,7 +162,7 @@ export default function ServiceModal({ service, onClose, onSaved }: ServiceModal
               className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
-              <span>{saving ? "A salvar…" : "Salvar"}</span>
+              {saving ? <ThreeDot variant="bounce" color="#ffffff" size="small" /> : <span>Salvar</span>}
             </button>
           </div>
         </form>

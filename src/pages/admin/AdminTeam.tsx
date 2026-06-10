@@ -4,6 +4,8 @@ import { fetchTeamMembers, deleteTeamMember, createTeamMember, updateTeamMember,
 import type { TeamMember } from "../../types";
 import DropZone from "../../components/DropZone";
 import IconPicker from "../../components/IconPicker";
+import { ThreeDot } from "react-loading-indicators";
+import LoadingOverlay from "../../components/LoadingOverlay";
 import { Users, Plus, Pencil, Trash2, AlertCircle, RefreshCw, X, Save } from "lucide-react";
 
 const gradients = [
@@ -39,7 +41,7 @@ export default function AdminTeam() {
         <Header icon={Users} color="sky" title="Equipa" desc="Gerir membros da equipa" onRefresh={load} loading={loading} onNew={() => setEditing("new")} />
         {error && <ErrorBox message={error} />}
 
-        {loading ? <SkeletonList /> : items.length === 0 ? (
+        {loading ? <LoadingOverlay text="A carregar equipa…" /> : items.length === 0 ? (
           <EmptyState icon={Users} text="Nenhum membro encontrado" />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -131,7 +133,7 @@ function TeamModal({ member, onClose, onSaved }: { member: TeamMember | null; on
           </div>
           <div className="flex items-center justify-end space-x-3 pt-4">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100">Cancelar</button>
-            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" /><span>{saving ? "A salvar…" : "Salvar"}</span></button>
+            <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" />{saving ? <ThreeDot variant="bounce" color="#ffffff" size="small" /> : <span>Salvar</span>}</button>
           </div>
         </form>
       </div>
@@ -156,7 +158,7 @@ function Header({ icon: Icon, color, title, desc, onRefresh, loading, onNew }: {
         <div><h1 className="text-2xl font-bold text-brand-navy">{title}</h1><p className="text-sm text-slate-400 mt-0.5">{desc}</p></div>
       </div>
       <div className="flex items-center space-x-2">
-        <button onClick={onRefresh} disabled={loading} className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 transition-colors disabled:opacity-50"><RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /></button>
+        <button onClick={onRefresh} disabled={loading} className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 transition-colors disabled:opacity-50">            {loading ? <ThreeDot variant="bounce" color="#64748b" size="small" /> : <RefreshCw className="h-3.5 w-3.5" />}</button>
         <button onClick={onNew} className="flex items-center space-x-1.5 px-4 py-2 rounded-lg text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 transition-colors"><Plus className="h-4 w-4" /><span>Novo</span></button>
       </div>
     </div>
@@ -165,10 +167,6 @@ function Header({ icon: Icon, color, title, desc, onRefresh, loading, onNew }: {
 
 function ErrorBox({ message }: { message: string }) {
   return <div className="flex items-center space-x-2.5 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-6"><AlertCircle className="h-4 w-4 shrink-0" /><span>{message}</span></div>;
-}
-
-function SkeletonList() {
-  return <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{[1, 2, 3].map((i) => <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 animate-pulse"><div className="h-4 w-32 bg-slate-200 rounded mb-2" /><div className="h-3 w-20 bg-slate-100 rounded" /></div>)}</div>;
 }
 
 function EmptyState({ icon: Icon, text }: { icon: any; text: string }) {
