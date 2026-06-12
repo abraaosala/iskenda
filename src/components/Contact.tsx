@@ -1,4 +1,6 @@
 import { useState, FormEvent, ChangeEvent } from "react";
+import { ThreeDot } from "react-loading-indicators";
+import SavingOverlay from "./SavingOverlay";
 import { Phone, Mail, Clock, Send, Landmark, CheckCircle, AlertCircle } from "lucide-react";
 import { useSiteData } from "../contexts/SiteDataContext";
 import { submitContact } from "../services/api";
@@ -45,6 +47,7 @@ export default function Contact() {
   };
 
   return (
+    <>
     <section id="contactos" className="py-24 bg-[#f8fafc] relative overflow-hidden text-left">
       {/* Decorative vector overlays */}
       <div className="absolute top-1/4 left-10 w-80 h-80 bg-brand-navy/5 rounded-full filter blur-3xl pointer-events-none" />
@@ -284,5 +287,7 @@ export default function Contact() {
         </div>
       </div>
     </section>
+      <SavingOverlay show={isSubmitting} />
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { createRootRoute, createRoute, createRouter, Outlet } from "@tanstack/react-router";
+import { createRootRoute, createRoute, createRouter, redirect, Outlet } from "@tanstack/react-router";
 import HeadTags from "./components/HeadTags";
 import App from "./App";
 import LoginPage from "./pages/LoginPage";
@@ -28,12 +28,20 @@ const indexRoute = createRoute({
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/login",
+  beforeLoad: () => {
+    const token = localStorage.getItem("auth_token");
+    if (token) throw redirect({ to: "/admin" });
+  },
   component: LoginPage,
 });
 
 const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/admin",
+  beforeLoad: () => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) throw redirect({ to: "/login" });
+  },
   component: AdminLayout,
 });
 

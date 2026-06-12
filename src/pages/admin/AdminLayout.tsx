@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Outlet, useNavigate, useLocation } from "@tanstack/react-router";
 import { useAuth } from "../../contexts/AuthContext";
+import { useSiteData } from "../../contexts/SiteDataContext";
 import {
   LogOut, Landmark, LayoutDashboard, Briefcase, Users,
   Star, Image, Settings, ChevronLeft, ChevronRight, Menu,
@@ -19,9 +20,16 @@ const sidebarItems = [
 export default function AdminLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
+  const { company } = useSiteData();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isAuthenticated) navigate({ to: "/login" });
+  }, [isAuthenticated, navigate]);
+
+  if (!isAuthenticated) return null;
 
   function handleLogout() {
     logout();
@@ -48,12 +56,16 @@ export default function AdminLayout() {
         >
           <div className={`flex items-center h-16 border-b border-white/5 px-4 ${collapsed ? "justify-center" : ""}`}>
             <div className="flex items-center space-x-3 min-w-0">
-              <div className="p-2 rounded-xl bg-white/10 text-brand-orange shrink-0">
-                <Landmark className="h-5 w-5" />
-              </div>
+              {company.logo ? (
+                <img src={company.logo} alt={company.name} className="h-8 w-auto shrink-0" />
+              ) : (
+                <div className="p-2 rounded-xl bg-white/10 text-brand-orange shrink-0">
+                  <Landmark className="h-5 w-5" />
+                </div>
+              )}
               {!collapsed && (
                 <span className="font-bold text-base text-white tracking-tight truncate">
-                  IS KENDA
+                  {company.name}
                 </span>
               )}
             </div>

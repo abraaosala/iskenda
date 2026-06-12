@@ -4,6 +4,9 @@ import {
   fetchCompanyInfo, updateCompanyInfo,
   type CompanyInfoData,
 } from "../../services/api";
+import { ThreeDot } from "react-loading-indicators";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import SavingOverlay from "../../components/SavingOverlay";
 import {
   Settings, AlertCircle, RefreshCw, Save, Building2,
   Phone, Mail, Clock, MapPin, FileText, Image,
@@ -114,14 +117,14 @@ export default function AdminSiteData() {
             <div className="p-2.5 rounded-xl bg-slate-500/10 text-slate-600"><Settings className="h-5 w-5" /></div>
             <div><h1 className="text-2xl font-bold text-brand-navy">Site Data</h1><p className="text-sm text-slate-400 mt-0.5">Informações da empresa</p></div>
           </div>
-          <button onClick={load} disabled={loading} className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 disabled:opacity-50"><RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /><span>Actualizar</span></button>
+          <button onClick={load} disabled={loading} className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 disabled:opacity-50">{loading ? <ThreeDot variant="bounce" color="#64748b" size="small" /> : <RefreshCw className="h-3.5 w-3.5" />}<span>Actualizar</span></button>
         </div>
 
         {error && <div className="flex items-center space-x-2.5 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-6"><AlertCircle className="h-4 w-4 shrink-0" /><span>{error}</span></div>}
         {success && <div className="flex items-center space-x-2.5 text-sm text-green-600 bg-green-50 border border-green-100 rounded-xl px-4 py-3 mb-6"><Save className="h-4 w-4 shrink-0" /><span>Dados actualizados com sucesso.</span></div>}
 
         {loading && !data ? (
-          <div className="space-y-4">{[1,2,3].map(i => <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 animate-pulse"><div className="h-4 w-40 bg-slate-200 rounded mb-2" /><div className="h-3 w-60 bg-slate-100 rounded" /></div>)}</div>
+          <LoadingOverlay text="A carregar dados…" />
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <Section title="Imagens" icon={Image}>
@@ -163,6 +166,7 @@ export default function AdminSiteData() {
           </form>
         )}
       </div>
+      <SavingOverlay show={saving} />
     </>
   );
 }

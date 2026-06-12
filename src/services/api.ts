@@ -1,6 +1,7 @@
 import type { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem } from "../types";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || "";
+const BASE_URL = API_ORIGIN ? `${API_ORIGIN}/api` : "/api";
 
 function authHeaders(): Record<string, string> {
   const token = localStorage.getItem("auth_token");
@@ -349,7 +350,7 @@ export interface CompanyInfoData {
   hero_image: string | null;
 }
 
-export interface CompanyInfoPayload extends Partial<CompanyInfoData> {
+export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image"> {
   logo?: File;
   favicon?: File;
   hero_image?: File;

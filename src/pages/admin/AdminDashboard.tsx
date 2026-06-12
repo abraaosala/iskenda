@@ -2,6 +2,8 @@ import { useEffect, useState, type ElementType } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "@tanstack/react-router";
 import { fetchAdminDashboard, type AdminDashboard as DashboardData } from "../../services/api";
+import { ThreeDot } from "react-loading-indicators";
+import LoadingOverlay from "../../components/LoadingOverlay";
 import {
   LayoutDashboard, Briefcase, Users,
   Star, Image, Settings, TrendingUp, Clock, GalleryHorizontal,
@@ -66,7 +68,7 @@ export default function AdminDashboard() {
             disabled={loading}
             className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 transition-colors disabled:opacity-50"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            {loading ? <ThreeDot variant="bounce" color="#64748b" size="small" /> : <RefreshCw className="h-3.5 w-3.5" />}
             <span>Actualizar</span>
           </button>
         </div>
@@ -79,14 +81,7 @@ export default function AdminDashboard() {
         )}
 
         {loading && !data ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="bg-white rounded-2xl border border-slate-200 p-5 animate-pulse">
-                <div className="h-3 w-20 bg-slate-200 rounded mb-3" />
-                <div className="h-8 w-16 bg-slate-200 rounded" />
-              </div>
-            ))}
-          </div>
+          <LoadingOverlay text="A carregar dashboard…" />
         ) : data ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">

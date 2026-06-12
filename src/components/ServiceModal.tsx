@@ -1,4 +1,6 @@
 import { useState, useEffect, FormEvent } from "react";
+import { ThreeDot } from "react-loading-indicators";
+import SavingOverlay from "./SavingOverlay";
 import { X, Save } from "lucide-react";
 import type { Service } from "../types";
 import { createService, updateService, type ServicePayload } from "../services/api";
@@ -68,7 +70,9 @@ export default function ServiceModal({ service, onClose, onSaved }: ServiceModal
   }
 
   return (
-    <div
+    <>
+      <SavingOverlay show={saving} />
+      <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
@@ -167,5 +171,6 @@ export default function ServiceModal({ service, onClose, onSaved }: ServiceModal
         </form>
       </div>
     </div>
+    </>
   );
 }
