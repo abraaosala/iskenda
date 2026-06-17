@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSiteData } from "../../contexts/SiteDataContext";
 import {
   LogOut, Landmark, LayoutDashboard, Briefcase, Users,
-  Star, Image, Settings, Menu,
+  Star, Image, Settings, Menu, UserCircle,
 } from "lucide-react";
 
 const sidebarItems = [
@@ -17,6 +17,7 @@ const sidebarItems = [
   { label: "Clientes", icon: Star, path: "/admin/clientes" },
   { label: "Galeria", icon: Image, path: "/admin/galeria" },
   { label: "Site Data", icon: Settings, path: "/admin/site-data" },
+  { label: "Meu Perfil", icon: UserCircle, path: "/admin/perfil" },
 ];
 
 export default function AdminLayout() {

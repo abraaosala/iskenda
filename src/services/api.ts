@@ -99,6 +99,20 @@ export async function submitContact(data: ContactPayload): Promise<void> {
   if (!res.ok) throw new Error(`Failed to submit contact: ${res.status}`);
 }
 
+export interface AuthUserDetails {
+  id: number;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  createdAt: string;
+}
+
+export async function fetchAuthUser(): Promise<AuthUserDetails> {
+  const res = await apiFetch(`${BASE_URL}/auth/me`, { headers: authHeaders() });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
 export interface LoginResponse {
   token: string;
   user: { name: string; email: string };
@@ -118,6 +132,41 @@ export async function login(
     throw new Error(msg);
   }
   return res.json();
+}
+
+export interface UpdateProfilePayload {
+  name: string;
+  email: string;
+}
+
+export interface UpdateProfileResponse {
+  user: { name: string; email: string };
+  token: string;
+}
+
+export async function updateProfile(data: UpdateProfilePayload): Promise<UpdateProfileResponse> {
+  const res = await apiFetch(`${BASE_URL}/auth/me`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
+export interface ChangePasswordPayload {
+  current_password: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export async function changePassword(data: ChangePasswordPayload): Promise<void> {
+  const res = await apiFetch(`${BASE_URL}/auth/password`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
 }
 
 export interface RecentContact {
