@@ -1,3 +1,5 @@
+declare module "react/jsx-runtime";
+
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Outlet, useNavigate, useLocation } from "@tanstack/react-router";
@@ -5,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSiteData } from "../../contexts/SiteDataContext";
 import {
   LogOut, Landmark, LayoutDashboard, Briefcase, Users,
-  Star, Image, Settings, ChevronLeft, ChevronRight, Menu,
+  Star, Image, Settings, Menu,
 } from "lucide-react";
 
 const sidebarItems = [
@@ -41,7 +43,7 @@ export default function AdminLayout() {
       <Helmet>
         <title>Admin — IS KENDA</title>
       </Helmet>
-      <div className="min-h-screen flex bg-slate-50">
+      <div className="h-screen flex overflow-hidden bg-slate-50">
         {mobileOpen && (
           <div
             className="fixed inset-0 bg-black/40 z-40 lg:hidden"
@@ -50,12 +52,12 @@ export default function AdminLayout() {
         )}
 
         <aside
-          className={`fixed lg:static inset-y-0 left-0 z-50 flex flex-col bg-gradient-to-b from-brand-navy to-[#0a1f3d] transition-all duration-300 ${
+          className={`fixed lg:static inset-y-0 left-0 z-50 flex flex-col bg-gradient-to-b from-brand-navy to-[#0a1f3d] transition-all duration-300 h-screen shrink-0 ${
             collapsed ? "w-[72px]" : "w-[260px]"
           } ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
         >
           <div className={`flex items-center h-16 border-b border-white/5 px-4 ${collapsed ? "justify-center" : ""}`}>
-            <div className="flex items-center space-x-3 min-w-0">
+            <div className="flex items-center space-x-3 min-w-0 flex-1">
               {company.logo ? (
                 <img src={company.logo} alt={company.name} className="h-8 w-auto shrink-0" />
               ) : (
@@ -69,6 +71,13 @@ export default function AdminLayout() {
                 </span>
               )}
             </div>
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="hidden lg:flex items-center justify-center p-2 rounded-xl text-white/40 hover:text-white hover:bg-white/10 transition-all"
+              aria-label={collapsed ? "Expandir" : "Recolher"}
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
 
           <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
@@ -100,13 +109,6 @@ export default function AdminLayout() {
             })}
           </nav>
 
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex items-center justify-center h-10 mx-3 mb-2 rounded-xl text-white/30 hover:text-white hover:bg-white/5 transition-colors"
-          >
-            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          </button>
-
           <div className="border-t border-white/5 p-3">
             {!collapsed && (
               <div className="px-1 mb-3">
@@ -126,7 +128,7 @@ export default function AdminLayout() {
           </div>
         </aside>
 
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex flex-col min-w-0 flex-1">
           <header className="lg:hidden bg-white border-b border-slate-200 h-16 flex items-center px-4 sticky top-0 z-30">
             <button
               onClick={() => setMobileOpen(true)}
@@ -137,7 +139,7 @@ export default function AdminLayout() {
             <span className="ml-3 font-bold text-brand-navy">IS KENDA — Admin</span>
           </header>
 
-          <main className="flex-1 p-6 lg:p-10">
+          <main className="flex-1 overflow-y-auto p-6 lg:p-10">
             <Outlet />
           </main>
         </div>

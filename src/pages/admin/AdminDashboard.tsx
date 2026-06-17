@@ -52,7 +52,7 @@ export default function AdminDashboard() {
         <title>Dashboard — IS KENDA</title>
       </Helmet>
 
-      <div className="max-w-6xl">
+      <div className="w-full">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
             <div className="p-2.5 rounded-xl bg-brand-blue/10 text-brand-blue">

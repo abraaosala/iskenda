@@ -9,7 +9,9 @@ import {
   ACADEMIA_OFFERS as FALLBACK_OFFERS,
   TEAM_MEMBERS as FALLBACK_TEAM,
   GALLERY_ITEMS as FALLBACK_GALLERY,
+  SOCIAL_LINKS as FALLBACK_SOCIAL,
 } from "../data";
+import type { SocialLink } from "../types";
 
 interface SiteDataContextValue {
   loading: boolean;
@@ -22,6 +24,7 @@ interface SiteDataContextValue {
   values: SiteData["values"];
   team: SiteData["team"];
   gallery: SiteData["gallery"];
+  socialLinks: SocialLink[];
   refresh: () => void;
 }
 
@@ -59,6 +62,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     values: data?.values ?? FALLBACK_VALUES,
     team: data?.team ?? FALLBACK_TEAM,
     gallery: data?.gallery ?? FALLBACK_GALLERY,
+    socialLinks: data?.socialLinks ?? FALLBACK_SOCIAL,
     refresh: load,
   };
 

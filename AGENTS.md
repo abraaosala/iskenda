@@ -1,5 +1,11 @@
 # IS KENDA — Repo Guide for Agents
 
+## Skills Activation
+
+This project has domain-specific skills available in `.agents/skills/`. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
+
+**Always-on skill:** `git-workflow` — must be activated before making any code change (creates branch, commits atomically, pushes).
+
 ## What this is
 
 React 19 + TypeScript SPA (Vite 6, Tailwind CSS v4) for "IS KENDA CONSULTORIA & ACADEMIA", a consulting and training firm in Angola. Built for Google AI Studio deployment with server-side Gemini API support.

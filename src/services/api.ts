@@ -1,4 +1,5 @@
 import type { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem } from "../types";
+import type { SocialLink } from "../types";
 
 const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || "";
 const BASE_URL = API_ORIGIN ? `${API_ORIGIN}/api` : "/api";
@@ -72,6 +73,7 @@ export interface SiteData {
   values: CompanyValue[];
   team: TeamMember[];
   gallery: GalleryItem[];
+  socialLinks: SocialLink[];
 }
 
 export async function fetchSiteData(): Promise<SiteData> {
@@ -348,12 +350,14 @@ export interface CompanyInfoData {
   logo: string | null;
   favicon: string | null;
   hero_image: string | null;
+  social_links?: SocialLink[];
 }
 
 export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image"> {
   logo?: File;
   favicon?: File;
   hero_image?: File;
+  social_links?: SocialLink[];
 }
 
 export async function fetchCompanyInfo(): Promise<CompanyInfoData> {

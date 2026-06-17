@@ -33,7 +33,7 @@ export default function AdminClients() {
   return (
     <>
       <Helmet><title>Clientes — IS KENDA</title></Helmet>
-      <div className="max-w-5xl">
+      <div className="w-full">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
             <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-600"><Star className="h-5 w-5" /></div>
