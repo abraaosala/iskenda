@@ -8,7 +8,7 @@ This project has domain-specific skills available in `.agents/skills/`. You MUST
 
 ## What this is
 
-React 19 + TypeScript SPA (Vite 6, Tailwind CSS v4) for "IS KENDA CONSULTORIA & ACADEMIA", a consulting and training firm in Angola. Built for Google AI Studio deployment with server-side Gemini API support.
+React 19 + TypeScript SPA (Vite 8, Tailwind CSS v4) for "IS KENDA CONSULTORIA & ACADEMIA", a consulting and training firm in Angola. Built for Google AI Studio deployment with server-side Gemini API support.
 
 ## Developer commands
 

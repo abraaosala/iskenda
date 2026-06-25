@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, useRef, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "@tanstack/react-router";
 import { changePassword } from "../../services/api";
@@ -9,6 +9,9 @@ import {
 
 export default function AdminProfilePassword() {
   const navigate = useNavigate();
+  const navigateTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(navigateTimer.current), []);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -58,7 +61,8 @@ export default function AdminProfilePassword() {
         password_confirmation: newPasswordConfirmation,
       });
       setSuccess(true);
-      setTimeout(() => navigate({ to: "/admin/perfil" }), 1500);
+      clearTimeout(navigateTimer.current);
+      navigateTimer.current = setTimeout(() => navigate({ to: "/admin/perfil" }), 1500);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erro ao alterar palavra-passe");
     } finally {

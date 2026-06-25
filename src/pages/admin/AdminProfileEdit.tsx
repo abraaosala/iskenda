@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, useRef, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../../contexts/AuthContext";
@@ -11,6 +11,9 @@ import {
 export default function AdminProfileEdit() {
   const navigate = useNavigate();
   const { user, login: updateAuth } = useAuth();
+  const navigateTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(navigateTimer.current), []);
 
   const [name, setName] = useState(user?.name ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
@@ -36,14 +39,10 @@ export default function AdminProfileEdit() {
     setSaving(true);
     try {
       const result = await updateProfile({ name: name.trim(), email: email.trim() });
-      if (result.token) {
-        updateAuth(result.token, result.user);
-      } else {
-        const token = localStorage.getItem("auth_token");
-        if (token) updateAuth(token, result.user);
-      }
+      updateAuth(result.token, result.user);
       setSuccess(true);
-      setTimeout(() => navigate({ to: "/admin/perfil" }), 1500);
+      clearTimeout(navigateTimer.current);
+      navigateTimer.current = setTimeout(() => navigate({ to: "/admin/perfil" }), 1500);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erro ao actualizar perfil");
     } finally {

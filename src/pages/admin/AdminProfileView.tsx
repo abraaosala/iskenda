@@ -2,19 +2,11 @@ import { type FormEvent, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../../contexts/AuthContext";
-import { fetchAuthUser } from "../../services/api";
+import { fetchAuthUser, type AuthUserDetails } from "../../services/api";
 import {
   UserCircle, Mail, Pencil, Lock, Calendar, ShieldCheck,
   Briefcase, Users, Star, Settings,
 } from "lucide-react";
-
-interface AuthUserDetails {
-  id: number;
-  name: string;
-  email: string;
-  isAdmin: boolean;
-  createdAt: string;
-}
 
 export default function AdminProfileView() {
   const navigate = useNavigate();
@@ -24,11 +16,11 @@ export default function AdminProfileView() {
   useEffect(() => {
     fetchAuthUser()
       .then(setDetails)
-      .catch(() => {});
+      .catch((err) => console.error("Erro ao carregar detalhes do perfil:", err));
   }, []);
 
   const initials = user?.name
-    ? user.name.split(" ").map((s: string) => s[0]).join("").substring(0, 2).toUpperCase()
+    ? user.name.split(" ").filter(Boolean).map((s: string) => s[0]).join("").substring(0, 2).toUpperCase()
     : "AD";
 
   const quickLinks = [
