@@ -43,7 +43,12 @@ function buildFormData(data: object): FormData {
   const fd = new FormData();
   for (const [key, val] of Object.entries(data)) {
     if (val !== undefined && val !== null) {
-      fd.append(key, val instanceof File ? val : String(val as string));
+      const value = val instanceof File
+        ? val
+        : Array.isArray(val) || typeof val === "object"
+          ? JSON.stringify(val)
+          : String(val);
+      fd.append(key, value);
     }
   }
   return fd;
