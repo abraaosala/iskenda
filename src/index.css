@@ -13,6 +13,7 @@
   
   --animate-carousel-left: carousel-left 40s linear infinite;
   --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;
+  --animate-slide-down: slide-down 0.35s ease-out;
 }
 
 @keyframes carousel-left {
@@ -35,9 +36,20 @@
   }
 }
 
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 116px;
 }
 
 body {

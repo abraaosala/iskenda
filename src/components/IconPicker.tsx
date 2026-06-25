@@ -37,7 +37,7 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
     ? ICON_LIST.filter((name) => name.toLowerCase().includes(search.toLowerCase()))
     : ICON_LIST;
 
-  const SelectedIcon = (Icons as Record<string, ComponentType<{ className?: string; size?: number }>>)[value];
+  const SelectedIcon = (Icons as unknown as Record<string, ComponentType<{ className?: string; size?: number }>>)[value];
 
   return (
     <div ref={ref} className="relative">
@@ -70,7 +70,7 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
               <p className="col-span-4 text-sm text-slate-400 text-center py-4">Nenhum ícone encontrado</p>
             ) : (
               filtered.map((name) => {
-                const IconComp = (Icons as Record<string, ComponentType<{ className?: string; size?: number }>>)[name];
+                const IconComp = (Icons as unknown as Record<string, ComponentType<{ className?: string; size?: number }>>)[name];
                 return (
                   <button
                     key={name}

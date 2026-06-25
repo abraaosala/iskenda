@@ -43,7 +43,7 @@ export default function About() {
                 Atualmente contamos com mais de {company.activeClientsCount} clientes ativos.
               </p>
               <span className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-widest">
-                Luanda • Angola
+                Cabinda • Angola
               </span>
             </div>
           </div>

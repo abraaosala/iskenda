@@ -1,4 +1,5 @@
 import type { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem } from "../types";
+import type { SocialLink } from "../types";
 
 const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || "";
 const BASE_URL = API_ORIGIN ? `${API_ORIGIN}/api` : "/api";
@@ -42,7 +43,12 @@ function buildFormData(data: object): FormData {
   const fd = new FormData();
   for (const [key, val] of Object.entries(data)) {
     if (val !== undefined && val !== null) {
-      fd.append(key, val instanceof File ? val : String(val as string));
+      const value = val instanceof File
+        ? val
+        : Array.isArray(val) || typeof val === "object"
+          ? JSON.stringify(val)
+          : String(val);
+      fd.append(key, value);
     }
   }
   return fd;
@@ -64,6 +70,7 @@ export interface SiteData {
     logo: string | null;
     favicon: string | null;
     heroImage: string | null;
+    logoScroll: string | null;
   };
   services: Service[];
   clients: Client[];
@@ -72,6 +79,7 @@ export interface SiteData {
   values: CompanyValue[];
   team: TeamMember[];
   gallery: GalleryItem[];
+  socialLinks: SocialLink[];
 }
 
 export async function fetchSiteData(): Promise<SiteData> {
@@ -97,6 +105,20 @@ export async function submitContact(data: ContactPayload): Promise<void> {
   if (!res.ok) throw new Error(`Failed to submit contact: ${res.status}`);
 }
 
+export interface AuthUserDetails {
+  id: number;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  createdAt: string;
+}
+
+export async function fetchAuthUser(): Promise<AuthUserDetails> {
+  const res = await apiFetch(`${BASE_URL}/auth/me`, { headers: authHeaders() });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
 export interface LoginResponse {
   token: string;
   user: { name: string; email: string };
@@ -116,6 +138,41 @@ export async function login(
     throw new Error(msg);
   }
   return res.json();
+}
+
+export interface UpdateProfilePayload {
+  name: string;
+  email: string;
+}
+
+export interface UpdateProfileResponse {
+  user: { name: string; email: string };
+  token: string;
+}
+
+export async function updateProfile(data: UpdateProfilePayload): Promise<UpdateProfileResponse> {
+  const res = await apiFetch(`${BASE_URL}/auth/me`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
+export interface ChangePasswordPayload {
+  current_password: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export async function changePassword(data: ChangePasswordPayload): Promise<void> {
+  const res = await apiFetch(`${BASE_URL}/auth/password`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
 }
 
 export interface RecentContact {
@@ -348,12 +405,16 @@ export interface CompanyInfoData {
   logo: string | null;
   favicon: string | null;
   hero_image: string | null;
+  logo_scroll: string | null;
+  social_links?: SocialLink[];
 }
 
-export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image"> {
+export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image" | "logo_scroll"> {
   logo?: File;
   favicon?: File;
   hero_image?: File;
+  logo_scroll?: File;
+  social_links?: SocialLink[];
 }
 
 export async function fetchCompanyInfo(): Promise<CompanyInfoData> {
@@ -365,7 +426,7 @@ export async function fetchCompanyInfo(): Promise<CompanyInfoData> {
 }
 
 export async function updateCompanyInfo(data: CompanyInfoPayload): Promise<CompanyInfoData> {
-  const hasFiles = data.logo instanceof File || data.favicon instanceof File || data.hero_image instanceof File;
+  const hasFiles = data.logo instanceof File || data.favicon instanceof File || data.hero_image instanceof File || data.logo_scroll instanceof File;
   if (hasFiles) {
     const fd = buildFormData(data);
     fd.append("_method", "PUT");

@@ -9,6 +9,9 @@ import AdminTeam from "./pages/admin/AdminTeam";
 import AdminClients from "./pages/admin/AdminClients";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminSiteData from "./pages/admin/AdminSiteData";
+import AdminProfileView from "./pages/admin/AdminProfileView";
+import AdminProfileEdit from "./pages/admin/AdminProfileEdit";
+import AdminProfilePassword from "./pages/admin/AdminProfilePassword";
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -81,6 +84,24 @@ const adminSiteDataRoute = createRoute({
   component: AdminSiteData,
 });
 
+const adminProfileViewRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/perfil",
+  component: AdminProfileView,
+});
+
+const adminProfileEditRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/perfil/editar",
+  component: AdminProfileEdit,
+});
+
+const adminProfilePasswordRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/perfil/alterar-password",
+  component: AdminProfilePassword,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
@@ -91,6 +112,9 @@ const routeTree = rootRoute.addChildren([
     adminClientsRoute,
     adminGalleryRoute,
     adminSiteDataRoute,
+    adminProfileViewRoute,
+    adminProfileEditRoute,
+    adminProfilePasswordRoute,
   ]),
 ]);
 

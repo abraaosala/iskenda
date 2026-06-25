@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import Topbar from "./components/Topbar";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -58,6 +59,9 @@ export default function App() {
         <title>IS KENDA — Consultoria & Academia</title>
       </Helmet>
       <div id="full-page-container" className="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 selection:bg-brand-orange selection:text-brand-dark">
+      {/* Topbar — contactos e redes sociais */}
+      <Topbar />
+
       {/* Dynamic Header Navbar sticky */}
       <Navbar currentSection={currentSection} />
 

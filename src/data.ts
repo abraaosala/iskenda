@@ -1,4 +1,4 @@
-import { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem } from "./types";
+import { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem, SocialLink } from "./types";
 
 export const COMPANY_INFO = {
   name: "IS KENDA",
@@ -11,7 +11,11 @@ export const COMPANY_INFO = {
   email: "geral@iskenda.com",
   workingHours: "Segunda a Sexta-feira, 08h00 às 17h00",
   address: "Luanda, Angola",
-  copyright: "© 2026 IS KENDA CONSULTORIA & ACADEMIA. Todos os Direitos Reservados."
+  copyright: "© 2026 IS KENDA CONSULTORIA & ACADEMIA. Todos os Direitos Reservados.",
+  logo: null,
+  favicon: null,
+  heroImage: null,
+  logoScroll: null,
 };
 
 export const SERVICES: Service[] = [
@@ -338,4 +342,10 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     icon: "Handshake",
     src: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop"
   }
+];
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  { platform: "Instagram", icon: "Instagram", url: "https://www.instagram.com/geraliskenda/" },
+  { platform: "Facebook", icon: "Facebook", url: "https://www.facebook.com/geraliskenda/" },
+  { platform: "LinkedIn", icon: "Linkedin", url: "https://ao.linkedin.com/in/academia-is-kenda-71a309370" },
 ];

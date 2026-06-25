@@ -56,3 +56,9 @@ export interface GalleryItem {
   icon: string;
   src: string;
 }
+
+export interface SocialLink {
+  platform: string;
+  icon: string;
+  url: string;
+}

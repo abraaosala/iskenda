@@ -21,6 +21,11 @@ export default function Navbar({ currentSection }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
   const navLinks = [
     { label: "Início", href: "#inicio" },
     { label: "Quem Somos", href: "#quem-somos" },
@@ -39,7 +44,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
     
     const targetElement = document.querySelector(href);
     if (targetElement) {
-      const offsetTop = (targetElement as HTMLElement).offsetTop - 80;
+      const offsetTop = (targetElement as HTMLElement).offsetTop - 116;
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth",
@@ -50,7 +55,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
   return (
     <nav
       id="main-navbar"
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-9 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white/95 backdrop-blur-md shadow-md py-3 text-slate-850"
           : "bg-gradient-to-b from-brand-dark/90 to-brand-dark/10 text-white py-5"
@@ -69,7 +74,11 @@ export default function Navbar({ currentSection }: NavbarProps) {
             }}
             className="flex items-center space-x-3 group select-none"
           >
-            {company.logo ? (
+            {!isScrolled && company.logoScroll ? (
+              <img src={company.logoScroll} alt={company.name} className="h-10 w-auto" />
+            ) : isScrolled && company.logo ? (
+              <img src={company.logo} alt={company.name} className="h-10 w-auto" />
+            ) : !isScrolled && company.logo ? (
               <img src={company.logo} alt={company.name} className="h-10 w-auto" />
             ) : (
               <div className={`p-2 rounded-xl transition-all duration-300 ${
@@ -153,47 +162,57 @@ export default function Navbar({ currentSection }: NavbarProps) {
         </div>
       </div>
 
-      {/* Mobile Menu Panel */}
-      <div
-        id="mobile-navigation-panel"
-        className={`lg:hidden transition-all duration-300 ease-in-out ${
-          isOpen
-            ? "max-h-screen opacity-100 border-t border-slate-100 bg-white"
-            : "max-h-0 opacity-0 overflow-hidden pointer-events-none"
-        }`}
-      >
-        <div className="px-4 pt-3 pb-6 space-y-1.5 shadow-xl">
-          {navLinks.map((link) => {
-            const active = currentSection === link.href.substring(1);
-            return (
-              <a
-                id={`mobile-nav-link-${link.href.substring(1)}`}
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className={`flex items-center px-4 py-3 rounded-xl text-base font-medium transition-all ${
-                  active
-                    ? "bg-brand-navy/10 text-brand-navy font-semibold"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-brand-navy"
-                }`}
-              >
-                {link.label}
-              </a>
-            );
-          })}
-          <div className="pt-4 px-2">
-            <a
-              id="mobile-nav-cta"
-              href="#contactos"
-              onClick={(e) => handleLinkClick(e, "#contactos")}
-              className="flex justify-center items-center space-x-2 w-full py-3.5 rounded-xl bg-brand-navy text-white font-bold text-center uppercase tracking-wider text-sm shadow-md"
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <div
+          id="mobile-navigation-overlay"
+          className="fixed inset-0 z-[70] bg-white/95 backdrop-blur-md lg:hidden animate-slide-down"
+        >
+          <div className="flex flex-col items-center justify-center h-full px-6 pb-16">
+            <button
+              id="mobile-overlay-close"
+              onClick={() => setIsOpen(false)}
+              className="absolute top-6 right-6 p-2 text-slate-400 hover:text-brand-navy rounded-xl hover:bg-slate-100 transition-all"
+              aria-label="Fechar Menu"
             >
-              <PhoneCall className="h-4 w-4" />
-              <span>Contactar IS KENDA</span>
-            </a>
+              <Menu className="h-6 w-6" />
+            </button>
+
+            <nav className="flex flex-col items-center space-y-1 w-full max-w-sm">
+              {navLinks.map((link) => {
+                const active = currentSection === link.href.substring(1);
+                return (
+                  <a
+                    id={`mobile-nav-link-${link.href.substring(1)}`}
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => handleLinkClick(e, link.href)}
+                    className={`w-full text-center px-6 py-4 rounded-2xl text-lg font-medium transition-all ${
+                      active
+                        ? "bg-brand-navy/10 text-brand-navy font-semibold"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-brand-navy"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
+            </nav>
+
+            <div className="mt-10 w-full max-w-sm">
+              <a
+                id="mobile-overlay-cta"
+                href="#contactos"
+                onClick={(e) => handleLinkClick(e, "#contactos")}
+                className="flex justify-center items-center space-x-2 w-full py-4 rounded-2xl bg-brand-navy text-white font-bold text-base uppercase tracking-wider shadow-lg"
+              >
+                <PhoneCall className="h-5 w-5" />
+                <span>Contactar IS KENDA</span>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }

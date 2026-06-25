@@ -1,9 +1,10 @@
 import { MouseEvent } from "react";
-import { Facebook, Instagram, Linkedin, MessageSquareCode, Landmark, ArrowUp } from "lucide-react";
+import { MessageSquareCode, Landmark, ArrowUp } from "lucide-react";
+import { SmartIcon } from "./SmartIcon";
 import { useSiteData } from "../contexts/SiteDataContext";
 
 export default function Footer() {
-  const { company } = useSiteData();
+  const { company, socialLinks } = useSiteData();
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -15,7 +16,7 @@ export default function Footer() {
     e.preventDefault();
     const targetElement = document.querySelector(href);
     if (targetElement) {
-      const offsetTop = (targetElement as HTMLElement).offsetTop - 80;
+      const offsetTop = (targetElement as HTMLElement).offsetTop - 116;
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth"
@@ -63,24 +64,29 @@ export default function Footer() {
 
             {/* Social media icons with hover triggers */}
             <div className="flex items-center space-x-3.5">
-              {[
-                { icon: <Facebook className="h-4.5 w-4.5" />, href: "https://facebook.com/iskenda", label: "Facebook" },
-                { icon: <Instagram className="h-4.5 w-4.5" />, href: "https://instagram.com/iskenda", label: "Instagram" },
-                { icon: <Linkedin className="h-4.5 w-4.5" />, href: "https://linkedin.com/company/iskenda", label: "LinkedIn" },
-                { icon: <MessageSquareCode className="h-4.5 w-4.5" />, href: `https://wa.me/244938198551`, label: "WhatsApp" }
-              ].map((social, index) => (
+              {socialLinks.map((link) => (
                 <a
-                  key={index}
-                  href={social.href}
+                  key={link.platform}
+                  href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 bg-white/5 hover:bg-brand-orange hover:text-brand-dark rounded-xl border border-white/5 transition-all text-slate-205"
-                  aria-label={social.label}
+                  aria-label={link.platform}
                   referrerPolicy="no-referrer"
                 >
-                  {social.icon}
+                  <SmartIcon name={link.icon} size={18} className="h-4.5 w-4.5" />
                 </a>
               ))}
+              <a
+                href={`https://wa.me/${company.phone.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 bg-white/5 hover:bg-brand-orange hover:text-brand-dark rounded-xl border border-white/5 transition-all text-slate-205"
+                aria-label="WhatsApp"
+                referrerPolicy="no-referrer"
+              >
+                <MessageSquareCode className="h-4.5 w-4.5" />
+              </a>
             </div>
           </div>
 

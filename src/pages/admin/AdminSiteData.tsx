@@ -9,9 +9,11 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import SavingOverlay from "../../components/SavingOverlay";
 import {
   Settings, AlertCircle, RefreshCw, Save, Building2,
-  Phone, Mail, Clock, MapPin, FileText, Image,
+  Phone, Mail, Clock, MapPin, FileText, Image, Link, Plus, Trash2,
 } from "lucide-react";
+import type { SocialLink } from "../../types";
 import DropZone from "../../components/DropZone";
+import { SmartIcon } from "../../components/SmartIcon";
 
 interface FormState {
   name: string;
@@ -25,18 +27,21 @@ interface FormState {
   working_hours: string;
   address: string;
   copyright: string;
+  social_links: SocialLink[];
 }
 
 const INITIAL_FORM: FormState = {
   name: "", full_name: "", slogan: "", founded_year: 2022,
   years_experience: 0, active_clients_count: 0, phone: "",
   email: "", working_hours: "", address: "", copyright: "",
+  social_links: [],
 };
 
 export default function AdminSiteData() {
   const [data, setData] = useState<CompanyInfoData | null>(null);
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoScrollFile, setLogoScrollFile] = useState<File | null>(null);
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
   const [heroFile, setHeroFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
@@ -61,6 +66,7 @@ export default function AdminSiteData() {
         working_hours: result.working_hours,
         address: result.address,
         copyright: result.copyright,
+        social_links: result.social_links ?? [],
       });
     } catch (e) { setError(e instanceof Error ? e.message : "Erro"); }
     finally { setLoading(false); }
@@ -77,9 +83,12 @@ export default function AdminSiteData() {
         logo: logoFile || undefined,
         favicon: faviconFile || undefined,
         hero_image: heroFile || undefined,
+        logo_scroll: logoScrollFile || undefined,
+        social_links: form.social_links,
       });
       setData(updated);
       setLogoFile(null);
+      setLogoScrollFile(null);
       setFaviconFile(null);
       setHeroFile(null);
       setSuccess(true);
@@ -102,7 +111,9 @@ export default function AdminSiteData() {
       form.working_hours !== data.working_hours ||
       form.address !== data.address ||
       form.copyright !== data.copyright ||
+      JSON.stringify(form.social_links) !== JSON.stringify(data.social_links ?? []) ||
       logoFile !== null ||
+      logoScrollFile !== null ||
       faviconFile !== null ||
       heroFile !== null
     );
@@ -111,7 +122,7 @@ export default function AdminSiteData() {
   return (
     <>
       <Helmet><title>Site Data — IS KENDA</title></Helmet>
-      <div className="max-w-5xl">
+      <div className="w-full">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
             <div className="p-2.5 rounded-xl bg-slate-500/10 text-slate-600"><Settings className="h-5 w-5" /></div>
@@ -128,8 +139,9 @@ export default function AdminSiteData() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <Section title="Imagens" icon={Image}>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <DropZone label="Logótipo" currentUrl={data?.logo} file={logoFile} onFileSelect={setLogoFile} />
+                <DropZone label="Logótipo (fundo escuro)" currentUrl={data?.logo_scroll} file={logoScrollFile} onFileSelect={setLogoScrollFile} />
                 <DropZone label="Favicon" currentUrl={data?.favicon} file={faviconFile} onFileSelect={setFaviconFile} accept={{ "image/*": [".ico", ".jpg", ".jpeg", ".png", ".webp"] }} />
               </div>
               <div className="mt-4">
@@ -156,6 +168,76 @@ export default function AdminSiteData() {
             </Section>
             <Section title="Rodapé" icon={FileText}>
               <Field label="Copyright" value={form.copyright} onChange={(v) => setForm({...form, copyright: v})} />
+            </Section>
+            <Section title="Redes Sociais" icon={Link}>
+              <div className="space-y-3">
+                {form.social_links.map((link, index) => (
+                  <div key={index} className="flex items-start gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      <input
+                        type="text"
+                        value={link.platform}
+                        onChange={(e) => {
+                          const updated = [...form.social_links];
+                          updated[index] = { ...updated[index], platform: e.target.value };
+                          setForm({...form, social_links: updated});
+                        }}
+                        placeholder="Plataforma"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none"
+                      />
+                      <input
+                        type="text"
+                        value={link.icon}
+                        onChange={(e) => {
+                          const updated = [...form.social_links];
+                          updated[index] = { ...updated[index], icon: e.target.value };
+                          setForm({...form, social_links: updated});
+                        }}
+                        placeholder="Ícone (ex: Linkedin)"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none"
+                      />
+                      <input
+                        type="url"
+                        value={link.url}
+                        onChange={(e) => {
+                          const updated = [...form.social_links];
+                          updated[index] = { ...updated[index], url: e.target.value };
+                          setForm({...form, social_links: updated});
+                        }}
+                        placeholder="URL"
+                        className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none"
+                      />
+                    </div>
+                    <div className="flex items-center gap-1 pt-1">
+                      <SmartIcon name={link.icon} size={18} className="text-slate-500" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = form.social_links.filter((_, i) => i !== index);
+                          setForm({...form, social_links: updated});
+                        }}
+                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                        aria-label="Remover"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm({
+                      ...form,
+                      social_links: [...form.social_links, { platform: "", icon: "", url: "" }],
+                    });
+                  }}
+                  className="flex items-center space-x-1.5 px-4 py-2 rounded-lg text-sm text-brand-blue hover:bg-brand-blue/5 border border-dashed border-brand-blue/30 transition-all"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  <span>Adicionar rede social</span>
+                </button>
+              </div>
             </Section>
             <div className="flex items-center justify-end space-x-3 pb-8">
               <button type="submit" disabled={saving || !hasChanges()} className="flex items-center space-x-2 px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50 transition-colors">

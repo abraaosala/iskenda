@@ -38,7 +38,7 @@ export default function AdminTeam() {
   return (
     <>
       <Helmet><title>Equipa — IS KENDA</title></Helmet>
-      <div className="max-w-5xl">
+      <div className="w-full">
         <Header icon={Users} color="sky" title="Equipa" desc="Gerir membros da equipa" onRefresh={load} loading={loading} onNew={() => setEditing("new")} />
         {error && <ErrorBox message={error} />}
 
