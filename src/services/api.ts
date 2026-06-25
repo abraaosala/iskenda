@@ -65,6 +65,7 @@ export interface SiteData {
     logo: string | null;
     favicon: string | null;
     heroImage: string | null;
+    logoScroll: string | null;
   };
   services: Service[];
   clients: Client[];
@@ -399,13 +400,15 @@ export interface CompanyInfoData {
   logo: string | null;
   favicon: string | null;
   hero_image: string | null;
+  logo_scroll: string | null;
   social_links?: SocialLink[];
 }
 
-export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image"> {
+export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image" | "logo_scroll"> {
   logo?: File;
   favicon?: File;
   hero_image?: File;
+  logo_scroll?: File;
   social_links?: SocialLink[];
 }
 
@@ -418,7 +421,7 @@ export async function fetchCompanyInfo(): Promise<CompanyInfoData> {
 }
 
 export async function updateCompanyInfo(data: CompanyInfoPayload): Promise<CompanyInfoData> {
-  const hasFiles = data.logo instanceof File || data.favicon instanceof File || data.hero_image instanceof File;
+  const hasFiles = data.logo instanceof File || data.favicon instanceof File || data.hero_image instanceof File || data.logo_scroll instanceof File;
   if (hasFiles) {
     const fd = buildFormData(data);
     fd.append("_method", "PUT");

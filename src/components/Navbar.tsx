@@ -74,7 +74,11 @@ export default function Navbar({ currentSection }: NavbarProps) {
             }}
             className="flex items-center space-x-3 group select-none"
           >
-            {company.logo ? (
+            {!isScrolled && company.logoScroll ? (
+              <img src={company.logoScroll} alt={company.name} className="h-10 w-auto" />
+            ) : isScrolled && company.logo ? (
+              <img src={company.logo} alt={company.name} className="h-10 w-auto" />
+            ) : !isScrolled && company.logo ? (
               <img src={company.logo} alt={company.name} className="h-10 w-auto" />
             ) : (
               <div className={`p-2 rounded-xl transition-all duration-300 ${

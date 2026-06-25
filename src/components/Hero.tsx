@@ -17,19 +17,19 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brand-dark text-white pt-20"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-navy via-brand-blue to-brand-navy text-white pt-20"
     >
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img
           src={company.heroImage || "/src/assets/images/hero_workspace_1780489385386.png"}
           alt="IS KENDA Escritório"
-          className="w-full h-full object-cover object-center opacity-30 transform scale-105"
+          className="w-full h-full object-cover object-center opacity-20 transform scale-105"
           referrerPolicy="no-referrer"
         />
         {/* Deep premium gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-brand-dark/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-brand-dark/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-navy/80 via-brand-blue/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-transparent to-brand-navy/20" />
       </div>
 
       {/* Decorative Golden Ambient Light */}
@@ -51,7 +51,7 @@ export default function Hero() {
 
             {/* Main Display Typography */}
             <h1 id="hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-              Apoio Empresarial & <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-yellow-300 to-amber-400">Capacitação</span> Prática
+              Apoio Empresarial & <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-white to-brand-orange-dark">Capacitação</span> Prática
             </h1>
 
             {/* Slogan */}

@@ -15,6 +15,7 @@ export const COMPANY_INFO = {
   logo: null,
   favicon: null,
   heroImage: null,
+  logoScroll: null,
 };
 
 export const SERVICES: Service[] = [

@@ -41,6 +41,7 @@ export default function AdminSiteData() {
   const [data, setData] = useState<CompanyInfoData | null>(null);
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoScrollFile, setLogoScrollFile] = useState<File | null>(null);
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
   const [heroFile, setHeroFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
@@ -82,10 +83,12 @@ export default function AdminSiteData() {
         logo: logoFile || undefined,
         favicon: faviconFile || undefined,
         hero_image: heroFile || undefined,
+        logo_scroll: logoScrollFile || undefined,
         social_links: form.social_links,
       });
       setData(updated);
       setLogoFile(null);
+      setLogoScrollFile(null);
       setFaviconFile(null);
       setHeroFile(null);
       setSuccess(true);
@@ -110,6 +113,7 @@ export default function AdminSiteData() {
       form.copyright !== data.copyright ||
       JSON.stringify(form.social_links) !== JSON.stringify(data.social_links ?? []) ||
       logoFile !== null ||
+      logoScrollFile !== null ||
       faviconFile !== null ||
       heroFile !== null
     );
@@ -135,8 +139,9 @@ export default function AdminSiteData() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <Section title="Imagens" icon={Image}>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <DropZone label="Logótipo" currentUrl={data?.logo} file={logoFile} onFileSelect={setLogoFile} />
+                <DropZone label="Logótipo (fundo escuro)" currentUrl={data?.logo_scroll} file={logoScrollFile} onFileSelect={setLogoScrollFile} />
                 <DropZone label="Favicon" currentUrl={data?.favicon} file={faviconFile} onFileSelect={setFaviconFile} accept={{ "image/*": [".ico", ".jpg", ".jpeg", ".png", ".webp"] }} />
               </div>
               <div className="mt-4">
