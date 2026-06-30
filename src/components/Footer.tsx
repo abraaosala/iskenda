@@ -44,18 +44,20 @@ export default function Footer() {
               {company.logoScroll ? (
                 <img src={company.logoScroll} alt={company.name} className="h-12 w-auto" />
               ) : (
+                <>
                 <div className="p-2.5 bg-white/5 text-brand-orange rounded-xl border border-white/10 group-hover:bg-brand-orange/20 transition-all">
                   <Landmark className="h-6 w-6" />
                 </div>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-lg text-white tracking-tight leading-none">
+                    {company.name}
+                  </span>
+                  <span className="text-[9px] font-bold tracking-wider uppercase mt-1 text-brand-orange">
+                    Consultoria & Academia
+                  </span>
+                </div>
+                </>
               )}
-              <div className="flex flex-col">
-                <span className="font-extrabold text-lg text-white tracking-tight leading-none">
-                  {company.name}
-                </span>
-                <span className="text-[9px] font-bold tracking-wider uppercase mt-1 text-brand-orange">
-                  Consultoria & Academia
-                </span>
-              </div>
             </a>
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
