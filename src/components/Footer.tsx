@@ -34,7 +34,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
           
           {/* Block 1: About company branding */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-7 space-y-6">
             <a
               id="footer-logo"
               href="#inicio"
@@ -91,7 +91,7 @@ export default function Footer() {
           </div>
 
           {/* Block 2: Quick Links */}
-          <div className="lg:col-span-3 space-y-4">
+          <div className="lg:col-span-5 space-y-4">
             <h4 className="text-xs font-bold text-white uppercase tracking-widest border-l-2 border-brand-orange pl-2">
               Menu de Navegação
             </h4>
@@ -116,35 +116,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Block 3: Secondary business lines */}
-          <div className="lg:col-span-4 space-y-4">
-            <h4 className="text-xs font-bold text-white uppercase tracking-widest border-l-2 border-brand-orange pl-2">
-              IS KENDA Academia
-            </h4>
-            <ul className="space-y-2.5 text-xs">
-              {[
-                { label: "Formação e Estágio Profissional", href: "#academia" },
-                { label: "Curso de Contabilidade Prática", href: "#academia" },
-                { label: "Curso de Fiscalidade Aplicada (AGT)", href: "#academia" },
-                { label: "Curso de Gestão Prática de RH", href: "#academia" },
-                { label: "Central de Contactos e Apoio", href: "#contactos" }
-              ].map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleLinkClick(e, link.href)}
-                    className="hover:text-brand-orange transition-colors block py-0.5"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
         </div>
 
-        {/* Separator */}
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           
           {/* Copyright section */}
