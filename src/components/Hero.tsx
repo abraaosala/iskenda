@@ -45,8 +45,12 @@ export default function Hero() {
             
             {/* Tag/Badge */}
             <div id="hero-badge" className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-brand-orange text-xs font-bold uppercase tracking-wider">
-              <Landmark className="h-4 w-4" />
-              <span>IS KENDA Angola</span>
+              {company.logoScroll ? (
+                <img src={company.logoScroll} alt="" className="h-4 w-auto" />
+              ) : (
+                <Landmark className="h-4 w-4" />
+              )}
+              <span>ISKENDA Cabinda</span>
             </div>
 
             {/* Main Display Typography */}
@@ -100,9 +104,15 @@ export default function Hero() {
             <div id="hero-glamour-card" className="relative mx-auto max-w-sm bg-gradient-to-tr from-brand-navy/40 to-white/5 backdrop-blur-lg p-8 rounded-3xl border border-white/10 shadow-2xl">
               
               <div className="flex justify-between items-start mb-6">
-                <div className="p-3 bg-brand-orange/20 rounded-2xl text-brand-orange">
-                  <Landmark className="h-8 w-8" />
-                </div>
+                {company.logoScroll ? (
+                  <div className="p-3 bg-brand-orange/20 rounded-2xl">
+                    <img src={company.logoScroll} alt="" className="h-8 w-auto" />
+                  </div>
+                ) : (
+                  <div className="p-3 bg-brand-orange/20 rounded-2xl text-brand-orange">
+                    <Landmark className="h-8 w-8" />
+                  </div>
+                )}
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-3 py-1 bg-white/5 rounded-full border border-white/10">
                   Garantia de Qualidade
                 </span>
