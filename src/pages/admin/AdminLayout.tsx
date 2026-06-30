@@ -59,8 +59,8 @@ export default function AdminLayout() {
         >
           <div className={`flex items-center h-16 border-b border-white/5 px-4 ${collapsed ? "justify-center" : ""}`}>
             <div className="flex items-center space-x-3 min-w-0 flex-1">
-              {company.logo ? (
-                <img src={company.logo} alt={company.name} className="h-8 w-auto shrink-0" />
+              {company.logoScroll ? (
+                <img src={company.logoScroll} alt={company.name} className="h-8 w-auto shrink-0" />
               ) : (
                 <div className="p-2 rounded-xl bg-white/10 text-brand-orange shrink-0">
                   <Landmark className="h-5 w-5" />

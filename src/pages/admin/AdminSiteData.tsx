@@ -140,7 +140,7 @@ export default function AdminSiteData() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <Section title="Imagens" icon={Image}>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <DropZone label="Logótipo" currentUrl={data?.logo} file={logoFile} onFileSelect={setLogoFile} />
+                <DropZone label="Logótipo (fundo claro)" currentUrl={data?.logo} file={logoFile} onFileSelect={setLogoFile} />
                 <DropZone label="Logótipo (fundo escuro)" currentUrl={data?.logo_scroll} file={logoScrollFile} onFileSelect={setLogoScrollFile} />
                 <DropZone label="Favicon" currentUrl={data?.favicon} file={faviconFile} onFileSelect={setFaviconFile} accept={{ "image/*": [".ico", ".jpg", ".jpeg", ".png", ".webp"] }} />
               </div>

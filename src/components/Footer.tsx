@@ -41,8 +41,8 @@ export default function Footer() {
               onClick={handleScrollToTop}
               className="flex items-center space-x-3 group"
             >
-              {company.logo ? (
-                <img src={company.logo} alt={company.name} className="h-12 w-auto" />
+              {company.logoScroll ? (
+                <img src={company.logoScroll} alt={company.name} className="h-12 w-auto" />
               ) : (
                 <div className="p-2.5 bg-white/5 text-brand-orange rounded-xl border border-white/10 group-hover:bg-brand-orange/20 transition-all">
                   <Landmark className="h-6 w-6" />
