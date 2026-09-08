@@ -7,6 +7,7 @@ import About from "./components/About";
 import Team from "./components/Team";
 import Values from "./components/Values";
 import Services from "./components/Services";
+import Academy from "./components/Academy";
 import Pricing from "./components/Pricing";
 import Clients from "./components/Clients";
 import Gallery from "./components/Gallery";
@@ -25,6 +26,7 @@ export default function App() {
         "equipa",
         "valores",
         "servicos",
+        "academia",
         "honorarios",
         "clientes",
         "galeria",
@@ -81,6 +83,9 @@ export default function App() {
 
         {/* Services Section - Contabilidade, Fiscalidade, RH, Adm */}
         <Services />
+
+        {/* Academy Section - Formação e Estágio Profissional */}
+        <Academy />
 
         {/* Pricing Estimator Simulator & Terms */}
         <Pricing />
