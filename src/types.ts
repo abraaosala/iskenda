@@ -5,6 +5,7 @@ export interface Service {
   features: string[];
   icon: string;
   sortOrder?: number;
+  isVisible?: boolean;
 }
 
 export interface Client {
@@ -13,6 +14,7 @@ export interface Client {
   logoLetter: string;
   colorClass: string;
   logo?: string | null;
+  isVisible?: boolean;
 }
 
 export interface Course {
@@ -22,18 +24,21 @@ export interface Course {
   description: string;
   modules: string[];
   icon: string;
+  isVisible?: boolean;
 }
 
 export interface AcademyOffer {
   title: string;
   description: string;
   icon: string;
+  isVisible?: boolean;
 }
 
 export interface CompanyValue {
   title: string;
   description: string;
   icon: string;
+  isVisible?: boolean;
 }
 
 export interface TeamMember {
@@ -46,6 +51,7 @@ export interface TeamMember {
   gradient: string;
   icon: string;
   photo?: string | null;
+  isVisible?: boolean;
 }
 
 export interface GalleryItem {
@@ -55,6 +61,7 @@ export interface GalleryItem {
   gradient: string;
   icon: string;
   src: string;
+  isVisible?: boolean;
 }
 
 export interface SocialLink {
