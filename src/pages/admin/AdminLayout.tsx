@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSiteData } from "../../contexts/SiteDataContext";
 import {
   LogOut, Landmark, LayoutDashboard, Briefcase, Users,
-  Star, Image, Settings, Menu, UserCircle,
+  Star, Image, Settings, Menu, UserCircle, LayoutList,
 } from "lucide-react";
 
 const sidebarItems = [
@@ -16,6 +16,7 @@ const sidebarItems = [
   { label: "Equipa", icon: Users, path: "/admin/equipa" },
   { label: "Clientes", icon: Star, path: "/admin/clientes" },
   { label: "Galeria", icon: Image, path: "/admin/galeria" },
+  { label: "Secções", icon: LayoutList, path: "/admin/seccoes" },
   { label: "Site Data", icon: Settings, path: "/admin/site-data" },
   { label: "Meu Perfil", icon: UserCircle, path: "/admin/perfil" },
 ];
