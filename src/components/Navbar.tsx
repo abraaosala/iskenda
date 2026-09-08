@@ -8,7 +8,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ currentSection }: NavbarProps) {
-  const { company } = useSiteData();
+  const { company, sections } = useSiteData();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,7 +36,9 @@ export default function Navbar({ currentSection }: NavbarProps) {
     { label: "Clientes", href: "#clientes" },
     { label: "Galeria", href: "#galeria" },
     { label: "Contactos", href: "#contactos" },
-  ];
+  ].filter((link) => sections[link.href.substring(1)] !== false);
+
+  const showContactCta = sections.contactos !== false;
 
   const handleLinkClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -128,6 +130,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
           </div>
 
           {/* Desktop Contact CTA */}
+          {showContactCta && (
           <div className="hidden lg:flex items-center">
             <a
               id="desktop-nav-cta"
@@ -143,6 +146,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
               <span>Ligar Agora</span>
             </a>
           </div>
+          )}
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden">
@@ -199,6 +203,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
               })}
             </nav>
 
+            {showContactCta && (
             <div className="mt-10 w-full max-w-sm">
               <a
                 id="mobile-overlay-cta"
@@ -210,6 +215,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
                 <span>Contactar IS KENDA</span>
               </a>
             </div>
+            )}
           </div>
         </div>
       )}

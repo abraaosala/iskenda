@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useSiteData } from "./contexts/SiteDataContext";
 import Topbar from "./components/Topbar";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -16,6 +17,9 @@ import Footer from "./components/Footer";
 
 export default function App() {
   const [currentSection, setCurrentSection] = useState("inicio");
+  const { sections } = useSiteData();
+
+  const visible = (key: string) => sections[key] !== false;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,34 +74,34 @@ export default function App() {
       {/* Main Blocks */}
       <main className="flex-grow">
         {/* Custom Hero Presentation */}
-        <Hero />
+        {visible("inicio") && <Hero />}
 
         {/* Quem Somos - Corporate presentation, history */}
-        <About />
+        {visible("quem-somos") && <About />}
 
         {/* Equipa - Team members, expertise cards */}
-        <Team />
+        {visible("equipa") && <Team />}
 
         {/* Valores corporativos - Ethics, Integrity, Excellence */}
-        <Values />
+        {visible("valores") && <Values />}
 
         {/* Services Section - Contabilidade, Fiscalidade, RH, Adm */}
-        <Services />
+        {visible("servicos") && <Services />}
 
         {/* Academy Section - Formação e Estágio Profissional */}
-        <Academy />
+        {visible("academia") && <Academy />}
 
         {/* Pricing Estimator Simulator & Terms */}
-        <Pricing />
+        {visible("honorarios") && <Pricing />}
 
         {/* Real Clients - Auto Loop Marquee, structured Grid */}
-        <Clients />
+        {visible("clientes") && <Clients />}
 
         {/* Galeria - Visual portfolio, events, spaces */}
-        <Gallery />
+        {visible("galeria") && <Gallery />}
 
         {/* Contacts section - Offline variables, Map, Submit form */}
-        <Contact />
+        {visible("contactos") && <Contact />}
       </main>
 
       {/* Corporate detailed footer */}

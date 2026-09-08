@@ -69,3 +69,12 @@ export interface SocialLink {
   icon: string;
   url: string;
 }
+
+export interface SiteSection {
+  key: string;
+  label: string;
+  isVisible: boolean;
+  sortOrder?: number;
+}
+
+export type SectionVisibility = Partial<Record<string, boolean>>;

@@ -6,7 +6,7 @@ import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import {
   LayoutDashboard, Briefcase, Users,
-  Star, Image, Settings, TrendingUp, Clock, GalleryHorizontal,
+  Star, Image, Settings, TrendingUp, Clock, GalleryHorizontal, LayoutList,
   Phone, Mail, MessageSquare, AlertCircle, RefreshCw,
 } from "lucide-react";
 
@@ -23,6 +23,7 @@ const quickLinks = [
   { icon: Users, title: "Equipa", desc: "Gerir membros", path: "/admin/equipa" },
   { icon: Star, title: "Clientes", desc: "Gerir clientes", path: "/admin/clientes" },
   { icon: Image, title: "Galeria", desc: "Gerir galeria", path: "/admin/galeria" },
+  { icon: LayoutList, title: "Secções", desc: "Mostrar/ocultar secções", path: "/admin/seccoes" },
   { icon: Settings, title: "Site Data", desc: "Actualizar empresa", path: "/admin/site-data" },
 ];
 
