@@ -1,20 +1,17 @@
 # ─────────────────────────────────────────────────────────────
-#  Deploy do Iskenda (Vite SPA) para o Hostinger via FTP
+#  Deploy do Iskenda (Vite SPA) para o Hostinger via SSH
 #
-#  O SSH dos runners do GitHub é bloqueado pelo firewall da
-#  Hostinger em hospedagem partilhada (Connection timed out),
-#  por isso o deploy é feito por FTPS (porta 21), que não é
-#  bloqueado.
+#  O deploy é feito por SCP + rsync sobre SSH (porta personalizada
+#  configurada no secret SSH_PORT), evitando o dangerous-clean-slate
+#  do FTP que deixava o site instável durante o upload.
 #
 #  Pré-requisitos (uma vez):
 #    1. Configurar os secrets no GitHub
 #       (Settings → Secrets and variables → Actions):
-#         FTP_HOST  → servidor FTP, SOZINHO, sem prefixo
-#                     (ex: 31.220.106.101  — SEM "ftp://")
-#         FTP_USER  → utilizador FTP
-#         FTP_PASS  → palavra-passe FTP
-#    2. Criar/utilizar uma conta FTP em hPanel → Files → FTP Accounts.
-#    3. O server-dir é dist/ (o FTP root na Hostinger já é public_html/).
+#         SSH_HOST  → servidor SSH (ex: 31.220.106.101)
+#         SSH_USER  → utilizador SSH
+#         SSH_KEY   → chave privada SSH
+#         SSH_PORT  → porta SSH personalizada
 # ─────────────────────────────────────────────────────────────
 name: Deploy (CI/CD)
 
@@ -62,21 +59,30 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Deploy via FTP
-        id: ftp
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Upload build para o servidor (staging)
+        id: scp
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          protocol: ftps
-          port: 21
-          timeout: 90000
-          local-dir: ./dist/
-          server-dir: dist/
-          dangerous-clean-slate: true
-          exclude: |
-            **/.DS_Store
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "dist/*"
+          target: /home/u634834160/domains/iskenda.ao/public_html/.dist-staging
+          strip_components: 1
+
+      - name: Sincronizar dist com rsync (atomico)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          script: |
+            cd /home/u634834160/domains/iskenda.ao/public_html
+            rsync -a --delete .dist-staging/ dist/
+            rm -rf .dist-staging
 
       - name: Health check pós-deploy
         id: healthcheck
