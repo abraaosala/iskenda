@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, Award, CheckCircle2, Milestone, GraduationCap, ChevronRight, Clock } from "lucide-react";
+import { Award, CheckCircle2, Milestone, GraduationCap, ChevronRight, Clock } from "lucide-react";
 import { useSiteData } from "../contexts/SiteDataContext";
 import { SmartIcon } from "./SmartIcon";
 
@@ -46,7 +46,7 @@ export default function Academy() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-8">
           
           {/* Mission & Vision cards */}
-          <div className="lg:col-span-4 flex flex-col justify-between gap-6">
+          <div className="lg:col-span-4 flex flex-col gap-6">
             <div id="academia-mission" className="bg-white/[0.04] border border-white/10 p-6 rounded-3xl relative">
               <div className="p-2.5 bg-brand-orange/25 rounded-xl text-brand-orange inline-block mb-4">
                 <Milestone className="h-5 w-5" />
@@ -57,7 +57,7 @@ export default function Academy() {
               </p>
             </div>
 
-            <div id="academia-vision" className="bg-white/[0.04] border border-white/10 p-6 rounded-3xl relative flex-1 flex flex-col justify-end">
+            <div id="academia-vision" className="bg-white/[0.04] border border-white/10 p-6 rounded-3xl relative">
               <div className="p-2.5 bg-brand-orange/20 rounded-xl text-brand-orange inline-block mb-4">
                 <Award className="h-5 w-5" />
               </div>
