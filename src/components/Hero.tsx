@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen, Briefcase, Landmark } from "lucide-react";
 import { useSiteData } from "../contexts/SiteDataContext";
+import heroFallback from "../assets/images/hero_workspace_1780489385386.png";
 
 export default function Hero() {
   const { company } = useSiteData();
@@ -22,7 +23,7 @@ export default function Hero() {
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img
-          src={company.heroImage || "/src/assets/images/hero_workspace_1780489385386.png"}
+          src={company.heroImage || heroFallback}
           alt="IS KENDA Escritório"
           className="w-full h-full object-cover object-center opacity-20 transform scale-105"
           referrerPolicy="no-referrer"
