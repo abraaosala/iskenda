@@ -25,6 +25,7 @@ interface SiteDataContextValue {
   team: SiteData["team"];
   gallery: SiteData["gallery"];
   socialLinks: SocialLink[];
+  sections: Partial<Record<string, boolean>>;
   refresh: () => void;
 }
 
@@ -63,6 +64,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     team: data?.team ?? FALLBACK_TEAM,
     gallery: data?.gallery ?? FALLBACK_GALLERY,
     socialLinks: data?.socialLinks ?? FALLBACK_SOCIAL,
+    sections: data?.sections ?? {},
     refresh: load,
   };
 
