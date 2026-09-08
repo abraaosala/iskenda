@@ -59,30 +59,24 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Upload build para o servidor (staging)
-        id: scp
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "dist/*"
-          target: /home/u634834160/domains/iskenda.ao/public_html/.dist-staging
-          strip_components: 1
+      - name: Deploy via SSH (rsync atomico)
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
 
-      - name: Sincronizar dist com rsync (atomico)
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script_stop: true
-          script: |
-            cd /home/u634834160/domains/iskenda.ao/public_html
-            rsync -a --delete .dist-staging/ dist/
-            rm -rf .dist-staging
+          SSH_OPTS="-i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          REMOTE="$SSH_USER@$SSH_HOST"
+
+          rsync -a --delete -e "ssh $SSH_OPTS" ./dist/ "$REMOTE":/home/u634834160/domains/iskenda.ao/public_html/.dist-staging/
+          ssh $SSH_OPTS "$REMOTE" 'cd /home/u634834160/domains/iskenda.ao/public_html && rsync -a --delete .dist-staging/ dist/ && rm -rf .dist-staging'
 
       - name: Health check pós-deploy
         id: healthcheck
