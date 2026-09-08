@@ -10,7 +10,7 @@ export const COMPANY_INFO = {
   phone: "+244 938 198 551",
   email: "geral@iskenda.com",
   workingHours: "Segunda a Sexta-feira, 08h00 às 17h00",
-  address: "Luanda, Angola",
+  address: "Cabinda, Angola",
   copyright: "© 2026 IS KENDA CONSULTORIA & ACADEMIA. Todos os Direitos Reservados.",
   logo: null,
   favicon: null,

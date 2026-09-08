@@ -121,7 +121,7 @@ export default function Footer() {
               {company.copyright}
             </p>
             <p className="text-[9px] text-slate-600 mt-0.5 font-mono">
-              Registada na República de Angola | Luanda
+              Registada na República de Angola | Cabinda
             </p>
           </div>
 
