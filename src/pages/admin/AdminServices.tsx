@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { fetchServices, deleteService } from "../../services/api";
+import { fetchServices, deleteService, updateService } from "../../services/api";
 import type { Service } from "../../types";
 import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import { Briefcase, Plus, Pencil, Trash2, AlertCircle, RefreshCw } from "lucide-react";
 import ServiceModal from "../../components/ServiceModal";
+import { VisibilityButton } from "../../components/VisibilitySwitch";
 
 export default function AdminServices() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState<Service | null | "new">(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
@@ -27,6 +29,18 @@ export default function AdminServices() {
   }
 
   useEffect(() => { load(); }, []);
+
+  async function handleToggleVisibility(service: Service) {
+    setTogglingId(service.id);
+    try {
+      await updateService(service.id, { is_visible: !service.isVisible });
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erro ao alterar visibilidade");
+    } finally {
+      setTogglingId(null);
+    }
+  }
 
   async function handleDelete(id: string) {
     if (!confirm("Tem a certeza que pretende eliminar este serviço?")) return;
@@ -112,6 +126,11 @@ export default function AdminServices() {
                     )}
                   </div>
                   <div className="flex items-center space-x-1 ml-4 shrink-0">
+                    <VisibilityButton
+                      visible={service.isVisible !== false}
+                      onToggle={() => handleToggleVisibility(service)}
+                      disabled={togglingId === service.id}
+                    />
                     <button
                       onClick={() => setEditing(service)}
                       className="p-2 rounded-lg text-slate-400 hover:text-brand-blue hover:bg-brand-blue/5 transition-colors"

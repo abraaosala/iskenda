@@ -231,6 +231,7 @@ export interface ServicePayload {
   icon: string;
   features: string[];
   sort_order?: number;
+  is_visible?: boolean;
 }
 
 export async function createService(data: ServicePayload): Promise<Service> {
@@ -271,6 +272,7 @@ export interface TeamMemberPayload {
   gradient?: string;
   icon?: string;
   photo?: File;
+  is_visible?: boolean;
 }
 
 export async function createTeamMember(data: TeamMemberPayload): Promise<TeamMember> {
@@ -336,6 +338,7 @@ export interface ClientPayload {
   logo_letter?: string;
   color_class?: string;
   logo?: File;
+  is_visible?: boolean;
 }
 
 export async function createClient(data: ClientPayload): Promise<Client> {
@@ -463,6 +466,7 @@ export interface GalleryItemPayload {
   icon?: string;
   src?: string;
   src_file?: File;
+  is_visible?: boolean;
 }
 
 export async function createGalleryItem(data: GalleryItemPayload): Promise<GalleryItem> {

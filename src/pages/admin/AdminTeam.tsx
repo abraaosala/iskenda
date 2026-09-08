@@ -8,6 +8,7 @@ import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import SavingOverlay from "../../components/SavingOverlay";
 import { Users, Plus, Pencil, Trash2, AlertCircle, RefreshCw, X, Save } from "lucide-react";
+import { VisibilityButton, VisibilitySwitch } from "../../components/VisibilitySwitch";
 
 const gradients = [
   "from-violet-500 to-purple-600",
@@ -23,6 +24,7 @@ export default function AdminTeam() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState<TeamMember | null | "new">(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
@@ -34,6 +36,15 @@ export default function AdminTeam() {
   }
 
   useEffect(() => { load(); }, []);
+
+  async function handleToggleVisibility(item: TeamMember) {
+    setTogglingId(item.id);
+    try {
+      await updateTeamMember(item.id, { is_visible: item.isVisible !== false ? false : true });
+      await load();
+    } catch (e) { setError(e instanceof Error ? e.message : "Erro ao alterar visibilidade"); }
+    finally { setTogglingId(null); }
+  }
 
   return (
     <>
@@ -62,6 +73,11 @@ export default function AdminTeam() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-1 shrink-0 ml-3">
+                  <VisibilityButton
+                    visible={item.isVisible !== false}
+                    onToggle={() => handleToggleVisibility(item)}
+                    disabled={togglingId === item.id}
+                  />
                   <button onClick={() => setEditing(item)} className="p-2 rounded-lg text-slate-400 hover:text-brand-blue hover:bg-brand-blue/5 transition-colors"><Pencil className="h-4 w-4" /></button>
                   <button onClick={async () => { if (confirm("Eliminar?")) { await deleteTeamMember(item.id); load(); }}} className="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"><Trash2 className="h-4 w-4" /></button>
                 </div>
@@ -78,11 +94,13 @@ export default function AdminTeam() {
 function TeamModal({ member, onClose, onSaved }: { member: TeamMember | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({ name: "", role: "", description: "", initials: "", gradient: gradients[0], icon: "" });
   const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (member) setForm({ name: member.name, role: member.role, description: member.description, initials: member.initials, gradient: member.gradient, icon: member.icon });
+    setIsVisible(member?.isVisible !== false);
   }, [member]);
 
   useEffect(() => { const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, [onClose]);
@@ -97,6 +115,7 @@ function TeamModal({ member, onClose, onSaved }: { member: TeamMember | null; on
         initials: form.initials.trim() || form.name.split(" ").map((s: string) => s[0]).join("").substring(0, 2).toUpperCase(),
         gradient: form.gradient, icon: form.icon.trim(),
         photo: photoFile || undefined,
+        is_visible: isVisible,
       };
       if (member) await updateTeamMember(member.id, payload); else await createTeamMember(payload);
       onSaved(); onClose();
@@ -133,6 +152,13 @@ function TeamModal({ member, onClose, onSaved }: { member: TeamMember | null; on
               <label className="block text-sm font-medium text-slate-700 mb-1">Descrição</label>
               <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition bg-slate-50/50 resize-none" placeholder="Breve descrição do membro…" />
             </div>
+          </div>
+          <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100">
+            <div>
+              <label className="block text-sm font-medium text-slate-700">Visível no site</label>
+              <p className="text-xs text-slate-400 mt-0.5">Se desactivado, o membro fica oculto para visitantes.</p>
+            </div>
+            <VisibilitySwitch visible={isVisible} onChange={setIsVisible} />
           </div>
           <div className="flex items-center justify-end space-x-3 pt-4">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100">Cancelar</button>

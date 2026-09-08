@@ -4,6 +4,7 @@ import SavingOverlay from "./SavingOverlay";
 import { X, Save } from "lucide-react";
 import type { Service } from "../types";
 import { createService, updateService, type ServicePayload } from "../services/api";
+import { VisibilitySwitch } from "./VisibilitySwitch";
 
 interface ServiceModalProps {
   service: Service | null;
@@ -17,6 +18,7 @@ export default function ServiceModal({ service, onClose, onSaved }: ServiceModal
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState("");
   const [featuresText, setFeaturesText] = useState("");
+  const [isVisible, setIsVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,6 +28,7 @@ export default function ServiceModal({ service, onClose, onSaved }: ServiceModal
       setDescription(service.description);
       setIcon(service.icon);
       setFeaturesText(service.features.join("\n"));
+      setIsVisible(service.isVisible !== false);
     }
   }, [service]);
 
@@ -54,6 +57,7 @@ export default function ServiceModal({ service, onClose, onSaved }: ServiceModal
           .split("\n")
           .map((f) => f.trim())
           .filter(Boolean),
+        is_visible: isVisible,
       };
       if (isEdit) {
         await updateService(service.id, payload);
@@ -149,6 +153,14 @@ export default function ServiceModal({ service, onClose, onSaved }: ServiceModal
               className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition bg-slate-50/50 resize-none font-mono text-xs"
               placeholder="Elaboração de demonstrações financeiras&#10;Apuramento de impostos&#10;Reportes periódicos"
             />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="block text-sm font-medium text-slate-700">Visível no site</label>
+              <p className="text-xs text-slate-400 mt-0.5">Se desactivado, o serviço fica oculto para visitantes.</p>
+            </div>
+            <VisibilitySwitch visible={isVisible} onChange={setIsVisible} />
           </div>
 
           <div className="flex items-center justify-end space-x-3 pt-2">

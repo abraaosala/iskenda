@@ -7,6 +7,7 @@ import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import SavingOverlay from "../../components/SavingOverlay";
 import { Star, Plus, Pencil, Trash2, AlertCircle, RefreshCw, X, Save } from "lucide-react";
+import { VisibilityButton, VisibilitySwitch } from "../../components/VisibilitySwitch";
 
 const colors = [
   "from-violet-500 to-purple-600", "from-sky-500 to-blue-600",
@@ -20,6 +21,7 @@ export default function AdminClients() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState<Client | null | "new">(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   async function load() {
     setLoading(true); setError(null);
@@ -29,6 +31,15 @@ export default function AdminClients() {
   }
 
   useEffect(() => { load(); }, []);
+
+  async function handleToggleVisibility(item: Client) {
+    setTogglingId(item.id);
+    try {
+      await updateClient(item.id, { is_visible: item.isVisible !== false ? false : true });
+      await load();
+    } catch (e) { setError(e instanceof Error ? e.message : "Erro ao alterar visibilidade"); }
+    finally { setTogglingId(null); }
+  }
 
   return (
     <>
@@ -57,6 +68,11 @@ export default function AdminClients() {
                 )}
                 <p className="text-sm font-semibold text-slate-800 truncate">{item.name}</p>
                 <div className="absolute top-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <VisibilityButton
+                    visible={item.isVisible !== false}
+                    onToggle={() => handleToggleVisibility(item)}
+                    disabled={togglingId === item.id}
+                  />
                   <button onClick={() => setEditing(item)} className="p-1.5 rounded-lg bg-white shadow text-slate-400 hover:text-brand-blue"><Pencil className="h-3.5 w-3.5" /></button>
                   <button onClick={async () => { if (confirm("Eliminar?")) { await deleteClient(item.id); load(); }}} className="p-1.5 rounded-lg bg-white shadow text-slate-400 hover:text-red-500"><Trash2 className="h-3.5 w-3.5" /></button>
                 </div>
@@ -73,9 +89,10 @@ export default function AdminClients() {
 function ClientModal({ client, onClose, onSaved }: { client: Client | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({ name: "", logoLetter: "", colorClass: colors[0] });
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  useEffect(() => { if (client) setForm({ name: client.name, logoLetter: client.logoLetter, colorClass: client.colorClass }); }, [client]);
+  useEffect(() => { if (client) setForm({ name: client.name, logoLetter: client.logoLetter, colorClass: client.colorClass }); setIsVisible(client?.isVisible !== false); }, [client]);
   useEffect(() => { const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, [onClose]);
 
   async function handleSubmit(e: FormEvent) {
@@ -86,6 +103,7 @@ function ClientModal({ client, onClose, onSaved }: { client: Client | null; onCl
       const payload: ClientPayload = {
         name: form.name.trim(), logo_letter: form.logoLetter.trim() || form.name.trim()[0].toUpperCase(),
         color_class: form.colorClass, logo: logoFile || undefined,
+        is_visible: isVisible,
       };
       if (client) await updateClient(client.id, payload); else await createClient(payload);
       onSaved(); onClose();
@@ -108,6 +126,13 @@ function ClientModal({ client, onClose, onSaved }: { client: Client | null; onCl
           <div><label className="block text-sm font-medium text-slate-700 mb-1">Letra do logotipo</label><input value={form.logoLetter} onChange={e => setForm({...form, logoLetter: e.target.value})} maxLength={2} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none bg-slate-50/50" placeholder="X" /></div>
           <div><label className="block text-sm font-medium text-slate-700 mb-1">Cor</label><div className="flex flex-wrap gap-2">{colors.map(c => <button key={c} type="button" onClick={() => setForm({...form, colorClass: c})} className={`w-8 h-8 rounded-lg bg-gradient-to-br ${c} border-2 ${form.colorClass === c ? "border-brand-navy" : "border-transparent"}`} />)}</div></div>
           <DropZone label="Logotipo" currentUrl={client?.logo} file={logoFile} onFileSelect={setLogoFile} />
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="block text-sm font-medium text-slate-700">Visível no site</label>
+              <p className="text-xs text-slate-400 mt-0.5">Se desactivado, o cliente fica oculto para visitantes.</p>
+            </div>
+            <VisibilitySwitch visible={isVisible} onChange={setIsVisible} />
+          </div>
           <div className="flex items-center justify-end space-x-3 pt-2">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100">Cancelar</button>
             <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" /><span>{saving ? "A salvar…" : "Salvar"}</span></button>

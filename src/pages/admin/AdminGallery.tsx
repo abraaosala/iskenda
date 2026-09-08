@@ -7,6 +7,7 @@ import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import SavingOverlay from "../../components/SavingOverlay";
 import { Image, Plus, Pencil, Trash2, AlertCircle, RefreshCw, X, Save } from "lucide-react";
+import { VisibilityButton, VisibilitySwitch } from "../../components/VisibilitySwitch";
 
 const gradients = [
   "from-violet-500 to-purple-600", "from-sky-500 to-blue-600",
@@ -19,6 +20,7 @@ export default function AdminGallery() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState<GalleryItem | null | "new">(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   async function load() {
     setLoading(true); setError(null);
@@ -28,6 +30,15 @@ export default function AdminGallery() {
   }
 
   useEffect(() => { load(); }, []);
+
+  async function handleToggleVisibility(item: GalleryItem) {
+    setTogglingId(item.id);
+    try {
+      await updateGalleryItem(item.id, { is_visible: item.isVisible !== false ? false : true });
+      await load();
+    } catch (e) { setError(e instanceof Error ? e.message : "Erro ao alterar visibilidade"); }
+    finally { setTogglingId(null); }
+  }
 
   return (
     <>
@@ -61,6 +72,11 @@ export default function AdminGallery() {
                   <p className="text-xs text-slate-500 capitalize">{item.category}</p>
                 </div>
                 <div className="absolute top-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <VisibilityButton
+                    visible={item.isVisible !== false}
+                    onToggle={() => handleToggleVisibility(item)}
+                    disabled={togglingId === item.id}
+                  />
                   <button onClick={() => setEditing(item)} className="p-1.5 rounded-lg bg-white shadow text-slate-400 hover:text-brand-blue"><Pencil className="h-3.5 w-3.5" /></button>
                   <button onClick={async () => { if (confirm("Eliminar?")) { await deleteGalleryItem(item.id); load(); }}} className="p-1.5 rounded-lg bg-white shadow text-slate-400 hover:text-red-500"><Trash2 className="h-3.5 w-3.5" /></button>
                 </div>
@@ -77,9 +93,10 @@ export default function AdminGallery() {
 function GalleryModal({ item, onClose, onSaved }: { item: GalleryItem | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({ title: "", category: "evento", gradient: gradients[0], icon: "", src: "" });
   const [srcFile, setSrcFile] = useState<File | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  useEffect(() => { if (item) setForm({ title: item.title, category: item.category, gradient: item.gradient, icon: item.icon, src: item.src }); }, [item]);
+  useEffect(() => { if (item) setForm({ title: item.title, category: item.category, gradient: item.gradient, icon: item.icon, src: item.src }); setIsVisible(item?.isVisible !== false); }, [item]);
   useEffect(() => { const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, [onClose]);
 
   async function handleSubmit(e: FormEvent) {
@@ -91,6 +108,7 @@ function GalleryModal({ item, onClose, onSaved }: { item: GalleryItem | null; on
         title: form.title.trim(), category: form.category.trim(),
         gradient: form.gradient, icon: form.icon.trim(), src: form.src.trim(),
         src_file: srcFile || undefined,
+        is_visible: isVisible,
       };
       if (item) await updateGalleryItem(item.id, payload); else await createGalleryItem(payload);
       onSaved(); onClose();
@@ -123,6 +141,13 @@ function GalleryModal({ item, onClose, onSaved }: { item: GalleryItem | null; on
           <DropZone label="Imagem" accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }} currentUrl={item?.src} file={srcFile} onFileSelect={setSrcFile} />
           <div><label className="block text-sm font-medium text-slate-700 mb-1">Ou URL da imagem</label><input value={form.src} onChange={e => setForm({...form, src: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none bg-slate-50/50" placeholder="https://…" /></div>
           <div><label className="block text-sm font-medium text-slate-700 mb-1">Gradiente</label><div className="flex flex-wrap gap-2">{gradients.map(g => <button key={g} type="button" onClick={() => setForm({...form, gradient: g})} className={`w-8 h-8 rounded-lg bg-gradient-to-br ${g} border-2 ${form.gradient === g ? "border-brand-navy" : "border-transparent"}`} />)}</div></div>
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="block text-sm font-medium text-slate-700">Visível no site</label>
+              <p className="text-xs text-slate-400 mt-0.5">Se desactivado, o item fica oculto para visitantes.</p>
+            </div>
+            <VisibilitySwitch visible={isVisible} onChange={setIsVisible} />
+          </div>
           <div className="flex items-center justify-end space-x-3 pt-2">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100">Cancelar</button>
             <button type="submit" disabled={saving} className="flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50"><Save className="h-4 w-4" /><span>{saving ? "A salvar…" : "Salvar"}</span></button>
