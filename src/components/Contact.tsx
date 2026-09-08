@@ -132,8 +132,8 @@ export default function Contact() {
             <div id="contact-map-card" className="h-64 rounded-3xl overflow-hidden border border-slate-200 shadow-sm relative">
               <iframe
                 id="contact-map"
-                title="Google Maps IS KENDA Luanda Angola"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126174.19500057041!2d13.177696614407421!3d-8.835471617260533!2m3!1f0!2f0!3f0!3m2!1i1024|2i768|4f13.1!3m3!1m2!1s0x1a4a4f00aa221dd7%3A0x6b6bf09d84bf4b!2sLuanda%2C%20Angola!5e0!3m2!1spt!2spt!4v1700000000000!5m2!1spt!2spt"
+                title="Google Maps IS KENDA Cabinda Angola"
+                src="https://maps.google.com/maps?q=Cabinda%2C%20Angola&t=&z=12&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
