@@ -8,6 +8,7 @@ import AdminServices from "./pages/admin/AdminServices";
 import AdminTeam from "./pages/admin/AdminTeam";
 import AdminClients from "./pages/admin/AdminClients";
 import AdminGallery from "./pages/admin/AdminGallery";
+import AdminSections from "./pages/admin/AdminSections";
 import AdminSiteData from "./pages/admin/AdminSiteData";
 import AdminProfileView from "./pages/admin/AdminProfileView";
 import AdminProfileEdit from "./pages/admin/AdminProfileEdit";
@@ -84,6 +85,12 @@ const adminSiteDataRoute = createRoute({
   component: AdminSiteData,
 });
 
+const adminSectionsRoute = createRoute({
+  getParentRoute: () => adminRoute,
+  path: "/seccoes",
+  component: AdminSections,
+});
+
 const adminProfileViewRoute = createRoute({
   getParentRoute: () => adminRoute,
   path: "/perfil",
@@ -111,6 +118,7 @@ const routeTree = rootRoute.addChildren([
     adminTeamRoute,
     adminClientsRoute,
     adminGalleryRoute,
+    adminSectionsRoute,
     adminSiteDataRoute,
     adminProfileViewRoute,
     adminProfileEditRoute,

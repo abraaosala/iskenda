@@ -1,4 +1,4 @@
-import type { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem } from "../types";
+import type { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem, SiteSection } from "../types";
 import type { SocialLink } from "../types";
 
 const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || "";
@@ -80,6 +80,7 @@ export interface SiteData {
   team: TeamMember[];
   gallery: GalleryItem[];
   socialLinks: SocialLink[];
+  sections: Partial<Record<string, boolean>>;
 }
 
 export async function fetchSiteData(): Promise<SiteData> {
@@ -516,4 +517,31 @@ export async function deleteGalleryItem(id: string): Promise<void> {
     headers: authHeaders(),
   });
   if (!res.ok) throw new Error(await parseError(res));
+}
+
+/* ─── Site Sections ─── */
+
+export async function fetchSiteSections(): Promise<SiteSection[]> {
+  const res = await apiFetch(`${BASE_URL}/admin/site-sections`, { headers: authHeaders() });
+  if (!res.ok) throw new Error(await parseError(res));
+  const json = await res.json();
+  return json.data ?? json;
+}
+
+export interface SiteSectionPayload {
+  key: string;
+  is_visible: boolean;
+}
+
+export async function updateSiteSections(
+  sections: SiteSectionPayload[]
+): Promise<SiteSection[]> {
+  const res = await apiFetch(`${BASE_URL}/admin/site-sections`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify({ sections }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  const json = await res.json();
+  return json.data ?? json;
 }
