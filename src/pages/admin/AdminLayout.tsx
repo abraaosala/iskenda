@@ -6,8 +6,17 @@ import { Outlet, useNavigate, useLocation } from "@tanstack/react-router";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSiteData } from "../../contexts/SiteDataContext";
 import {
-  LogOut, Landmark, LayoutDashboard, Briefcase, Users,
-  Star, Image, Settings, Menu, UserCircle, LayoutList,
+  LogOut,
+  Landmark,
+  LayoutDashboard,
+  Briefcase,
+  Users,
+  Star,
+  Image,
+  Settings,
+  Menu,
+  UserCircle,
+  LayoutList,
 } from "lucide-react";
 
 const sidebarItems = [
@@ -58,7 +67,9 @@ export default function AdminLayout() {
             collapsed ? "w-[72px]" : "w-[260px]"
           } ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
         >
-          <div className={`flex items-center h-16 border-b border-white/5 px-4 ${collapsed ? "justify-center" : ""}`}>
+          <div
+            className={`flex items-center h-16 border-b border-white/5 px-4 ${collapsed ? "justify-center" : ""}`}
+          >
             <div className="flex items-center space-x-3 min-w-0 flex-1">
               {company.logoScroll ? (
                 <img src={company.logoScroll} alt={company.name} className="h-8 w-auto shrink-0" />
@@ -103,9 +114,7 @@ export default function AdminLayout() {
                   title={collapsed ? item.label : undefined}
                 >
                   <Icon className={`shrink-0 ${collapsed ? "h-5 w-5" : "h-4 w-4"}`} />
-                  {!collapsed && (
-                    <span className="text-sm font-medium truncate">{item.label}</span>
-                  )}
+                  {!collapsed && <span className="text-sm font-medium truncate">{item.label}</span>}
                 </button>
               );
             })}

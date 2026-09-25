@@ -4,7 +4,15 @@ import { useNavigate } from "@tanstack/react-router";
 import { changePassword } from "../../services/api";
 import SavingOverlay from "../../components/SavingOverlay";
 import {
-  Lock, ArrowLeft, Save, AlertCircle, CheckCircle2, X, ShieldCheck, Eye, EyeOff,
+  Lock,
+  ArrowLeft,
+  Save,
+  AlertCircle,
+  CheckCircle2,
+  X,
+  ShieldCheck,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 export default function AdminProfilePassword() {
@@ -32,10 +40,23 @@ export default function AdminProfilePassword() {
   const strength = [hasUpper, hasLower, hasNumber, hasMinLength].filter(Boolean).length;
 
   const strengthLabel = ["Muito fraca", "Fraca", "Média", "Forte", "Muito forte"][strength];
-  const strengthColor = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-lime-500", "bg-green-500"][strength];
-  const strengthTextColor = ["text-red-600", "text-orange-600", "text-yellow-600", "text-lime-600", "text-green-600"][strength];
+  const strengthColor = [
+    "bg-red-500",
+    "bg-orange-500",
+    "bg-yellow-500",
+    "bg-lime-500",
+    "bg-green-500",
+  ][strength];
+  const strengthTextColor = [
+    "text-red-600",
+    "text-orange-600",
+    "text-yellow-600",
+    "text-lime-600",
+    "text-green-600",
+  ][strength];
 
-  const canSubmit = currentPassword && hasMinLength && hasUpper && hasLower && hasNumber && passwordsMatch;
+  const canSubmit =
+    currentPassword && hasMinLength && hasUpper && hasLower && hasNumber && passwordsMatch;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -70,8 +91,20 @@ export default function AdminProfilePassword() {
     }
   }
 
-  function PasswordInput({ value, onChange, show, onToggleShow, placeholder, label }: {
-    value: string; onChange: (v: string) => void; show: boolean; onToggleShow: () => void; placeholder: string; label: string;
+  function PasswordInput({
+    value,
+    onChange,
+    show,
+    onToggleShow,
+    placeholder,
+    label,
+  }: {
+    value: string;
+    onChange: (v: string) => void;
+    show: boolean;
+    onToggleShow: () => void;
+    placeholder: string;
+    label: string;
   }) {
     return (
       <div>
@@ -99,7 +132,9 @@ export default function AdminProfilePassword() {
 
   return (
     <>
-      <Helmet><title>Alterar Palavra-passe — IS KENDA</title></Helmet>
+      <Helmet>
+        <title>Alterar Palavra-passe — IS KENDA</title>
+      </Helmet>
       <SavingOverlay show={saving} />
 
       <div className="w-full max-w-3xl">
@@ -161,7 +196,8 @@ export default function AdminProfilePassword() {
                     <div className="mt-3 space-y-2">
                       <div className="flex items-center gap-3">
                         <div className="flex-1 h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                          <div className={`h-full rounded-full transition-all duration-300 ${strengthColor}`}
+                          <div
+                            className={`h-full rounded-full transition-all duration-300 ${strengthColor}`}
                             style={{ width: `${(strength / 4) * 100}%` }}
                           />
                         </div>
@@ -221,7 +257,9 @@ export default function AdminProfilePassword() {
           <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm h-fit">
             <div className="flex items-center gap-2 mb-4">
               <ShieldCheck className="h-4 w-4 text-brand-blue" />
-              <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Dicas de Segurança</p>
+              <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                Dicas de Segurança
+              </p>
             </div>
             <ul className="space-y-2.5">
               {[
@@ -247,9 +285,11 @@ export default function AdminProfilePassword() {
 function Requirement({ met, text }: { met: boolean; text: string }) {
   return (
     <li className="flex items-center gap-2 text-xs">
-      <span className={`shrink-0 w-4 h-4 rounded-full flex items-center justify-center transition-colors ${
-        met ? "bg-green-100 text-green-600" : "bg-slate-100 text-slate-300"
-      }`}>
+      <span
+        className={`shrink-0 w-4 h-4 rounded-full flex items-center justify-center transition-colors ${
+          met ? "bg-green-100 text-green-600" : "bg-slate-100 text-slate-300"
+        }`}
+      >
         {met ? (
           <CheckCircle2 className="h-3 w-3" />
         ) : (

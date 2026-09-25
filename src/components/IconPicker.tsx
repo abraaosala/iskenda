@@ -3,16 +3,62 @@ import * as Icons from "lucide-react";
 import type { ComponentType } from "react";
 
 const ICON_LIST = [
-  "Calculator", "FileText", "Users", "Layers", "ShieldAlert", "CheckCircle2",
-  "Award", "UserCheck", "Eye", "Lightbulb", "Handshake", "FileSpreadsheet",
-  "MessageSquare", "School", "Laptop", "Briefcase", "TrendingUp", "UserCircle",
-  "Building2", "GraduationCap", "Presentation", "Headphones", "Megaphone",
-  "Monitor", "Star", "Clock", "Settings", "BookOpen", "ClipboardList",
-  "HelpingHand", "FileCheck2", "ShieldCheck", "HeartHandshake", "ArrowRight",
-  "Search", "Menu", "Mail", "Phone", "PhoneCall", "Send", "CheckCircle",
-  "Facebook", "Instagram", "Linkedin", "MessageSquareCode", "ArrowUp",
-  "DollarSign", "FileSignature", "Check", "Landmark", "LogIn", "Lock",
-  "ArrowLeft", "GalleryHorizontal", "LayoutDashboard", "Image",
+  "Calculator",
+  "FileText",
+  "Users",
+  "Layers",
+  "ShieldAlert",
+  "CheckCircle2",
+  "Award",
+  "UserCheck",
+  "Eye",
+  "Lightbulb",
+  "Handshake",
+  "FileSpreadsheet",
+  "MessageSquare",
+  "School",
+  "Laptop",
+  "Briefcase",
+  "TrendingUp",
+  "UserCircle",
+  "Building2",
+  "GraduationCap",
+  "Presentation",
+  "Headphones",
+  "Megaphone",
+  "Monitor",
+  "Star",
+  "Clock",
+  "Settings",
+  "BookOpen",
+  "ClipboardList",
+  "HelpingHand",
+  "FileCheck2",
+  "ShieldCheck",
+  "HeartHandshake",
+  "ArrowRight",
+  "Search",
+  "Menu",
+  "Mail",
+  "Phone",
+  "PhoneCall",
+  "Send",
+  "CheckCircle",
+  "Facebook",
+  "Instagram",
+  "Linkedin",
+  "MessageSquareCode",
+  "ArrowUp",
+  "DollarSign",
+  "FileSignature",
+  "Check",
+  "Landmark",
+  "LogIn",
+  "Lock",
+  "ArrowLeft",
+  "GalleryHorizontal",
+  "LayoutDashboard",
+  "Image",
 ];
 
 interface IconPickerProps {
@@ -37,7 +83,9 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
     ? ICON_LIST.filter((name) => name.toLowerCase().includes(search.toLowerCase()))
     : ICON_LIST;
 
-  const SelectedIcon = (Icons as unknown as Record<string, ComponentType<{ className?: string; size?: number }>>)[value];
+  const SelectedIcon = (
+    Icons as unknown as Record<string, ComponentType<{ className?: string; size?: number }>>
+  )[value];
 
   return (
     <div ref={ref} className="relative">
@@ -52,7 +100,9 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
         ) : (
           <Icons.Info className="h-5 w-5 text-slate-400" />
         )}
-        <span className={value ? "text-slate-900" : "text-slate-400"}>{value || "Selecionar ícone…"}</span>
+        <span className={value ? "text-slate-900" : "text-slate-400"}>
+          {value || "Selecionar ícone…"}
+        </span>
       </button>
       {open && (
         <div className="absolute z-50 mt-1 w-72 bg-white rounded-xl border border-slate-200 shadow-lg overflow-hidden">
@@ -67,22 +117,41 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
           </div>
           <div className="max-h-60 overflow-y-auto p-2 grid grid-cols-4 gap-1">
             {filtered.length === 0 ? (
-              <p className="col-span-4 text-sm text-slate-400 text-center py-4">Nenhum ícone encontrado</p>
+              <p className="col-span-4 text-sm text-slate-400 text-center py-4">
+                Nenhum ícone encontrado
+              </p>
             ) : (
               filtered.map((name) => {
-                const IconComp = (Icons as unknown as Record<string, ComponentType<{ className?: string; size?: number }>>)[name];
+                const IconComp = (
+                  Icons as unknown as Record<
+                    string,
+                    ComponentType<{ className?: string; size?: number }>
+                  >
+                )[name];
                 return (
                   <button
                     key={name}
                     type="button"
-                    onClick={() => { onChange(name); setOpen(false); setSearch(""); }}
+                    onClick={() => {
+                      onChange(name);
+                      setOpen(false);
+                      setSearch("");
+                    }}
                     className={`flex flex-col items-center gap-1 p-2 rounded-lg text-xs transition ${
-                      value === name ? "bg-brand-orange/10 ring-1 ring-brand-orange" : "hover:bg-slate-100"
+                      value === name
+                        ? "bg-brand-orange/10 ring-1 ring-brand-orange"
+                        : "hover:bg-slate-100"
                     }`}
                     title={name}
                   >
-                    {IconComp ? <IconComp className="h-5 w-5 text-slate-600" /> : <Icons.Info className="h-5 w-5 text-slate-400" />}
-                    <span className="truncate w-full text-center text-[10px] text-slate-500">{name}</span>
+                    {IconComp ? (
+                      <IconComp className="h-5 w-5 text-slate-600" />
+                    ) : (
+                      <Icons.Info className="h-5 w-5 text-slate-400" />
+                    )}
+                    <span className="truncate w-full text-center text-[10px] text-slate-500">
+                      {name}
+                    </span>
                   </button>
                 );
               })

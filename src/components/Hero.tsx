@@ -40,12 +40,13 @@ export default function Hero() {
       {/* Hero Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
           {/* Main Messaging Column */}
           <div className="lg:col-span-7 space-y-8 text-left">
-            
             {/* Tag/Badge */}
-            <div id="hero-badge" className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-brand-orange text-xs font-bold uppercase tracking-wider">
+            <div
+              id="hero-badge"
+              className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-brand-orange text-xs font-bold uppercase tracking-wider"
+            >
               {company.logoScroll ? (
                 <img src={company.logoScroll} alt="" className="h-4 w-auto" />
               ) : (
@@ -55,12 +56,22 @@ export default function Hero() {
             </div>
 
             {/* Main Display Typography */}
-            <h1 id="hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-              Apoio Empresarial & <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-white to-brand-orange-dark">Capacitação</span> Prática
+            <h1
+              id="hero-title"
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight"
+            >
+              Apoio Empresarial &{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-white to-brand-orange-dark">
+                Capacitação
+              </span>{" "}
+              Prática
             </h1>
 
             {/* Slogan */}
-            <p id="hero-subtitle" className="text-lg sm:text-xl text-slate-300 font-medium max-w-2xl leading-relaxed border-l-4 border-brand-orange pl-4">
+            <p
+              id="hero-subtitle"
+              className="text-lg sm:text-xl text-slate-300 font-medium max-w-2xl leading-relaxed border-l-4 border-brand-orange pl-4"
+            >
               "{company.slogan}"
             </p>
 
@@ -75,7 +86,7 @@ export default function Hero() {
                 <span>Consultoria Empresarial</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
-              
+
               <button
                 id="hero-cta-academy"
                 onClick={() => handleScrollTo("#academia")}
@@ -87,23 +98,35 @@ export default function Hero() {
             </div>
 
             {/* Quick trust metrics */}
-            <div id="hero-fast-stats" className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10 max-w-lg">
+            <div
+              id="hero-fast-stats"
+              className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10 max-w-lg"
+            >
               <div>
-                <p className="text-3xl font-extrabold text-brand-orange">{company.yearsExperience}+ Anos</p>
-                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">De Experiência no Mercado</p>
+                <p className="text-3xl font-extrabold text-brand-orange">
+                  {company.yearsExperience}+ Anos
+                </p>
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">
+                  De Experiência no Mercado
+                </p>
               </div>
               <div>
-                <p className="text-3xl font-extrabold text-white">{company.activeClientsCount}+ Clientes</p>
-                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">Cooperando Ativamente</p>
+                <p className="text-3xl font-extrabold text-white">
+                  {company.activeClientsCount}+ Clientes
+                </p>
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-1">
+                  Cooperando Ativamente
+                </p>
               </div>
             </div>
-
           </div>
 
           {/* Visual Presentation Card Box */}
           <div className="lg:col-span-5 relative mt-6 lg:mt-0 hidden md:block">
-            <div id="hero-glamour-card" className="relative mx-auto max-w-sm bg-gradient-to-tr from-brand-navy/40 to-white/5 backdrop-blur-lg p-8 rounded-3xl border border-white/10 shadow-2xl">
-              
+            <div
+              id="hero-glamour-card"
+              className="relative mx-auto max-w-sm bg-gradient-to-tr from-brand-navy/40 to-white/5 backdrop-blur-lg p-8 rounded-3xl border border-white/10 shadow-2xl"
+            >
               <div className="flex justify-between items-start mb-6">
                 {company.logoScroll ? (
                   <div className="p-3 bg-brand-orange/20 rounded-2xl">
@@ -121,7 +144,8 @@ export default function Hero() {
 
               <h3 className="text-xl font-bold mb-3 text-white">Porquê a IS KENDA?</h3>
               <p className="text-sm text-slate-300 leading-relaxed mb-6">
-                Combinamos a capacidade técnica de grandes consultoras com o tratamento ágil, próximo e personalizado que a sua empresa merece.
+                Combinamos a capacidade técnica de grandes consultoras com o tratamento ágil,
+                próximo e personalizado que a sua empresa merece.
               </p>
 
               <div className="space-y-3.5">
@@ -129,9 +153,12 @@ export default function Hero() {
                   "Segurança fiscal nas submissões da AGT",
                   "Processamento de salários sem falhas",
                   "Estágio prático para formandos",
-                  "Estrutura contratual fidedigna e transparente"
+                  "Estrutura contratual fidedigna e transparente",
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center space-x-3 text-xs font-semibold text-slate-200">
+                  <div
+                    key={index}
+                    className="flex items-center space-x-3 text-xs font-semibold text-slate-200"
+                  >
                     <div className="w-2 h-2 rounded-full bg-brand-orange" />
                     <span>{item}</span>
                   </div>
@@ -143,7 +170,6 @@ export default function Hero() {
               <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-brand-orange rounded-bl-lg" />
             </div>
           </div>
-
         </div>
       </div>
     </section>

@@ -10,22 +10,32 @@ export default function Values() {
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-brand-orange/5 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div id="values-tag" className="inline-flex items-center space-x-2 bg-brand-orange/10 px-4 py-1.5 rounded-full text-brand-orange text-xs font-extrabold uppercase tracking-wider">
+          <div
+            id="values-tag"
+            className="inline-flex items-center space-x-2 bg-brand-orange/10 px-4 py-1.5 rounded-full text-brand-orange text-xs font-extrabold uppercase tracking-wider"
+          >
             <span>Ética & Integridade</span>
           </div>
-          <h2 id="values-title" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight font-sans">
+          <h2
+            id="values-title"
+            className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight font-sans"
+          >
             Os Valores Que Norteiam o Nosso Trabalho
           </h2>
           <p id="values-description" className="text-sm sm:text-base text-slate-500">
-            Acreditamos que o sucesso duradouro apoia-se em princípios inalienáveis. Por isso, fundamentamos todas as nossas condutas de consultoria e formação profissional em sete pilares norteadores.
+            Acreditamos que o sucesso duradouro apoia-se em princípios inalienáveis. Por isso,
+            fundamentamos todas as nossas condutas de consultoria e formação profissional em sete
+            pilares norteadores.
           </p>
         </div>
 
         {/* Corporate Values Bento / Grid list */}
-        <div id="values-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div
+          id="values-grid"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           {values.map((value, index) => {
             // Give specific cards subtle custom structures to make it design-focused
             const isLargeSpan = index === 0 || index === 6; // make Ethical & Commitment stand out beautifully
@@ -34,7 +44,9 @@ export default function Values() {
                 key={value.title}
                 id={`value-card-${value.title.toLowerCase().replace(/\s+/g, "-")}`}
                 className={`group p-6 rounded-3xl bg-slate-50/60 border border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 text-left flex flex-col justify-between ${
-                  isLargeSpan ? "md:col-span-2 lg:col-span-1 xl:col-span-2 bg-gradient-to-br from-slate-50/90 to-slate-100/50" : ""
+                  isLargeSpan
+                    ? "md:col-span-2 lg:col-span-1 xl:col-span-2 bg-gradient-to-br from-slate-50/90 to-slate-100/50"
+                    : ""
                 }`}
               >
                 <div>
@@ -65,7 +77,6 @@ export default function Values() {
             );
           })}
         </div>
-
       </div>
     </section>
   );

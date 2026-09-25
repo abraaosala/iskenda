@@ -26,14 +26,20 @@ export default function Topbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
         <div className="flex items-center gap-3 sm:gap-5 text-[11px] text-slate-400">
-          <a href={`tel:${company.phone}`} className="flex items-center gap-1.5 hover:text-brand-orange transition-colors whitespace-nowrap">
+          <a
+            href={`tel:${company.phone}`}
+            className="flex items-center gap-1.5 hover:text-brand-orange transition-colors whitespace-nowrap"
+          >
             <Phone className="h-3 w-3 shrink-0" />
             <span className="hidden sm:inline">{company.phone}</span>
           </a>
 
           <span className="hidden sm:flex items-center gap-1.5">
             <span className="text-slate-600">|</span>
-            <a href={`mailto:${company.email}`} className="flex items-center gap-1.5 hover:text-brand-orange transition-colors">
+            <a
+              href={`mailto:${company.email}`}
+              className="flex items-center gap-1.5 hover:text-brand-orange transition-colors"
+            >
               <Mail className="h-3 w-3" />
               <span>{company.email}</span>
             </a>

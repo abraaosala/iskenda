@@ -10,7 +10,9 @@ export default function Team() {
 
   useEffect(() => {
     if (!expandedPhoto) return;
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setExpandedPhoto(null); };
+    const h = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExpandedPhoto(null);
+    };
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
   }, [expandedPhoto]);
@@ -29,7 +31,8 @@ export default function Team() {
             A Nossa Equipa
           </h2>
           <p className="text-sm sm:text-base text-slate-500 max-w-2xl mx-auto">
-            Profissionais experientes e dedicados, comprometidos com a excelência e o sucesso da sua empresa.
+            Profissionais experientes e dedicados, comprometidos com a excelência e o sucesso da sua
+            empresa.
           </p>
         </div>
 
@@ -49,7 +52,10 @@ export default function Team() {
               >
                 <div className="flex justify-center pt-8 pb-2">
                   {member.photo ? (
-                    <button onClick={() => setExpandedPhoto(member.photo!)} className="outline-none">
+                    <button
+                      onClick={() => setExpandedPhoto(member.photo!)}
+                      className="outline-none"
+                    >
                       <img
                         src={member.photo}
                         alt={member.name}
@@ -57,9 +63,11 @@ export default function Team() {
                       />
                     </button>
                   ) : (
-                    <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${member.gradient} flex items-center justify-center transition-all duration-500 ${
-                      isHovered ? "scale-110" : ""
-                    }`}>
+                    <div
+                      className={`w-24 h-24 rounded-full bg-gradient-to-br ${member.gradient} flex items-center justify-center transition-all duration-500 ${
+                        isHovered ? "scale-110" : ""
+                      }`}
+                    >
                       <SmartIcon name={member.icon} size={32} className="text-white/40" />
                     </div>
                   )}
@@ -67,37 +75,51 @@ export default function Team() {
 
                 <div className="p-7 pt-4 flex flex-col flex-1">
                   <div className="flex items-center space-x-2 mb-1">
-                    <div className={`w-3 h-3 rounded-full ${(member.colorClass ?? "bg-brand-blue").split(" ")[0]}`} />
-                    <span className={`text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 ${
-                      isHovered ? "text-brand-orange" : "text-brand-blue"
-                    }`}>
+                    <div
+                      className={`w-3 h-3 rounded-full ${(member.colorClass ?? "bg-brand-blue").split(" ")[0]}`}
+                    />
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-wider transition-colors duration-300 ${
+                        isHovered ? "text-brand-orange" : "text-brand-blue"
+                      }`}
+                    >
                       {member.role}
                     </span>
                   </div>
 
-                  <h3 className={`text-lg font-bold tracking-tight mb-2 transition-colors duration-300 ${
-                    isHovered ? "text-white" : "text-slate-900"
-                  }`}>
+                  <h3
+                    className={`text-lg font-bold tracking-tight mb-2 transition-colors duration-300 ${
+                      isHovered ? "text-white" : "text-slate-900"
+                    }`}
+                  >
                     {member.name}
                   </h3>
 
-                  <p className={`text-xs sm:text-sm leading-relaxed flex-1 transition-colors duration-300 ${
-                    isHovered ? "text-slate-200" : "text-slate-500"
-                  }`}>
+                  <p
+                    className={`text-xs sm:text-sm leading-relaxed flex-1 transition-colors duration-300 ${
+                      isHovered ? "text-slate-200" : "text-slate-500"
+                    }`}
+                  >
                     {member.description}
                   </p>
 
-                  <div className={`mt-5 pt-4 border-t transition-colors duration-300 flex items-center justify-between ${
-                    isHovered ? "border-white/10" : "border-slate-100"
-                  }`}>
-                    <span className={`text-[10px] font-mono font-bold uppercase tracking-wider transition-colors duration-300 ${
-                      isHovered ? "text-white/40" : "text-slate-400"
-                    }`}>
+                  <div
+                    className={`mt-5 pt-4 border-t transition-colors duration-300 flex items-center justify-between ${
+                      isHovered ? "border-white/10" : "border-slate-100"
+                    }`}
+                  >
+                    <span
+                      className={`text-[10px] font-mono font-bold uppercase tracking-wider transition-colors duration-300 ${
+                        isHovered ? "text-white/40" : "text-slate-400"
+                      }`}
+                    >
                       IS KENDA
                     </span>
-                    <span className={`text-[10px] font-mono transition-colors duration-300 ${
-                      isHovered ? "text-white/40" : "text-slate-400"
-                    }`}>
+                    <span
+                      className={`text-[10px] font-mono transition-colors duration-300 ${
+                        isHovered ? "text-white/40" : "text-slate-400"
+                      }`}
+                    >
                       {member.initials}
                     </span>
                   </div>
@@ -109,7 +131,8 @@ export default function Team() {
 
         <div className="mt-14 text-center">
           <p className="text-xs text-slate-400 font-mono">
-            Equipa multidisciplinar com mais de 15 anos de experiência combinada no mercado angolano.
+            Equipa multidisciplinar com mais de 15 anos de experiência combinada no mercado
+            angolano.
           </p>
         </div>
       </div>

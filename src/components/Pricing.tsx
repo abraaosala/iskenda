@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { DollarSign, ShieldAlert, FileSignature, Check } from "lucide-react";
+import { DollarSign, FileSignature, Check } from "lucide-react";
 
 export default function Pricing() {
   // Simulator State
@@ -8,7 +8,7 @@ export default function Pricing() {
     contabilidade: true,
     fiscalidade: true,
     recursosHumanos: false,
-    organizacaoAdm: false
+    organizacaoAdm: false,
   });
 
   const [estimatedMin, setEstimatedMin] = useState(70000);
@@ -33,7 +33,7 @@ export default function Pricing() {
     let serviceMultiplierMax = 1.0;
 
     const countSelected = Object.values(selectedServices).filter(Boolean).length;
-    
+
     if (countSelected === 1) {
       serviceMultiplierMin = 0.8;
       serviceMultiplierMax = 0.95;
@@ -78,15 +78,17 @@ export default function Pricing() {
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-AO", {
-      style: "currency",
-      currency: "AOA",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    })
-      .format(value)
-      .replace("AOA", "")
-      .trim() + " Kz";
+    return (
+      new Intl.NumberFormat("pt-AO", {
+        style: "currency",
+        currency: "AOA",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })
+        .format(value)
+        .replace("AOA", "")
+        .trim() + " Kz"
+    );
   };
 
   return (
@@ -95,34 +97,45 @@ export default function Pricing() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-orange/5 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div id="pricing-badge" className="inline-flex items-center space-x-2 bg-brand-orange/10 px-4 py-1.5 rounded-full text-brand-orange text-xs font-bold uppercase tracking-wider">
+          <div
+            id="pricing-badge"
+            className="inline-flex items-center space-x-2 bg-brand-orange/10 px-4 py-1.5 rounded-full text-brand-orange text-xs font-bold uppercase tracking-wider"
+          >
             <span>Investimento Planeado</span>
           </div>
-          <h2 id="pricing-title" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          <h2
+            id="pricing-title"
+            className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight"
+          >
             Transparência nos Nossos Honorários
           </h2>
           <p id="pricing-intro" className="text-sm sm:text-base text-slate-500 max-w-2xl mx-auto">
-            Acreditamos que o rigor das suas contas deve estender-se à clareza comercial dos nossos honorários. Proporcionamos investimentos justos, proporcionais e com contratos formais.
+            Acreditamos que o rigor das suas contas deve estender-se à clareza comercial dos nossos
+            honorários. Proporcionamos investimentos justos, proporcionais e com contratos formais.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
           {/* Column 1: Informative Block */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
-            <div id="pricing-info-card" className="bg-slate-50/60 p-8 rounded-3xl border border-slate-202 border-slate-200 shadow-sm space-y-6 flex-1 flex flex-col justify-between relative overflow-hidden">
+            <div
+              id="pricing-info-card"
+              className="bg-slate-50/60 p-8 rounded-3xl border border-slate-202 border-slate-200 shadow-sm space-y-6 flex-1 flex flex-col justify-between relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-32 h-32 bg-slate-100 rounded-full -mr-16 -mt-16 opacity-40 pointer-events-none" />
-              
+
               <div className="z-10">
                 <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 flex items-center space-x-2">
                   <DollarSign className="h-6 w-6 text-brand-orange" />
                   <span>Termos e Valores de Referência</span>
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-550 leading-relaxed mb-6">
-                  Os nossos honorários variam entre <strong>70.000 Kz e 500.000 Kz</strong>, de acordo com a dimensão da empresa e os módulos de serviços contratados. Todos os serviços são prestados mediante <strong>contrato formal de prestação de serviços</strong>.
+                  Os nossos honorários variam entre <strong>70.000 Kz e 500.000 Kz</strong>, de
+                  acordo com a dimensão da empresa e os módulos de serviços contratados. Todos os
+                  serviços são prestados mediante{" "}
+                  <strong>contrato formal de prestação de serviços</strong>.
                 </p>
 
                 <div className="space-y-4">
@@ -130,10 +143,22 @@ export default function Pricing() {
                     Definição de honorários mensais:
                   </h4>
                   {[
-                    { title: "Escala & Faturação Anual", desc: "A receita bruta anual e a estrutura legal societária da corporação." },
-                    { title: "Volume de Documental Mensal", desc: "A quantidade de faturas, recibos e extratos bancários para classificação periódica." },
-                    { title: "Quadro de Colaboradores", desc: "O número total de contratos de trabalho a processar junto do INSS." },
-                    { title: "Necessidade de Organização Física", desc: "Se houver demanda de triagem de arquivos físicos no local do cliente." }
+                    {
+                      title: "Escala & Faturação Anual",
+                      desc: "A receita bruta anual e a estrutura legal societária da corporação.",
+                    },
+                    {
+                      title: "Volume de Documental Mensal",
+                      desc: "A quantidade de faturas, recibos e extratos bancários para classificação periódica.",
+                    },
+                    {
+                      title: "Quadro de Colaboradores",
+                      desc: "O número total de contratos de trabalho a processar junto do INSS.",
+                    },
+                    {
+                      title: "Necessidade de Organização Física",
+                      desc: "Se houver demanda de triagem de arquivos físicos no local do cliente.",
+                    },
                   ].map((f, i) => (
                     <div key={i} className="flex space-x-3 items-start">
                       <div className="p-1 bg-white rounded-lg border border-slate-200 text-brand-blue flex-shrink-0 mt-0.5">
@@ -148,10 +173,15 @@ export default function Pricing() {
                 </div>
               </div>
 
-              <div id="pricing-contract-note" className="mt-8 p-4 bg-[#f8fafc] border border-slate-200 rounded-2xl flex items-start space-x-3 text-brand-blue z-10">
+              <div
+                id="pricing-contract-note"
+                className="mt-8 p-4 bg-[#f8fafc] border border-slate-200 rounded-2xl flex items-start space-x-3 text-brand-blue z-10"
+              >
                 <FileSignature className="h-5 w-5 flex-shrink-0 mt-0.5" />
                 <span className="text-[11px] sm:text-xs font-semibold leading-relaxed text-slate-650">
-                  <strong>Segurança Jurídica:</strong> Todos os serviços iniciam única e exclusivamente após a celebração de contrato formal para zelar pela sua tranquilidade legal.
+                  <strong>Segurança Jurídica:</strong> Todos os serviços iniciam única e
+                  exclusivamente após a celebração de contrato formal para zelar pela sua
+                  tranquilidade legal.
                 </span>
               </div>
             </div>
@@ -159,14 +189,19 @@ export default function Pricing() {
 
           {/* Column 2: Interactive Pricing Simulator */}
           <div className="lg:col-span-7">
-            <div id="pricing-simulator-card" className="bg-gradient-to-br from-brand-dark to-brand-navy p-8 sm:p-10 rounded-3xl text-white shadow-xl relative overflow-hidden flex flex-col justify-between h-full">
+            <div
+              id="pricing-simulator-card"
+              className="bg-gradient-to-br from-brand-dark to-brand-navy p-8 sm:p-10 rounded-3xl text-white shadow-xl relative overflow-hidden flex flex-col justify-between h-full"
+            >
               {/* background vector gradient */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full filter blur-xl transform translate-x-10 -translate-y-10" />
 
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                   <div>
-                    <span className="text-xs text-brand-orange font-bold uppercase tracking-wider">Inovação Tecnológica</span>
+                    <span className="text-xs text-brand-orange font-bold uppercase tracking-wider">
+                      Inovação Tecnológica
+                    </span>
                     <h3 className="text-xl font-bold mt-1">Simulador Prático de Honorários</h3>
                   </div>
                   <span className="text-[10px] bg-white/10 px-3 py-1 rounded-full border border-white/10 text-slate-300 font-mono self-start sm:self-auto">
@@ -183,22 +218,26 @@ export default function Pricing() {
                     {[
                       { id: "micro", label: "Microempresa", desc: "Até 5 colaboradores" },
                       { id: "pequena", label: "Pequena Empresa", desc: "6 a 20 colaboradores" },
-                      { id: "media", label: "Média Empresa", desc: "Mais de 20 colaboradores" }
+                      { id: "media", label: "Média Empresa", desc: "Mais de 20 colaboradores" },
                     ].map((item) => (
                       <button
                         key={item.id}
                         id={`pricing-scale-btn-${item.id}`}
-                        onClick={() => setCompanyScale(item.id as any)}
+                        onClick={() => setCompanyScale(item.id as "micro" | "pequena" | "media")}
                         className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                           companyScale === item.id
                             ? "bg-gradient-to-r from-brand-orange to-amber-500 text-brand-dark border-brand-orange font-bold shadow-md shadow-brand-orange/15"
                             : "bg-white/5 border-white/10 text-slate-200 hover:bg-white/10"
                         }`}
                       >
-                        <h4 className="text-xs sm:text-sm font-bold block leading-none">{item.label}</h4>
-                        <p className={`text-[9px] mt-1 line-clamp-1 leading-tight ${
-                          companyScale === item.id ? "text-brand-dark/80" : "text-slate-400"
-                        }`}>
+                        <h4 className="text-xs sm:text-sm font-bold block leading-none">
+                          {item.label}
+                        </h4>
+                        <p
+                          className={`text-[9px] mt-1 line-clamp-1 leading-tight ${
+                            companyScale === item.id ? "text-brand-dark/80" : "text-slate-400"
+                          }`}
+                        >
                           {item.desc}
                         </p>
                       </button>
@@ -216,7 +255,7 @@ export default function Pricing() {
                       { id: "contabilidade", label: "Contabilidade Mensal" },
                       { id: "fiscalidade", label: "Fiscalidade Tributária (AGT)" },
                       { id: "recursosHumanos", label: "Gestão de Recursos Humanos (IRT/INSS)" },
-                      { id: "organizacaoAdm", label: "Organização Administrativa e Arquivos" }
+                      { id: "organizacaoAdm", label: "Organização Administrativa e Arquivos" },
                     ].map((item) => {
                       const isSelected = selectedServices[item.id as keyof typeof selectedServices];
                       return (
@@ -230,9 +269,13 @@ export default function Pricing() {
                               : "bg-white/5 border-white/5 text-slate-400 hover:bg-white/10"
                           }`}
                         >
-                          <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
-                            isSelected ? "bg-brand-orange border-brand-orange text-brand-dark" : "border-white/20 bg-transparent text-transparent"
-                          }`}>
+                          <div
+                            className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
+                              isSelected
+                                ? "bg-brand-orange border-brand-orange text-brand-dark"
+                                : "border-white/20 bg-transparent text-transparent"
+                            }`}
+                          >
                             <Check className="h-3.5 w-3.5 stroke-[3]" />
                           </div>
                           <span className="text-xs tracking-wide">{item.label}</span>
@@ -244,13 +287,20 @@ export default function Pricing() {
               </div>
 
               {/* Step 3: Result Estimation Box */}
-              <div id="pricing-result-panel" className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div
+                id="pricing-result-panel"
+                className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6"
+              >
                 <div className="text-center sm:text-left">
-                  <span className="text-[10px] text-brand-orange font-bold uppercase tracking-wider">Investimento Mensal Estimado</span>
+                  <span className="text-[10px] text-brand-orange font-bold uppercase tracking-wider">
+                    Investimento Mensal Estimado
+                  </span>
                   <div className="text-2xl sm:text-3xl font-black mt-1 text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-yellow-200 to-white">
                     {formatCurrency(estimatedMin)} – {formatCurrency(estimatedMax)}
                   </div>
-                  <p className="text-[9px] text-slate-400 mt-1 uppercase tracking-wider">Sob aprovação contratual e auditoria prévia</p>
+                  <p className="text-[9px] text-slate-400 mt-1 uppercase tracking-wider">
+                    Sob aprovação contratual e auditoria prévia
+                  </p>
                 </div>
 
                 <button
@@ -261,10 +311,8 @@ export default function Pricing() {
                   Solicitar Proposta
                 </button>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
     </section>
