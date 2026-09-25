@@ -34,7 +34,7 @@ export default function App() {
         "honorarios",
         "clientes",
         "galeria",
-        "contactos"
+        "contactos",
       ];
 
       const scrollPosition = window.scrollY + 200; // Offset for navbar height and visual triggers
@@ -64,48 +64,51 @@ export default function App() {
       <Helmet>
         <title>IS KENDA — Consultoria & Academia</title>
       </Helmet>
-      <div id="full-page-container" className="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 selection:bg-brand-orange selection:text-brand-dark">
-      {/* Topbar — contactos e redes sociais */}
-      <Topbar />
+      <div
+        id="full-page-container"
+        className="min-h-screen flex flex-col font-sans antialiased text-slate-800 bg-slate-50 selection:bg-brand-orange selection:text-brand-dark"
+      >
+        {/* Topbar — contactos e redes sociais */}
+        <Topbar />
 
-      {/* Dynamic Header Navbar sticky */}
-      <Navbar currentSection={currentSection} />
+        {/* Dynamic Header Navbar sticky */}
+        <Navbar currentSection={currentSection} />
 
-      {/* Main Blocks */}
-      <main className="flex-grow">
-        {/* Custom Hero Presentation */}
-        {visible("inicio") && <Hero />}
+        {/* Main Blocks */}
+        <main className="flex-grow">
+          {/* Custom Hero Presentation */}
+          {visible("inicio") && <Hero />}
 
-        {/* Quem Somos - Corporate presentation, history */}
-        {visible("quem-somos") && <About />}
+          {/* Quem Somos - Corporate presentation, history */}
+          {visible("quem-somos") && <About />}
 
-        {/* Equipa - Team members, expertise cards */}
-        {visible("equipa") && <Team />}
+          {/* Equipa - Team members, expertise cards */}
+          {visible("equipa") && <Team />}
 
-        {/* Valores corporativos - Ethics, Integrity, Excellence */}
-        {visible("valores") && <Values />}
+          {/* Valores corporativos - Ethics, Integrity, Excellence */}
+          {visible("valores") && <Values />}
 
-        {/* Services Section - Contabilidade, Fiscalidade, RH, Adm */}
-        {visible("servicos") && <Services />}
+          {/* Services Section - Contabilidade, Fiscalidade, RH, Adm */}
+          {visible("servicos") && <Services />}
 
-        {/* Academy Section - Formação e Estágio Profissional */}
-        {visible("academia") && <Academy />}
+          {/* Academy Section - Formação e Estágio Profissional */}
+          {visible("academia") && <Academy />}
 
-        {/* Pricing Estimator Simulator & Terms */}
-        {visible("honorarios") && <Pricing />}
+          {/* Pricing Estimator Simulator & Terms */}
+          {visible("honorarios") && <Pricing />}
 
-        {/* Real Clients - Auto Loop Marquee, structured Grid */}
-        {visible("clientes") && <Clients />}
+          {/* Real Clients - Auto Loop Marquee, structured Grid */}
+          {visible("clientes") && <Clients />}
 
-        {/* Galeria - Visual portfolio, events, spaces */}
-        {visible("galeria") && <Gallery />}
+          {/* Galeria - Visual portfolio, events, spaces */}
+          {visible("galeria") && <Gallery />}
 
-        {/* Contacts section - Offline variables, Map, Submit form */}
-        {visible("contactos") && <Contact />}
-      </main>
+          {/* Contacts section - Offline variables, Map, Submit form */}
+          {visible("contactos") && <Contact />}
+        </main>
 
-      {/* Corporate detailed footer */}
-      <Footer />
+        {/* Corporate detailed footer */}
+        <Footer />
       </div>
     </>
   );

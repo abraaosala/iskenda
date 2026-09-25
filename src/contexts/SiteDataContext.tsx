@@ -50,7 +50,9 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const value: SiteDataContextValue = {
     loading,
@@ -68,11 +70,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     refresh: load,
   };
 
-  return (
-    <SiteDataContext.Provider value={value}>
-      {children}
-    </SiteDataContext.Provider>
-  );
+  return <SiteDataContext.Provider value={value}>{children}</SiteDataContext.Provider>;
 }
 
 export function useSiteData(): SiteDataContextValue {

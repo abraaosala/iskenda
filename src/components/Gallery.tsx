@@ -21,14 +21,12 @@ export default function Gallery() {
 
   const goPrev = useCallback(() => {
     setSelectedIndex((prev) =>
-      prev !== null ? (prev - 1 + filtered.length) % filtered.length : null
+      prev !== null ? (prev - 1 + filtered.length) % filtered.length : null,
     );
   }, [filtered.length]);
 
   const goNext = useCallback(() => {
-    setSelectedIndex((prev) =>
-      prev !== null ? (prev + 1) % filtered.length : null
-    );
+    setSelectedIndex((prev) => (prev !== null ? (prev + 1) % filtered.length : null));
   }, [filtered.length]);
 
   useEffect(() => {
@@ -113,14 +111,14 @@ export default function Gallery() {
                       loadedImages.has(item.id) ? "opacity-100" : "opacity-0"
                     }`}
                   />
-                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} flex items-center justify-center transition-opacity duration-300 ${
-                    loadedImages.has(item.id) && !failedImages.has(item.id) ? "opacity-0 pointer-events-none" : "opacity-100"
-                  }`}>
-                    <SmartIcon
-                      name={item.icon}
-                      size={48}
-                      className="text-white/30"
-                    />
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${item.gradient} flex items-center justify-center transition-opacity duration-300 ${
+                      loadedImages.has(item.id) && !failedImages.has(item.id)
+                        ? "opacity-0 pointer-events-none"
+                        : "opacity-100"
+                    }`}
+                  >
+                    <SmartIcon name={item.icon} size={48} className="text-white/30" />
                   </div>
                 </div>
 
@@ -134,9 +132,7 @@ export default function Gallery() {
                   <span className="inline-block px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider mb-2">
                     {item.category}
                   </span>
-                  <h3 className="text-white text-sm font-bold leading-tight">
-                    {item.title}
-                  </h3>
+                  <h3 className="text-white text-sm font-bold leading-tight">{item.title}</h3>
                 </div>
               </div>
             ))}
@@ -156,7 +152,10 @@ export default function Gallery() {
           onClick={close}
         >
           <button
-            onClick={(e) => { e.stopPropagation(); close(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              close();
+            }}
             className="absolute top-4 right-4 p-2.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all z-10 cursor-pointer"
             aria-label="Fechar"
           >
@@ -164,7 +163,10 @@ export default function Gallery() {
           </button>
 
           <button
-            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              goPrev();
+            }}
             className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all z-10 cursor-pointer"
             aria-label="Anterior"
           >
@@ -172,7 +174,10 @@ export default function Gallery() {
           </button>
 
           <button
-            onClick={(e) => { e.stopPropagation(); goNext(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              goNext();
+            }}
             className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all z-10 cursor-pointer"
             aria-label="Seguinte"
           >

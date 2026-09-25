@@ -1,4 +1,13 @@
-import type { Service, Client, Course, AcademyOffer, CompanyValue, TeamMember, GalleryItem, SiteSection } from "../types";
+import type {
+  Service,
+  Client,
+  Course,
+  AcademyOffer,
+  CompanyValue,
+  TeamMember,
+  GalleryItem,
+  SiteSection,
+} from "../types";
 import type { SocialLink } from "../types";
 
 const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || "";
@@ -43,11 +52,12 @@ function buildFormData(data: object): FormData {
   const fd = new FormData();
   for (const [key, val] of Object.entries(data)) {
     if (val !== undefined && val !== null) {
-      const value = val instanceof File
-        ? val
-        : Array.isArray(val) || typeof val === "object"
-          ? JSON.stringify(val)
-          : String(val);
+      const value =
+        val instanceof File
+          ? val
+          : Array.isArray(val) || typeof val === "object"
+            ? JSON.stringify(val)
+            : String(val);
       fd.append(key, value);
     }
   }
@@ -125,10 +135,7 @@ export interface LoginResponse {
   user: { name: string; email: string };
 }
 
-export async function login(
-  email: string,
-  password: string
-): Promise<LoginResponse> {
+export async function login(email: string, password: string): Promise<LoginResponse> {
   const res = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -296,7 +303,10 @@ export async function createTeamMember(data: TeamMemberPayload): Promise<TeamMem
   return res.json();
 }
 
-export async function updateTeamMember(id: string, data: Partial<TeamMemberPayload>): Promise<TeamMember> {
+export async function updateTeamMember(
+  id: string,
+  data: Partial<TeamMemberPayload>,
+): Promise<TeamMember> {
   if (data.photo) {
     const fd = buildFormData(data);
     fd.append("_method", "PUT");
@@ -413,7 +423,10 @@ export interface CompanyInfoData {
   social_links?: SocialLink[];
 }
 
-export interface CompanyInfoPayload extends Omit<Partial<CompanyInfoData>, "logo" | "favicon" | "hero_image" | "logo_scroll"> {
+export interface CompanyInfoPayload extends Omit<
+  Partial<CompanyInfoData>,
+  "logo" | "favicon" | "hero_image" | "logo_scroll"
+> {
   logo?: File;
   favicon?: File;
   hero_image?: File;
@@ -430,7 +443,11 @@ export async function fetchCompanyInfo(): Promise<CompanyInfoData> {
 }
 
 export async function updateCompanyInfo(data: CompanyInfoPayload): Promise<CompanyInfoData> {
-  const hasFiles = data.logo instanceof File || data.favicon instanceof File || data.hero_image instanceof File || data.logo_scroll instanceof File;
+  const hasFiles =
+    data.logo instanceof File ||
+    data.favicon instanceof File ||
+    data.hero_image instanceof File ||
+    data.logo_scroll instanceof File;
   if (hasFiles) {
     const fd = buildFormData(data);
     fd.append("_method", "PUT");
@@ -490,7 +507,10 @@ export async function createGalleryItem(data: GalleryItemPayload): Promise<Galle
   return res.json();
 }
 
-export async function updateGalleryItem(id: string, data: Partial<GalleryItemPayload>): Promise<GalleryItem> {
+export async function updateGalleryItem(
+  id: string,
+  data: Partial<GalleryItemPayload>,
+): Promise<GalleryItem> {
   if (data.src_file) {
     const fd = buildFormData(data);
     fd.append("_method", "PUT");
@@ -533,9 +553,7 @@ export interface SiteSectionPayload {
   is_visible: boolean;
 }
 
-export async function updateSiteSections(
-  sections: SiteSectionPayload[]
-): Promise<SiteSection[]> {
+export async function updateSiteSections(sections: SiteSectionPayload[]): Promise<SiteSection[]> {
   const res = await apiFetch(`${BASE_URL}/admin/site-sections`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },

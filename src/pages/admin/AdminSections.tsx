@@ -1,18 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
-import {
-  fetchSiteSections,
-  updateSiteSections,
-  type SiteSectionPayload,
-} from "../../services/api";
+import { fetchSiteSections, updateSiteSections, type SiteSectionPayload } from "../../services/api";
 import type { SiteSection } from "../../types";
 import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import SavingOverlay from "../../components/SavingOverlay";
 import { VisibilitySwitch } from "../../components/VisibilitySwitch";
-import {
-  LayoutList, AlertCircle, RefreshCw, Save, Eye, EyeOff,
-} from "lucide-react";
+import { LayoutList, AlertCircle, RefreshCw, Save, Eye, EyeOff } from "lucide-react";
 
 export default function AdminSections() {
   const [sections, setSections] = useState<SiteSection[]>([]);
@@ -36,16 +30,18 @@ export default function AdminSections() {
     }
   }
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const visibleCount = useMemo(
     () => sections.filter((s) => draft[s.key] !== false).length,
-    [sections, draft]
+    [sections, draft],
   );
 
   const hasChanges = useMemo(
     () => sections.some((s) => draft[s.key] !== s.isVisible),
-    [sections, draft]
+    [sections, draft],
   );
 
   async function handleSave() {
@@ -93,7 +89,11 @@ export default function AdminSections() {
             disabled={loading}
             className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 transition-colors disabled:opacity-50"
           >
-            {loading ? <ThreeDot variant="bounce" color="#64748b" size="small" /> : <RefreshCw className="h-3.5 w-3.5" />}
+            {loading ? (
+              <ThreeDot variant="bounce" color="#64748b" size="small" />
+            ) : (
+              <RefreshCw className="h-3.5 w-3.5" />
+            )}
             <span>Actualizar</span>
           </button>
         </div>
@@ -132,13 +132,17 @@ export default function AdminSections() {
                     <div className="flex items-center space-x-3 min-w-0">
                       <span
                         className={`flex items-center justify-center p-2 rounded-lg shrink-0 ${
-                          isVisible ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"
+                          isVisible
+                            ? "bg-emerald-50 text-emerald-600"
+                            : "bg-slate-100 text-slate-400"
                         }`}
                       >
                         {isVisible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                       </span>
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-slate-900 truncate">{section.label}</p>
+                        <p className="text-sm font-semibold text-slate-900 truncate">
+                          {section.label}
+                        </p>
                         <p className="text-xs text-slate-400 capitalize truncate">{section.key}</p>
                       </div>
                     </div>

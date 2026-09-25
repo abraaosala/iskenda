@@ -4,9 +4,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../../contexts/AuthContext";
 import { updateProfile } from "../../services/api";
 import SavingOverlay from "../../components/SavingOverlay";
-import {
-  UserCircle, Mail, ArrowLeft, Save, AlertCircle, CheckCircle2, X,
-} from "lucide-react";
+import { UserCircle, Mail, ArrowLeft, Save, AlertCircle, CheckCircle2, X } from "lucide-react";
 
 export default function AdminProfileEdit() {
   const navigate = useNavigate();
@@ -56,12 +54,19 @@ export default function AdminProfileEdit() {
   }
 
   const initials = user?.name
-    ? user.name.split(" ").map((s: string) => s[0]).join("").substring(0, 2).toUpperCase()
+    ? user.name
+        .split(" ")
+        .map((s: string) => s[0])
+        .join("")
+        .substring(0, 2)
+        .toUpperCase()
     : "AD";
 
   return (
     <>
-      <Helmet><title>Editar Perfil — IS KENDA</title></Helmet>
+      <Helmet>
+        <title>Editar Perfil — IS KENDA</title>
+      </Helmet>
       <SavingOverlay show={saving} />
 
       <div className="w-full max-w-3xl">

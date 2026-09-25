@@ -9,7 +9,9 @@ interface SmartIconProps {
 
 export function SmartIcon({ name, className = "", size = 24 }: SmartIconProps) {
   // Map index names to dynamic component representation
-  const IconComponent = (Icons as unknown as Record<string, ComponentType<{ className?: string; size?: number }>>)[name];
+  const IconComponent = (
+    Icons as unknown as Record<string, ComponentType<{ className?: string; size?: number }>>
+  )[name];
 
   if (!IconComponent) {
     // Return a default icon (HelpCircle/Info) if lookup fails

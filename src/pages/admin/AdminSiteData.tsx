@@ -1,15 +1,23 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
-import {
-  fetchCompanyInfo, updateCompanyInfo,
-  type CompanyInfoData,
-} from "../../services/api";
+import { fetchCompanyInfo, updateCompanyInfo, type CompanyInfoData } from "../../services/api";
 import { ThreeDot } from "react-loading-indicators";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import SavingOverlay from "../../components/SavingOverlay";
 import {
-  Settings, AlertCircle, RefreshCw, Save, Building2,
-  Phone, Mail, Clock, MapPin, FileText, Image, Link, Plus, Trash2,
+  Settings,
+  AlertCircle,
+  RefreshCw,
+  Save,
+  Building2,
+  Phone,
+  Clock,
+  FileText,
+  Image,
+  Link,
+  Plus,
+  Trash2,
+  type LucideIcon,
 } from "lucide-react";
 import type { SocialLink } from "../../types";
 import DropZone from "../../components/DropZone";
@@ -31,9 +39,17 @@ interface FormState {
 }
 
 const INITIAL_FORM: FormState = {
-  name: "", full_name: "", slogan: "", founded_year: 2022,
-  years_experience: 0, active_clients_count: 0, phone: "",
-  email: "", working_hours: "", address: "", copyright: "",
+  name: "",
+  full_name: "",
+  slogan: "",
+  founded_year: 2022,
+  years_experience: 0,
+  active_clients_count: 0,
+  phone: "",
+  email: "",
+  working_hours: "",
+  address: "",
+  copyright: "",
   social_links: [],
 };
 
@@ -50,7 +66,8 @@ export default function AdminSiteData() {
   const [success, setSuccess] = useState(false);
 
   async function load() {
-    setLoading(true); setError(null);
+    setLoading(true);
+    setError(null);
     try {
       const result = await fetchCompanyInfo();
       setData(result);
@@ -68,15 +85,22 @@ export default function AdminSiteData() {
         copyright: result.copyright,
         social_links: result.social_links ?? [],
       });
-    } catch (e) { setError(e instanceof Error ? e.message : "Erro"); }
-    finally { setLoading(false); }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erro");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setSaving(true); setError(null); setSuccess(false);
+    setSaving(true);
+    setError(null);
+    setSuccess(false);
     try {
       const updated = await updateCompanyInfo({
         ...form,
@@ -93,8 +117,11 @@ export default function AdminSiteData() {
       setHeroFile(null);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
-    } catch (e) { setError(e instanceof Error ? e.message : "Erro"); }
-    finally { setSaving(false); }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erro");
+    } finally {
+      setSaving(false);
+    }
   }
 
   function hasChanges(): boolean {
@@ -121,18 +148,46 @@ export default function AdminSiteData() {
 
   return (
     <>
-      <Helmet><title>Site Data — IS KENDA</title></Helmet>
+      <Helmet>
+        <title>Site Data — IS KENDA</title>
+      </Helmet>
       <div className="w-full">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 rounded-xl bg-slate-500/10 text-slate-600"><Settings className="h-5 w-5" /></div>
-            <div><h1 className="text-2xl font-bold text-brand-navy">Site Data</h1><p className="text-sm text-slate-400 mt-0.5">Informações da empresa</p></div>
+            <div className="p-2.5 rounded-xl bg-slate-500/10 text-slate-600">
+              <Settings className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-brand-navy">Site Data</h1>
+              <p className="text-sm text-slate-400 mt-0.5">Informações da empresa</p>
+            </div>
           </div>
-          <button onClick={load} disabled={loading} className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 disabled:opacity-50">{loading ? <ThreeDot variant="bounce" color="#64748b" size="small" /> : <RefreshCw className="h-3.5 w-3.5" />}<span>Actualizar</span></button>
+          <button
+            onClick={load}
+            disabled={loading}
+            className="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm text-slate-500 hover:text-brand-blue hover:bg-white border border-slate-200 disabled:opacity-50"
+          >
+            {loading ? (
+              <ThreeDot variant="bounce" color="#64748b" size="small" />
+            ) : (
+              <RefreshCw className="h-3.5 w-3.5" />
+            )}
+            <span>Actualizar</span>
+          </button>
         </div>
 
-        {error && <div className="flex items-center space-x-2.5 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-6"><AlertCircle className="h-4 w-4 shrink-0" /><span>{error}</span></div>}
-        {success && <div className="flex items-center space-x-2.5 text-sm text-green-600 bg-green-50 border border-green-100 rounded-xl px-4 py-3 mb-6"><Save className="h-4 w-4 shrink-0" /><span>Dados actualizados com sucesso.</span></div>}
+        {error && (
+          <div className="flex items-center space-x-2.5 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-6">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+        {success && (
+          <div className="flex items-center space-x-2.5 text-sm text-green-600 bg-green-50 border border-green-100 rounded-xl px-4 py-3 mb-6">
+            <Save className="h-4 w-4 shrink-0" />
+            <span>Dados actualizados com sucesso.</span>
+          </div>
+        )}
 
         {loading && !data ? (
           <LoadingOverlay text="A carregar dados…" />
@@ -140,39 +195,110 @@ export default function AdminSiteData() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <Section title="Imagens" icon={Image}>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <DropZone label="Logótipo (fundo claro)" currentUrl={data?.logo} file={logoFile} onFileSelect={setLogoFile} />
-                <DropZone label="Logótipo (fundo escuro)" currentUrl={data?.logo_scroll} file={logoScrollFile} onFileSelect={setLogoScrollFile} />
-                <DropZone label="Favicon" currentUrl={data?.favicon} file={faviconFile} onFileSelect={setFaviconFile} accept={{ "image/*": [".ico", ".jpg", ".jpeg", ".png", ".webp"] }} />
+                <DropZone
+                  label="Logótipo (fundo claro)"
+                  currentUrl={data?.logo}
+                  file={logoFile}
+                  onFileSelect={setLogoFile}
+                />
+                <DropZone
+                  label="Logótipo (fundo escuro)"
+                  currentUrl={data?.logo_scroll}
+                  file={logoScrollFile}
+                  onFileSelect={setLogoScrollFile}
+                />
+                <DropZone
+                  label="Favicon"
+                  currentUrl={data?.favicon}
+                  file={faviconFile}
+                  onFileSelect={setFaviconFile}
+                  accept={{ "image/*": [".ico", ".jpg", ".jpeg", ".png", ".webp"] }}
+                />
               </div>
               <div className="mt-4">
-                <DropZone label="Imagem Hero" currentUrl={data?.hero_image} file={heroFile} onFileSelect={setHeroFile} />
+                <DropZone
+                  label="Imagem Hero"
+                  currentUrl={data?.hero_image}
+                  file={heroFile}
+                  onFileSelect={setHeroFile}
+                />
               </div>
             </Section>
             <Section title="Empresa" icon={Building2}>
-              <Field label="Nome" value={form.name} onChange={(v) => setForm({...form, name: v})} />
-              <Field label="Nome completo" value={form.full_name} onChange={(v) => setForm({...form, full_name: v})} />
-              <Field label="Slogan" value={form.slogan} onChange={(v) => setForm({...form, slogan: v})} />
+              <Field
+                label="Nome"
+                value={form.name}
+                onChange={(v) => setForm({ ...form, name: v })}
+              />
+              <Field
+                label="Nome completo"
+                value={form.full_name}
+                onChange={(v) => setForm({ ...form, full_name: v })}
+              />
+              <Field
+                label="Slogan"
+                value={form.slogan}
+                onChange={(v) => setForm({ ...form, slogan: v })}
+              />
               <div className="grid grid-cols-3 gap-4">
-                <Field label="Ano de fundação" type="number" value={String(form.founded_year)} onChange={(v) => setForm({...form, founded_year: Number(v)})} />
-                <Field label="Anos de experiência" type="number" value={String(form.years_experience)} onChange={(v) => setForm({...form, years_experience: Number(v)})} />
-                <Field label="Clientes activos" type="number" value={String(form.active_clients_count)} onChange={(v) => setForm({...form, active_clients_count: Number(v)})} />
+                <Field
+                  label="Ano de fundação"
+                  type="number"
+                  value={String(form.founded_year)}
+                  onChange={(v) => setForm({ ...form, founded_year: Number(v) })}
+                />
+                <Field
+                  label="Anos de experiência"
+                  type="number"
+                  value={String(form.years_experience)}
+                  onChange={(v) => setForm({ ...form, years_experience: Number(v) })}
+                />
+                <Field
+                  label="Clientes activos"
+                  type="number"
+                  value={String(form.active_clients_count)}
+                  onChange={(v) => setForm({ ...form, active_clients_count: Number(v) })}
+                />
               </div>
             </Section>
             <Section title="Contactos" icon={Phone}>
-              <Field label="Telefone" value={form.phone} onChange={(v) => setForm({...form, phone: v})} />
-              <Field label="Email" value={form.email} onChange={(v) => setForm({...form, email: v})} />
+              <Field
+                label="Telefone"
+                value={form.phone}
+                onChange={(v) => setForm({ ...form, phone: v })}
+              />
+              <Field
+                label="Email"
+                value={form.email}
+                onChange={(v) => setForm({ ...form, email: v })}
+              />
             </Section>
             <Section title="Horário & Endereço" icon={Clock}>
-              <Field label="Horário" value={form.working_hours} onChange={(v) => setForm({...form, working_hours: v})} />
-              <Field label="Endereço" value={form.address} onChange={(v) => setForm({...form, address: v})} />
+              <Field
+                label="Horário"
+                value={form.working_hours}
+                onChange={(v) => setForm({ ...form, working_hours: v })}
+              />
+              <Field
+                label="Endereço"
+                value={form.address}
+                onChange={(v) => setForm({ ...form, address: v })}
+              />
             </Section>
             <Section title="Rodapé" icon={FileText}>
-              <Field label="Copyright" value={form.copyright} onChange={(v) => setForm({...form, copyright: v})} />
+              <Field
+                label="Copyright"
+                value={form.copyright}
+                onChange={(v) => setForm({ ...form, copyright: v })}
+              />
             </Section>
             <Section title="Redes Sociais" icon={Link}>
               <div className="space-y-3">
                 {form.social_links.map((link, index) => (
-                  <div key={index} className="flex items-start gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <div
+                    key={index}
+                    className="flex items-start gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200"
+                  >
                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <input
                         type="text"
@@ -180,7 +306,7 @@ export default function AdminSiteData() {
                         onChange={(e) => {
                           const updated = [...form.social_links];
                           updated[index] = { ...updated[index], platform: e.target.value };
-                          setForm({...form, social_links: updated});
+                          setForm({ ...form, social_links: updated });
                         }}
                         placeholder="Plataforma"
                         className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none"
@@ -191,7 +317,7 @@ export default function AdminSiteData() {
                         onChange={(e) => {
                           const updated = [...form.social_links];
                           updated[index] = { ...updated[index], icon: e.target.value };
-                          setForm({...form, social_links: updated});
+                          setForm({ ...form, social_links: updated });
                         }}
                         placeholder="Ícone (ex: Linkedin)"
                         className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none"
@@ -202,7 +328,7 @@ export default function AdminSiteData() {
                         onChange={(e) => {
                           const updated = [...form.social_links];
                           updated[index] = { ...updated[index], url: e.target.value };
-                          setForm({...form, social_links: updated});
+                          setForm({ ...form, social_links: updated });
                         }}
                         placeholder="URL"
                         className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none"
@@ -214,7 +340,7 @@ export default function AdminSiteData() {
                         type="button"
                         onClick={() => {
                           const updated = form.social_links.filter((_, i) => i !== index);
-                          setForm({...form, social_links: updated});
+                          setForm({ ...form, social_links: updated });
                         }}
                         className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                         aria-label="Remover"
@@ -240,7 +366,11 @@ export default function AdminSiteData() {
               </div>
             </Section>
             <div className="flex items-center justify-end space-x-3 pb-8">
-              <button type="submit" disabled={saving || !hasChanges()} className="flex items-center space-x-2 px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50 transition-colors">
+              <button
+                type="submit"
+                disabled={saving || !hasChanges()}
+                className="flex items-center space-x-2 px-6 py-2.5 rounded-xl text-sm font-medium text-white bg-brand-orange hover:bg-amber-600 disabled:opacity-50 transition-colors"
+              >
                 <Save className="h-4 w-4" />
                 <span>{saving ? "A salvar…" : "Salvar alterações"}</span>
               </button>
@@ -253,7 +383,15 @@ export default function AdminSiteData() {
   );
 }
 
-function Section({ title, icon: Icon, children }: { title: string; icon: any; children: ReactNode }) {
+function Section({
+  title,
+  icon: Icon,
+  children,
+}: {
+  title: string;
+  icon: LucideIcon;
+  children: ReactNode;
+}) {
   return (
     <div className="bg-white rounded-xl border border-slate-200 p-5">
       <div className="flex items-center space-x-2 mb-4 pb-3 border-b border-slate-100">
@@ -265,11 +403,29 @@ function Section({ title, icon: Icon, children }: { title: string; icon: any; ch
   );
 }
 
-function Field({ label, value, onChange, type = "text", placeholder }: { label: string; value: string; onChange: (v: string) => void; type?: string; placeholder?: string }) {
+function Field({
+  label,
+  value,
+  onChange,
+  type = "text",
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  placeholder?: string;
+}) {
   return (
     <div>
       <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
-      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition bg-slate-50/50" placeholder={placeholder} />
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition bg-slate-50/50"
+        placeholder={placeholder}
+      />
     </div>
   );
 }

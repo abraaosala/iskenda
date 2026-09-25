@@ -1,11 +1,19 @@
-import { type FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../../contexts/AuthContext";
 import { fetchAuthUser, type AuthUserDetails } from "../../services/api";
 import {
-  UserCircle, Mail, Pencil, Lock, Calendar, ShieldCheck,
-  Briefcase, Users, Star, Settings,
+  UserCircle,
+  Mail,
+  Pencil,
+  Lock,
+  Calendar,
+  ShieldCheck,
+  Briefcase,
+  Users,
+  Star,
+  Settings,
 } from "lucide-react";
 
 export default function AdminProfileView() {
@@ -20,7 +28,13 @@ export default function AdminProfileView() {
   }, []);
 
   const initials = user?.name
-    ? user.name.split(" ").filter(Boolean).map((s: string) => s[0]).join("").substring(0, 2).toUpperCase()
+    ? user.name
+        .split(" ")
+        .filter(Boolean)
+        .map((s: string) => s[0])
+        .join("")
+        .substring(0, 2)
+        .toUpperCase()
     : "AD";
 
   const quickLinks = [
@@ -32,7 +46,9 @@ export default function AdminProfileView() {
 
   return (
     <>
-      <Helmet><title>Meu Perfil — IS KENDA</title></Helmet>
+      <Helmet>
+        <title>Meu Perfil — IS KENDA</title>
+      </Helmet>
 
       <div className="w-full max-w-4xl">
         <div className="flex items-center space-x-3 mb-8">
@@ -85,7 +101,9 @@ export default function AdminProfileView() {
                       </div>
                       <p className="text-sm text-slate-900 font-medium">
                         {new Date(details.createdAt).toLocaleDateString("pt-PT", {
-                          year: "numeric", month: "long", day: "numeric",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
                         })}
                       </p>
                     </div>

@@ -27,12 +27,18 @@ export default function HeadTags() {
       <meta property="og:site_name" content={company?.name || "IS KENDA"} />
       <meta property="og:locale" content="pt_AO" />
       <meta property="og:url" content={SITE_URL} />
-      <meta property="og:title" content={company?.fullName || "IS KENDA | Consultoria & Academia em Angola"} />
+      <meta
+        property="og:title"
+        content={company?.fullName || "IS KENDA | Consultoria & Academia em Angola"}
+      />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
 
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={company?.fullName || "IS KENDA | Consultoria & Academia em Angola"} />
+      <meta
+        name="twitter:title"
+        content={company?.fullName || "IS KENDA | Consultoria & Academia em Angola"}
+      />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
     </Helmet>

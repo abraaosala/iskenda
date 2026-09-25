@@ -8,7 +8,7 @@ export default function Footer() {
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
@@ -19,20 +19,21 @@ export default function Footer() {
       const offsetTop = (targetElement as HTMLElement).offsetTop - 116;
       window.scrollTo({
         top: offsetTop,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
 
   return (
-    <footer id="footer" className="bg-brand-dark text-slate-400 py-16 border-t border-white/5 relative overflow-hidden text-left">
+    <footer
+      id="footer"
+      className="bg-brand-dark text-slate-400 py-16 border-t border-white/5 relative overflow-hidden text-left"
+    >
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-brand-navy/10 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
-        
         {/* Main Footer blocks */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
-          
           {/* Block 1: About company branding */}
           <div className="lg:col-span-7 space-y-6">
             <a
@@ -49,13 +50,14 @@ export default function Footer() {
                     <Landmark className="h-6 w-6" />
                   </div>
                 )}
-                <span className="font-light text-xs tracking-[0.15em]"><span className="text-white/80">CONSULTORIA & </span><span className="text-brand-orange">ACADEMIA</span></span>
+                <span className="font-light text-xs tracking-[0.15em]">
+                  <span className="text-white/80">CONSULTORIA & </span>
+                  <span className="text-brand-orange">ACADEMIA</span>
+                </span>
               </div>
             </a>
 
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              "{company.slogan}"
-            </p>
+            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">"{company.slogan}"</p>
 
             {/* Social media icons with hover triggers */}
             <div className="flex items-center space-x-3.5">
@@ -96,7 +98,7 @@ export default function Footer() {
                 { label: "Quem Somos", href: "#quem-somos" },
                 { label: "Os Nossos Valores", href: "#valores" },
                 { label: "Serviços Corporativos", href: "#servicos" },
-                { label: "Honorários Mensais", href: "#honorarios" }
+                { label: "Honorários Mensais", href: "#honorarios" },
               ].map((link, index) => (
                 <li key={index}>
                   <a
@@ -110,16 +112,12 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-
         </div>
 
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          
           {/* Copyright section */}
           <div className="text-left">
-            <p className="text-[11px] text-slate-500 font-medium">
-              {company.copyright}
-            </p>
+            <p className="text-[11px] text-slate-500 font-medium">{company.copyright}</p>
             <p className="text-[9px] text-slate-600 mt-0.5 font-mono">
               Registada na República de Angola | Cabinda
             </p>
@@ -135,9 +133,7 @@ export default function Footer() {
             <span>Subir ao Início</span>
             <ArrowUp className="h-4 w-4" />
           </button>
-
         </div>
-
       </div>
     </footer>
   );

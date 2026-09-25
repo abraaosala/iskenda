@@ -21,49 +21,69 @@ export default function Academy() {
   };
 
   return (
-    <section id="academia" className="py-24 bg-brand-dark text-white relative overflow-hidden text-left">
+    <section
+      id="academia"
+      className="py-24 bg-brand-dark text-white relative overflow-hidden text-left"
+    >
       {/* Visual background lights */}
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-brand-orange/5 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-brand-orange/5 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
         {/* Header Title */}
         <div className="max-w-3xl mb-16 space-y-4">
-          <div id="academia-badge" className="inline-flex items-center space-x-2 bg-brand-orange/10 px-4 py-1.5 rounded-full text-brand-orange text-xs font-bold uppercase tracking-wider">
+          <div
+            id="academia-badge"
+            className="inline-flex items-center space-x-2 bg-brand-orange/10 px-4 py-1.5 rounded-full text-brand-orange text-xs font-bold uppercase tracking-wider"
+          >
             <GraduationCap className="h-4 w-4" />
             <span>Capacitação Avançada</span>
           </div>
-          <h2 id="academia-title" className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+          <h2
+            id="academia-title"
+            className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight"
+          >
             Formação e Estágio Profissional em Angola
           </h2>
-          <p id="academia-intro" className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
-            A <strong>IS KENDA ACADEMIA</strong> é uma instituição dedicada à capacitação profissional e desenvolvimento de competências práticas para o mercado de trabalho angolano.
+          <p
+            id="academia-intro"
+            className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl"
+          >
+            A <strong>IS KENDA ACADEMIA</strong> é uma instituição dedicada à capacitação
+            profissional e desenvolvimento de competências práticas para o mercado de trabalho
+            angolano.
           </p>
         </div>
 
         {/* Section 1: Split Mission, Vision & Offerings as Bento blocks */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-8">
-          
           {/* Mission & Vision cards */}
           <div className="lg:col-span-4 flex flex-col gap-6">
-            <div id="academia-mission" className="bg-white/[0.04] border border-white/10 p-6 rounded-3xl relative">
+            <div
+              id="academia-mission"
+              className="bg-white/[0.04] border border-white/10 p-6 rounded-3xl relative"
+            >
               <div className="p-2.5 bg-brand-orange/25 rounded-xl text-brand-orange inline-block mb-4">
                 <Milestone className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold mb-2">Visão</h3>
               <p className="text-xs text-slate-350 leading-relaxed font-semibold">
-                "Ser uma referência nacional em consultoria empresarial e formação profissional prática."
+                "Ser uma referência nacional em consultoria empresarial e formação profissional
+                prática."
               </p>
             </div>
 
-            <div id="academia-vision" className="bg-white/[0.04] border border-white/10 p-6 rounded-3xl relative">
+            <div
+              id="academia-vision"
+              className="bg-white/[0.04] border border-white/10 p-6 rounded-3xl relative"
+            >
               <div className="p-2.5 bg-brand-orange/20 rounded-xl text-brand-orange inline-block mb-4">
                 <Award className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold mb-2">Missão</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                "Capacitar profissionais e estudantes através de uma formação prática e orientada para as exigências reais do mercado de trabalho."
+                "Capacitar profissionais e estudantes através de uma formação prática e orientada
+                para as exigências reais do mercado de trabalho."
               </p>
             </div>
           </div>
@@ -76,7 +96,10 @@ export default function Academy() {
                 <span>O Que Oferecemos aos Nossos Formandos</span>
               </h3>
 
-              <div id="academia-offers" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div
+                id="academia-offers"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+              >
                 {academyOffers.map((offer, index) => (
                   <div
                     key={index}
@@ -86,7 +109,9 @@ export default function Academy() {
                       <SmartIcon name={offer.icon} size={20} />
                     </div>
                     <h4 className="text-xs sm:text-sm font-bold text-white mb-2">{offer.title}</h4>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">{offer.description}</p>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                      {offer.description}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -97,20 +122,21 @@ export default function Academy() {
               <span className="text-brand-orange font-bold">PADRÃO IS KENDA</span>
             </div>
           </div>
-
         </div>
 
         {/* Section 2: Interactive Course Curriculum Browser */}
-        <div id="academia-curriculum-panel" className="relative bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden p-6 sm:p-8 lg:p-10">
+        <div
+          id="academia-curriculum-panel"
+          className="relative bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden p-6 sm:p-8 lg:p-10"
+        >
           <div className="flex flex-col lg:flex-row justify-between items-stretch gap-8">
-            
             {/* Quick selectors list */}
             <div className="w-full lg:w-1/3 flex flex-col justify-between space-y-3">
               <div>
                 <h3 className="text-xs font-bold text-brand-orange uppercase tracking-wider mb-4 font-mono">
                   Áreas de Formação & Cursos
                 </h3>
-                
+
                 <div className="space-y-2">
                   {courses.map((course) => (
                     <button
@@ -123,10 +149,14 @@ export default function Academy() {
                           : "bg-white/[0.04] text-slate-350 hover:bg-white/10"
                       }`}
                     >
-                      <span className="text-xs sm:text-sm tracking-wide leading-tight">{course.title}</span>
-                      <ChevronRight className={`h-4 w-4 text-slate-400 group-hover:text-white transition-transform ${
-                        activeCourseId === course.id ? "rotate-90 text-brand-orange" : ""
-                      }`} />
+                      <span className="text-xs sm:text-sm tracking-wide leading-tight">
+                        {course.title}
+                      </span>
+                      <ChevronRight
+                        className={`h-4 w-4 text-slate-400 group-hover:text-white transition-transform ${
+                          activeCourseId === course.id ? "rotate-90 text-brand-orange" : ""
+                        }`}
+                      />
                     </button>
                   ))}
                 </div>
@@ -134,7 +164,8 @@ export default function Academy() {
 
               <div className="pt-6 hidden lg:block">
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  Para cursos customizados ou formação corporativa in-company, agende uma reunião com os nossos diretores.
+                  Para cursos customizados ou formação corporativa in-company, agende uma reunião
+                  com os nossos diretores.
                 </p>
               </div>
             </div>
@@ -144,10 +175,14 @@ export default function Academy() {
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
                   <div>
-                    <h4 className="text-base sm:text-lg font-black text-white">{activeCourse.title}</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed font-normal mt-1">{activeCourse.description}</p>
+                    <h4 className="text-base sm:text-lg font-black text-white">
+                      {activeCourse.title}
+                    </h4>
+                    <p className="text-xs text-slate-400 leading-relaxed font-normal mt-1">
+                      {activeCourse.description}
+                    </p>
                   </div>
-                  
+
                   <div className="flex items-center space-x-2 bg-brand-orange/10 text-brand-orange px-3.5 py-1.5 rounded-full border border-brand-orange/20 flex-shrink-0 text-xs font-bold whitespace-nowrap self-start sm:self-auto">
                     <Clock className="h-3.5 w-3.5" />
                     <span>{activeCourse.duration}</span>
@@ -161,7 +196,10 @@ export default function Academy() {
                   </h5>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {activeCourse.modules.map((module, mIdx) => (
-                      <div key={mIdx} className="flex items-start space-x-3 text-xs leading-relaxed">
+                      <div
+                        key={mIdx}
+                        className="flex items-start space-x-3 text-xs leading-relaxed"
+                      >
                         <div className="p-1 bg-brand-orange/10 rounded-full text-brand-orange flex-shrink-0 mt-0.5">
                           <CheckCircle2 className="h-3.5 w-3.5 inline-block" />
                         </div>
@@ -175,7 +213,8 @@ export default function Academy() {
               {/* Apply/Enroll CTA for Academy */}
               <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-[10px] text-slate-400 font-medium max-w-sm text-left">
-                  *As vagas são limitadas. Estágios práticos garantidos aos 2 melhores formandos de cada turma.
+                  *As vagas são limitadas. Estágios práticos garantidos aos 2 melhores formandos de
+                  cada turma.
                 </p>
                 <button
                   id={`course-apply-btn-${activeCourse.id}`}
@@ -185,12 +224,9 @@ export default function Academy() {
                   Inscrever-me Agora
                 </button>
               </div>
-
             </div>
-
           </div>
         </div>
-
       </div>
     </section>
   );

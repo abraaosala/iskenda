@@ -23,7 +23,9 @@ export default function Navbar({ currentSection }: NavbarProps) {
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
   const navLinks = [
@@ -43,7 +45,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
   const handleLinkClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsOpen(false);
-    
+
     const targetElement = document.querySelector(href);
     if (targetElement) {
       const offsetTop = (targetElement as HTMLElement).offsetTop - 116;
@@ -83,21 +85,27 @@ export default function Navbar({ currentSection }: NavbarProps) {
             ) : !isScrolled && company.logo ? (
               <img src={company.logo} alt={company.name} className="h-10 w-auto" />
             ) : (
-              <div className={`p-2 rounded-xl transition-all duration-300 ${
-                isScrolled ? "bg-brand-navy/10 text-brand-navy" : "bg-white/10 text-brand-orange"
-              }`}>
+              <div
+                className={`p-2 rounded-xl transition-all duration-300 ${
+                  isScrolled ? "bg-brand-navy/10 text-brand-navy" : "bg-white/10 text-brand-orange"
+                }`}
+              >
                 <Landmark className="h-6 w-6" />
               </div>
             )}
             <div className="flex flex-col">
-              <span className={`font-extrabold text-xl tracking-tight leading-none ${
-                isScrolled ? "text-brand-navy" : "text-white"
-              }`}>
+              <span
+                className={`font-extrabold text-xl tracking-tight leading-none ${
+                  isScrolled ? "text-brand-navy" : "text-white"
+                }`}
+              >
                 {/* {company.name} */}
               </span>
-              <span className={`text-[9px] font-semibold tracking-wider uppercase mt-1 ${
-                isScrolled ? "text-brand-blue" : "text-brand-orange"
-              }`}>
+              <span
+                className={`text-[9px] font-semibold tracking-wider uppercase mt-1 ${
+                  isScrolled ? "text-brand-blue" : "text-brand-orange"
+                }`}
+              >
                 Consultoria & Academia
               </span>
             </div>
@@ -119,8 +127,8 @@ export default function Navbar({ currentSection }: NavbarProps) {
                         ? "text-brand-blue bg-brand-navy/5 font-semibold"
                         : "text-brand-orange font-semibold"
                       : isScrolled
-                      ? "text-slate-600 hover:text-brand-blue hover:bg-slate-50"
-                      : "text-slate-200 hover:text-white hover:bg-white/5"
+                        ? "text-slate-600 hover:text-brand-blue hover:bg-slate-50"
+                        : "text-slate-200 hover:text-white hover:bg-white/5"
                   }`}
                 >
                   {link.label}
@@ -131,21 +139,21 @@ export default function Navbar({ currentSection }: NavbarProps) {
 
           {/* Desktop Contact CTA */}
           {showContactCta && (
-          <div className="hidden lg:flex items-center">
-            <a
-              id="desktop-nav-cta"
-              href="#contactos"
-              onClick={(e) => handleLinkClick(e, "#contactos")}
-              className={`flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 ${
-                isScrolled
-                  ? "bg-brand-navy text-white hover:bg-brand-blue hover:shadow-md"
-                  : "bg-brand-orange text-brand-dark hover:bg-white hover:text-brand-navy"
-              }`}
-            >
-              <PhoneCall className="h-3.5 w-3.5" />
-              <span>Ligar Agora</span>
-            </a>
-          </div>
+            <div className="hidden lg:flex items-center">
+              <a
+                id="desktop-nav-cta"
+                href="#contactos"
+                onClick={(e) => handleLinkClick(e, "#contactos")}
+                className={`flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 ${
+                  isScrolled
+                    ? "bg-brand-navy text-white hover:bg-brand-blue hover:shadow-md"
+                    : "bg-brand-orange text-brand-dark hover:bg-white hover:text-brand-navy"
+                }`}
+              >
+                <PhoneCall className="h-3.5 w-3.5" />
+                <span>Ligar Agora</span>
+              </a>
+            </div>
           )}
 
           {/* Mobile Menu Button */}
@@ -154,9 +162,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
               id="mobile-menu-toggle"
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 rounded-xl focus:outline-none transition-colors ${
-                isScrolled
-                  ? "text-slate-700 hover:bg-slate-100"
-                  : "text-white hover:bg-white/10"
+                isScrolled ? "text-slate-700 hover:bg-slate-100" : "text-white hover:bg-white/10"
               }`}
               aria-label="Abrir Menu"
             >
@@ -204,17 +210,17 @@ export default function Navbar({ currentSection }: NavbarProps) {
             </nav>
 
             {showContactCta && (
-            <div className="mt-10 w-full max-w-sm">
-              <a
-                id="mobile-overlay-cta"
-                href="#contactos"
-                onClick={(e) => handleLinkClick(e, "#contactos")}
-                className="flex justify-center items-center space-x-2 w-full py-4 rounded-2xl bg-brand-navy text-white font-bold text-base uppercase tracking-wider shadow-lg"
-              >
-                <PhoneCall className="h-5 w-5" />
-                <span>Contactar IS KENDA</span>
-              </a>
-            </div>
+              <div className="mt-10 w-full max-w-sm">
+                <a
+                  id="mobile-overlay-cta"
+                  href="#contactos"
+                  onClick={(e) => handleLinkClick(e, "#contactos")}
+                  className="flex justify-center items-center space-x-2 w-full py-4 rounded-2xl bg-brand-navy text-white font-bold text-base uppercase tracking-wider shadow-lg"
+                >
+                  <PhoneCall className="h-5 w-5" />
+                  <span>Contactar IS KENDA</span>
+                </a>
+              </div>
             )}
           </div>
         </div>

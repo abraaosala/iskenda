@@ -10,30 +10,49 @@ export default function About() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
           {/* Column 1: Core content and paragraphs styled as a large Bento Card */}
           <div className="lg:col-span-7 bg-white rounded-3xl p-8 lg:p-10 border border-slate-200 shadow-sm flex flex-col justify-between text-left relative overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-slate-50 rounded-full -mr-16 -mt-16 opacity-60 pointer-events-none" />
-            
+
             <div className="z-10">
-              <div id="about-brand-tag" className="inline-flex items-center space-x-2 bg-brand-blue/10 px-4.5 py-2 rounded-full text-brand-blue text-xs font-bold uppercase tracking-wider mb-6">
+              <div
+                id="about-brand-tag"
+                className="inline-flex items-center space-x-2 bg-brand-blue/10 px-4.5 py-2 rounded-full text-brand-blue text-xs font-bold uppercase tracking-wider mb-6"
+              >
                 <span className="w-2 h-2 rounded-full bg-brand-orange" />
                 <span>IS KENDA Consultoria</span>
               </div>
 
-              <h2 id="about-title" className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+              <h2
+                id="about-title"
+                className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6"
+              >
                 Apoio estratégico e conformidade completa para o seu negócio crescer em Angola.
               </h2>
 
-              <div id="about-paragraphs" className="space-y-4 text-sm sm:text-base text-slate-605 leading-relaxed">
+              <div
+                id="about-paragraphs"
+                className="space-y-4 text-sm sm:text-base text-slate-605 leading-relaxed"
+              >
                 <p>
-                  A <strong>IS KENDA CONSULTORIA</strong> é uma empresa angolana especializada em Consultoria Empresarial, oferecendo soluções de ponta e sob medida nas áreas de <strong>Contabilidade, Fiscalidade Tributária, Gestão de Recursos Humanos (GRH)</strong> e <strong>Organização Administrativa</strong>.
+                  A <strong>IS KENDA CONSULTORIA</strong> é uma empresa angolana especializada em
+                  Consultoria Empresarial, oferecendo soluções de ponta e sob medida nas áreas de{" "}
+                  <strong>
+                    Contabilidade, Fiscalidade Tributária, Gestão de Recursos Humanos (GRH)
+                  </strong>{" "}
+                  e <strong>Organização Administrativa</strong>.
                 </p>
                 <p>
-                  Com mais de <strong>{company.yearsExperience} anos de experiência sólida</strong> no mercado nacional, temos como missão precípua apoiar empresas e empreendedores na estruturação, sustentabilidade financeira e conformidade legal das suas operações comerciais.
+                  Com mais de <strong>{company.yearsExperience} anos de experiência sólida</strong>{" "}
+                  no mercado nacional, temos como missão precípua apoiar empresas e empreendedores
+                  na estruturação, sustentabilidade financeira e conformidade legal das suas
+                  operações comerciais.
                 </p>
                 <p>
-                  Trabalhamos de forma transparente mediante a celebração de <strong>contratos formais de prestação de serviços</strong>, garantindo proteção jurídica ampla, estabilidade contratual de longo prazo e compromisso total com o sucesso tangível dos nossos parceiros.
+                  Trabalhamos de forma transparente mediante a celebração de{" "}
+                  <strong>contratos formais de prestação de serviços</strong>, garantindo proteção
+                  jurídica ampla, estabilidade contratual de longo prazo e compromisso total com o
+                  sucesso tangível dos nossos parceiros.
                 </p>
               </div>
             </div>
@@ -51,7 +70,7 @@ export default function About() {
           {/* Column 2: Visual Cards & Corporate Trust Indicators as a complementary Bento Card */}
           <div className="lg:col-span-5 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between text-left relative overflow-hidden">
             <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-full filter blur-xl pointer-events-none" />
-            
+
             <div>
               <h3 className="text-lg font-extrabold text-brand-blue mb-6 flex items-center space-x-2.5">
                 <span className="w-1.5 h-6 bg-brand-orange rounded-full" />
@@ -63,23 +82,27 @@ export default function About() {
                   {
                     icon: <ShieldCheck className="h-5 w-5 text-brand-blue" />,
                     title: "Conformidade Total",
-                    description: "Seguimos à risca as regras vigentes do PGC e AGT, blindando a sua organização contra coimas e sanções."
+                    description:
+                      "Seguimos à risca as regras vigentes do PGC e AGT, blindando a sua organização contra coimas e sanções.",
                   },
                   {
                     icon: <FileCheck2 className="h-5 w-5 text-brand-blue" />,
                     title: "Contratos Transparentes",
-                    description: "Todos os escopos, prazos e honorários são formalizados para zelar pela sua tranquilidade jurídica."
+                    description:
+                      "Todos os escopos, prazos e honorários são formalizados para zelar pela sua tranquilidade jurídica.",
                   },
                   {
                     icon: <HeartHandshake className="h-5 w-5 text-brand-orange" />,
                     title: "Relações Próximas",
-                    description: "Atendimento humano, ágil e customizado, estando disponíveis no dia a dia para esclarecer dúvidas."
+                    description:
+                      "Atendimento humano, ágil e customizado, estando disponíveis no dia a dia para esclarecer dúvidas.",
                   },
                   {
                     icon: <Award className="h-5 w-5 text-indigo-600" />,
                     title: "Resultados de Excelência",
-                    description: "Transformamos números em inteligência analítica que se traduz diretamente em eficiência."
-                  }
+                    description:
+                      "Transformamos números em inteligência analítica que se traduz diretamente em eficiência.",
+                  },
                 ].map((pilar, index) => (
                   <div key={index} className="flex space-x-4 items-start text-left">
                     <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-slate-800 flex-shrink-0">
@@ -87,7 +110,9 @@ export default function About() {
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-slate-900">{pilar.title}</h4>
-                      <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed mt-0.5">{pilar.description}</p>
+                      <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed mt-0.5">
+                        {pilar.description}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -100,7 +125,6 @@ export default function About() {
               </p>
             </div>
           </div>
-
         </div>
       </div>
     </section>
