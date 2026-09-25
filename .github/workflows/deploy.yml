@@ -22,14 +22,21 @@
 #      SSH_KEY           → chave privada SSH
 #      SSH_PORT          → porta SSH personalizada
 #    Variables:
-#      STAGING_PATH      → caminho remoto do staging
-#                          ex: /home/u634834160/domains/staging.iskenda.ao/public_html/
-#      PROD_PATH         → caminho remoto de produção (relativo ou absoluto)
+#      STAGING_PATH      → caminho remoto do staging (subpasta dentro do public_html)
+#                          ex: /home/u634834160/domains/iskenda.ao/public_html/staging
+#      PROD_PATH         → caminho remoto base de produção (PREFIXO; PROD_DIR é anexado)
 #                          ex: u634834160/domains/iskenda.ao/public_html/
+#      PROD_DIR          → subpasta do docroot de produção dentro de PROD_PATH
+#                          ex: dist  → docroot final: .../public_html/dist
 #      STAGING_URL       → URL do staging para health check
 #                          ex: https://staging.iskenda.ao/
 #      PROD_URL          → URL de produção para health check
 #                          ex: https://iskenda.ao/
+#
+#  Layout do host (irmãos sob public_html/, cada swap atinge só a sua pasta):
+#    public_html/dist     → produção (docroot de iskenda.ao)
+#    public_html/staging  → staging  (docroot de staging.iskenda.ao)
+#    public_html/api      → API      (fora deste workflow)
 # ─────────────────────────────────────────────────────────────
 name: Deploy
 
@@ -107,7 +114,10 @@ jobs:
           REMOTE_DIR="${REMOTE_DIR%/}"
           BASE="$(dirname "$REMOTE_DIR")"
 
-          # Swap atómico: .dist-staging fica fora do public_html e nunca é servido
+          # Garante que o alvo existe (recupera pastas apagadas por deploys antigos)
+          ssh $SSH_OPTS "$REMOTE" "mkdir -p '$REMOTE_DIR'"
+
+          # Swap atómico: .dist-staging fica ao lado do alvo (fora do docroot) e nunca é servido
           rsync -a --delete -e "ssh $SSH_OPTS" ./dist/ "$REMOTE:$BASE/.dist-staging/"
           ssh $SSH_OPTS "$REMOTE" "cd '$REMOTE_DIR' && rsync -a --delete '../.dist-staging/' ./ && rm -rf '../.dist-staging'"
 
@@ -135,6 +145,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
           TARGET_PATH: ${{ vars.PROD_PATH }}
+          TARGET_DIR: ${{ vars.PROD_DIR }}
         run: |
           set -euo pipefail
 
@@ -143,6 +154,7 @@ jobs:
           : "${SSH_KEY:?secret SSH_KEY em falta}"
           : "${SSH_PORT:?secret SSH_PORT em falta}"
           : "${TARGET_PATH:?variable PROD_PATH em falta}"
+          : "${TARGET_DIR:?variable PROD_DIR em falta}"
 
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
@@ -152,15 +164,20 @@ jobs:
           SSH_OPTS="-i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
           REMOTE="$SSH_USER@$SSH_HOST"
 
-          # TARGET_PATH pode ser relativo (u634834160/domains/...) ou absoluto (/home/...)
+          # PROD_PATH é o prefixo; PROD_DIR é a subpasta do docroot (ex.: dist).
+          # O swap atinge SÓ dist/, nunca toca em staging/ nem api/.
           case "$TARGET_PATH" in
             /*) REMOTE_DIR="$TARGET_PATH" ;;
             *)  REMOTE_DIR="/home/$TARGET_PATH" ;;
           esac
           REMOTE_DIR="${REMOTE_DIR%/}"
+          REMOTE_DIR="$REMOTE_DIR/$TARGET_DIR"
           BASE="$(dirname "$REMOTE_DIR")"
 
-          # Swap atómico: .dist-staging fica fora do public_html e nunca é servido
+          # Garante que o alvo existe
+          ssh $SSH_OPTS "$REMOTE" "mkdir -p '$REMOTE_DIR'"
+
+          # Swap atómico: .dist-staging fica ao lado do alvo (fora do docroot) e nunca é servido
           rsync -a --delete -e "ssh $SSH_OPTS" ./dist/ "$REMOTE:$BASE/.dist-staging/"
           ssh $SSH_OPTS "$REMOTE" "cd '$REMOTE_DIR' && rsync -a --delete '../.dist-staging/' ./ && rm -rf '../.dist-staging'"
 
