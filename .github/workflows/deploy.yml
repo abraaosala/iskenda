@@ -1,19 +1,19 @@
 # ─────────────────────────────────────────────────────────────
 #  Deploy do Iskenda (Vite SPA) para o Hostinger via SSH
 #
-#  O deploy é feito por rsync sobre SSH (porta personalizada via
-#  secret SSH_PORT) com swap atómico: upload para .dist-staging
-#  e depois rsync local no servidor para o diretório de destino,
+#  Fluxo: build → deploy para STAGING → health check
+#         → deploy para PRODUÇÃO → health check.
+#
+#  O build (dist/) é publicado por rsync sobre SSH com swap
+#  atómico: upload para .dist-staging (FORA do public_html, ao
+#  lado do domínio, via dirname) e depois troca no lugar —
 #  evitando o dangerous-clean-slate do FTP que deixava o site
-#  instável.
+#  instável e ficheiros de staging servidos pela web.
 #
 #  Qualidade (lint/format/test/audit) fica no workflow CI — aqui
-#  só build, verificação do artifact e deploy.
+#  só build, verificação do artifact e deploy em série.
 #
-#  Gatilhos:
-#    - push na branch `main`    → deploy PRODUÇÃO
-#    - push na branch `staging` → deploy STAGING
-#    - workflow_dispatch → escolher ambiente manualmente
+#  Gatilhos: push na branch `main` ou workflow_dispatch manual.
 #
 #  Pré-requisitos (uma vez) — Settings → Secrets and variables → Actions:
 #    Secrets:
@@ -22,35 +22,26 @@
 #      SSH_KEY           → chave privada SSH
 #      SSH_PORT          → porta SSH personalizada
 #    Variables:
-#      PROD_PATH         → dir web produção (relativo ou absoluto)
-#                          ex: u634834160/domains/iskenda.ao/public_html/
-#      PROD_DIR          → dir raiz do build (ex: dist)
-#      PROD_URL          → URL health check (ex: https://iskenda.ao/)
-#      STAGING_PATH      → dir web staging (relativo ou absoluto)
+#      STAGING_PATH      → caminho remoto do staging
 #                          ex: /home/u634834160/domains/staging.iskenda.ao/public_html/
-#      STAGING_URL       → URL health check (ex: https://staging.iskenda.ao/)
+#      PROD_PATH         → caminho remoto de produção (relativo ou absoluto)
+#                          ex: u634834160/domains/iskenda.ao/public_html/
+#      STAGING_URL       → URL do staging para health check
+#                          ex: https://staging.iskenda.ao/
+#      PROD_URL          → URL de produção para health check
+#                          ex: https://iskenda.ao/
 # ─────────────────────────────────────────────────────────────
 name: Deploy
 
 on:
   push:
-    branches: [main, staging]
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: Ambiente a publicar
-        required: true
-        default: staging
-        type: choice
-        options:
-          - staging
-          - production
 
 concurrency: deploy
 
 jobs:
-  deploy-production:
-    if: ${{ (github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production') }}
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -79,19 +70,18 @@ jobs:
       - name: Guardar build como artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ github.sha }}-production
+          name: dist-${{ github.sha }}
           path: ./dist/
           if-no-files-found: error
           retention-days: 14
 
-      - name: Deploy via SSH (rsync atómico)
+      - name: Deploy para STAGING (rsync atómico)
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
-          REMOTE_PATH: ${{ vars.PROD_PATH }}
-          REMOTE_DIR: ${{ vars.PROD_DIR }}
+          TARGET_PATH: ${{ vars.STAGING_PATH }}
         run: |
           set -euo pipefail
 
@@ -99,8 +89,7 @@ jobs:
           : "${SSH_USER:?secret SSH_USER em falta}"
           : "${SSH_KEY:?secret SSH_KEY em falta}"
           : "${SSH_PORT:?secret SSH_PORT em falta}"
-          : "${REMOTE_PATH:?variable PROD_PATH em falta}"
-          : "${REMOTE_DIR:?variable PROD_DIR em falta}"
+          : "${TARGET_PATH:?variable STAGING_PATH em falta}"
 
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
@@ -110,107 +99,19 @@ jobs:
           SSH_OPTS="-i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
           REMOTE="$SSH_USER@$SSH_HOST"
 
-          # REMOTE_PATH pode ser relativo (u634834160/domains/...) ou absoluto (/home/...)
-          case "$REMOTE_PATH" in
-            /*) REMOTE_ROOT="$REMOTE_PATH" ;;
-            *)  REMOTE_ROOT="/home/$REMOTE_PATH" ;;
+          # TARGET_PATH pode ser relativo (u634834160/domains/...) ou absoluto (/home/...)
+          case "$TARGET_PATH" in
+            /*) REMOTE_DIR="$TARGET_PATH" ;;
+            *)  REMOTE_DIR="/home/$TARGET_PATH" ;;
           esac
-          REMOTE_ROOT="${REMOTE_ROOT%/}/"
-          REMOTE_DIR="${REMOTE_DIR#/}"; REMOTE_DIR="${REMOTE_DIR%/}"
+          REMOTE_DIR="${REMOTE_DIR%/}"
+          BASE="$(dirname "$REMOTE_DIR")"
 
-          rsync -a --delete -e "ssh $SSH_OPTS" ./dist/ "$REMOTE:${REMOTE_ROOT}.dist-staging/"
-          ssh $SSH_OPTS "$REMOTE" "cd \"${REMOTE_ROOT}\" && rsync -a --delete .dist-staging/ \"${REMOTE_DIR}/\" && rm -rf .dist-staging"
+          # Swap atómico: .dist-staging fica fora do public_html e nunca é servido
+          rsync -a --delete -e "ssh $SSH_OPTS" ./dist/ "$REMOTE:$BASE/.dist-staging/"
+          ssh $SSH_OPTS "$REMOTE" "cd '$REMOTE_DIR' && rsync -a --delete '../.dist-staging/' ./ && rm -rf '../.dist-staging'"
 
-      - name: Health check pós-deploy
-        env:
-          SITE_URL: ${{ vars.PROD_URL }}
-        run: |
-          : "${SITE_URL:?variable PROD_URL em falta}"
-          for attempt in 1 2 3 4 5 6; do
-            code=$(curl -sL -o /dev/null -w "%{http_code}" --max-time 30 "$SITE_URL")
-            echo "Tentativa $attempt: HTTP $code"
-            if [ "$code" = "200" ]; then
-              echo "Site OK (HTTP $code)"
-              exit 0
-            fi
-            sleep 10
-          done
-          echo "Health check falhou: HTTP $code (6 tentativas)"
-          exit 1
-
-  deploy-staging:
-    if: ${{ (github.event_name == 'push' && github.ref_name == 'staging') || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging') }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-        env:
-          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
-
-      - name: Verificar dist e .htaccess
-        run: |
-          test -f dist/index.html
-          test -f dist/.htaccess || { echo "dist/.htaccess em falta"; exit 1; }
-          test -f dist/$(node -e "const m=require('fs').readdirSync('dist/assets').filter(f=>f.endsWith('.js'));process.stdout.write('assets/'+m[0])")
-
-      - name: Guardar build como artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-${{ github.sha }}-staging
-          path: ./dist/
-          if-no-files-found: error
-          retention-days: 14
-
-      - name: Deploy via SSH (rsync atómico)
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-          REMOTE_PATH: ${{ vars.STAGING_PATH }}
-          REMOTE_DIR: ${{ vars.PROD_DIR }}
-        run: |
-          set -euo pipefail
-
-          : "${SSH_HOST:?secret SSH_HOST em falta}"
-          : "${SSH_USER:?secret SSH_USER em falta}"
-          : "${SSH_KEY:?secret SSH_KEY em falta}"
-          : "${SSH_PORT:?secret SSH_PORT em falta}"
-          : "${REMOTE_PATH:?variable STAGING_PATH em falta}"
-          : "${REMOTE_DIR:?variable PROD_DIR em falta}"
-
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-
-          SSH_OPTS="-i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-          REMOTE="$SSH_USER@$SSH_HOST"
-
-          # REMOTE_PATH pode ser relativo (u634834160/domains/...) ou absoluto (/home/...)
-          case "$REMOTE_PATH" in
-            /*) REMOTE_ROOT="$REMOTE_PATH" ;;
-            *)  REMOTE_ROOT="/home/$REMOTE_PATH" ;;
-          esac
-          REMOTE_ROOT="${REMOTE_ROOT%/}/"
-          REMOTE_DIR="${REMOTE_DIR#/}"; REMOTE_DIR="${REMOTE_DIR%/}"
-
-          rsync -a --delete -e "ssh $SSH_OPTS" ./dist/ "$REMOTE:${REMOTE_ROOT}.dist-staging/"
-          ssh $SSH_OPTS "$REMOTE" "cd \"${REMOTE_ROOT}\" && rsync -a --delete .dist-staging/ \"${REMOTE_DIR}/\" && rm -rf .dist-staging"
-
-      - name: Health check pós-deploy
+      - name: Health check (STAGING)
         env:
           SITE_URL: ${{ vars.STAGING_URL }}
         run: |
@@ -219,10 +120,63 @@ jobs:
             code=$(curl -sL -o /dev/null -w "%{http_code}" --max-time 30 "$SITE_URL")
             echo "Tentativa $attempt: HTTP $code"
             if [ "$code" = "200" ]; then
-              echo "Site OK (HTTP $code)"
+              echo "Staging OK (HTTP $code)"
               exit 0
             fi
             sleep 10
           done
-          echo "Health check falhou: HTTP $code (6 tentativas)"
+          echo "Health check falhou no staging: HTTP $code"
+          exit 1
+
+      - name: Deploy para PRODUÇÃO (rsync atómico)
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          TARGET_PATH: ${{ vars.PROD_PATH }}
+        run: |
+          set -euo pipefail
+
+          : "${SSH_HOST:?secret SSH_HOST em falta}"
+          : "${SSH_USER:?secret SSH_USER em falta}"
+          : "${SSH_KEY:?secret SSH_KEY em falta}"
+          : "${SSH_PORT:?secret SSH_PORT em falta}"
+          : "${TARGET_PATH:?variable PROD_PATH em falta}"
+
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          SSH_OPTS="-i $HOME/.ssh/deploy_key -p $SSH_PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          REMOTE="$SSH_USER@$SSH_HOST"
+
+          # TARGET_PATH pode ser relativo (u634834160/domains/...) ou absoluto (/home/...)
+          case "$TARGET_PATH" in
+            /*) REMOTE_DIR="$TARGET_PATH" ;;
+            *)  REMOTE_DIR="/home/$TARGET_PATH" ;;
+          esac
+          REMOTE_DIR="${REMOTE_DIR%/}"
+          BASE="$(dirname "$REMOTE_DIR")"
+
+          # Swap atómico: .dist-staging fica fora do public_html e nunca é servido
+          rsync -a --delete -e "ssh $SSH_OPTS" ./dist/ "$REMOTE:$BASE/.dist-staging/"
+          ssh $SSH_OPTS "$REMOTE" "cd '$REMOTE_DIR' && rsync -a --delete '../.dist-staging/' ./ && rm -rf '../.dist-staging'"
+
+      - name: Health check (PRODUÇÃO)
+        env:
+          SITE_URL: ${{ vars.PROD_URL }}
+        run: |
+          : "${SITE_URL:?variable PROD_URL em falta}"
+          for attempt in 1 2 3 4 5 6; do
+            code=$(curl -sL -o /dev/null -w "%{http_code}" --max-time 30 "$SITE_URL")
+            echo "Tentativa $attempt: HTTP $code"
+            if [ "$code" = "200" ]; then
+              echo "Produção OK (HTTP $code)"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Health check falhou na produção: HTTP $code"
           exit 1
