@@ -1,67 +1,54 @@
 # IS KENDA — Repo Guide for Agents
 
-## Skills Activation
+## Stack
 
-This project has domain-specific skills available in `.agents/skills/`. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
+React 19 + TypeScript + Vite 8 + Tailwind CSS v4 + TanStack Router. SPA for IS KENDA CONSULTORIA & ACADEMIA (Angola, Portuguese).
 
-**Always-on skill:** `git-workflow` — must be activated before making any code change (creates branch, commits atomically, pushes).
-
-## What this is
-
-React 19 + TypeScript SPA (Vite 8, Tailwind CSS v4) for "IS KENDA CONSULTORIA & ACADEMIA", a consulting and training firm in Angola. Built for Google AI Studio deployment with server-side Gemini API support.
-
-## Developer commands
+## Commands
 
 ```sh
-npm run dev       # vite dev server on port 3000, bound 0.0.0.0
-npm run build     # vite build
-npm run preview   # vite preview
-npm run lint      # tsc --noEmit (no ESLint, no Prettier)
-npm run clean     # rm -rf dist server.js
+npm run dev          # vite --port 3000 --host 0.0.0.0
+npm run build        # vite build (public/ -> dist/ verbatim)
+npm run preview
+npm run lint         # eslint .
+npm run lint:fix     # eslint . --fix
+npm run typecheck    # tsc --noEmit
+npm run format       # prettier --write .
+npm run format:check # prettier --check .
+npm run test         # vitest run
+npm run test:watch   # vitest
+npm run clean        # rm -rf dist server.js (Unix; Windows: Remove-Item -Recurse -Force dist,server.js)
 ```
 
-`npm run lint` is the only static check — run it before any build or PR.
+Run `lint`, `typecheck`, `test` and `format:check` before build/PR. Vitest global setup: no explicit globals import needed (`test`, `expect` available due to `globals: true`).
 
-## Env setup
+## Env
 
-Copy `.env.example` to `.env.local`. Two vars:
-- `GEMINI_API_KEY` — required for Gemini AI API calls
-- `APP_URL` — where the app is hosted (for OAuth callbacks, self-links)
+Copy `.env.example` → `.env` (`.env*` gitignored, `!.env.example`):
 
-AI Studio injects these at runtime from user secrets. `.env*` is gitignored (except `.env.example`).
+- `GEMINI_API_KEY` — Gemini API
+- `APP_URL` — Cloud Run URL for callbacks/self-links
+- `VITE_API_BASE_URL` — API origin without `/api` suffix (dev `http://localhost:8000`, prod `https://api.iskenda.ao`; empty → `/api` proxy)
 
-## Key config quirks
+## Quirks
 
-- **Path alias**: `@/*` → project root (not `src/`). Configured in `tsconfig.json` and `vite.config.ts`.
-- **HMR disable**: Set `DISABLE_HMR=true` to disable HMR + file watching (AI Studio workflow; saves CPU during agent edits). See `vite.config.ts`.
-- **tsconfig**: `target: ES2022`, `jsx: react-jsx`, `moduleResolution: bundler`, `experimentalDecorators: true`, `useDefineForClassFields: false`.
-- **Tailwind v4**: Imported via `@import "tailwindcss"` in CSS (no `tailwind.config.*`). Custom theme tokens under `@theme` in `src/index.css`.
-- **Custom scrollbar**: Styled via `::-webkit-scrollbar` pseudo-elements in CSS.
-- No React Router — sections are full-page divs with `id` anchors + scroll-based active section detection.
+- Path alias `@/*` → project root, not `src/` (`tsconfig.json` + `vite.config.ts`)
+- `tsconfig`: `target ES2022`, `jsx react-jsx`, `moduleResolution bundler`, `experimentalDecorators true`, `useDefineForClassFields false`
+- `DISABLE_HMR=true` disables HMR + file watch (`vite.config.ts`)
+- Tailwind v4: `@import "tailwindcss"` in `src/index.css`, tokens under `@theme`, no `tailwind.config.*`
+- Canonical `https://iskenda.ao/` (no `www`); `public/.htaccess`, `og-image.png`, `robots.txt`, `sitemap.xml` → `dist/` root
+- Brand colors `src/index.css` `@theme` + `paleta.md`: `#092b55`, `#1a4989`, `#fdb721`, `#de9800`
 
-## App structure
+## Architecture
 
-```
-src/
-  main.tsx            — entrypoint, mounts <App />
-  App.tsx             — scroll-based section orchestrator (8 sections)
-  components/         — 11 components (Navbar, Hero, About, Values, Services, Pricing, Academy, Clients, Contact, Footer, SmartIcon)
-  data.ts             — all static content (services, clients, courses, values, company info)
-  types.ts            — TypeScript interfaces (Service, Client, Course, AcademyOffer, CompanyValue)
-  index.css           — Tailwind v4 imports, custom theme, fonts, animations, scrollbar
-  assets/images/      — static images (hero_workspace_...png)
-```
+- `src/main.tsx` → `HelmetProvider` + `AuthProvider` + `SiteDataProvider` + `RouterProvider`
+- `src/router.tsx` (TanStack Router): `/` → `App.tsx`, `/login` (redirects if `localStorage.auth_token`), `/admin/*` (guard → `/login` if no token). Root renders `HeadTags` + `Outlet`.
+- `App.tsx`: 10 sections (`inicio`, `quem-somos`, `equipa`, `valores`, `servicos`, `academia`, `honorarios`, `clientes`, `galeria`, `contactos`) visibility via `SiteDataContext.sections[key] !== false`
+- Data: `src/data.ts` is fallback; live data `GET /api/site-data` (`src/services/api.ts`, base `VITE_API_BASE_URL` or `/api`). Icons are Lucide name strings resolved by `SmartIcon.tsx`. Company `address` canonical is `Cabinda, Angola`.
+- `src/index.html` holds static SEO shell (title, OG/Twitter, JSON-LD `ProfessionalService` + `Course` + `FAQPage`); Vite preserves head on build.
 
-All content is in Portuguese. Data-driven — edit `src/data.ts` to change text, icons use Lucide React icon names as strings (resolved by `SmartIcon.tsx`).
+## Conventions
 
-## Server-side Gemini API
-
-The `metadata.json` declares `MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API`. `express`, `@google/genai`, `dotenv`, and `tsx` are in dependencies for a server-side API endpoint, but no server source exists under `src/` yet. If adding an API route, use express + `@google/genai`, load env with dotenv, and run with `tsx`.
-
-## Testing
-
-No test framework is configured. No test files exist.
-
-## Clean script note
-
-`npm run clean` uses `rm -rf` (Unix). On Windows in PowerShell, use `Remove-Item -Recurse -Force dist, server.js` instead.
+- Content Portuguese, data-driven — edit `src/data.ts` for fallback or `api.iskenda.ao` admin (`/admin/site-data`, `/admin/site-sections`) for live.
+- `express`/`@google/genai`/`dotenv`/`tsx` in deps for optional server API, but no server source under `src/` yet.
+- Skills in `.agents/skills/` — activate relevant skill before domain work; `git-workflow` before any code change.

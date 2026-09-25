@@ -1,0 +1,13 @@
+node_modules
+dist
+public
+index.html
+.github
+.agents
+.env.example
+metadata.json
+paleta.md
+AGENTS.md
+README.md
+*.md
+package-lock.json
