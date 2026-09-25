@@ -1,22 +1,11 @@
-import { useEffect, useRef, useState } from "react";
 import { Phone, Mail, Clock } from "lucide-react";
 import { useSiteData } from "../contexts/SiteDataContext";
 import { SmartIcon } from "./SmartIcon";
+import { useTopbarVisible } from "../hooks/useTopbarVisible";
 
 export default function Topbar() {
   const { company, socialLinks } = useSiteData();
-  const [visible, setVisible] = useState(true);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const current = window.scrollY;
-      setVisible(current <= 0 || current < lastScrollY.current);
-      lastScrollY.current = current;
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const visible = useTopbarVisible();
 
   return (
     <div

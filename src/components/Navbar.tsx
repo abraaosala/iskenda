@@ -2,6 +2,7 @@ import { useState, useEffect, MouseEvent } from "react";
 import { Menu, X, Landmark, PhoneCall } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useSiteData } from "../contexts/SiteDataContext";
+import { useTopbarVisible } from "../hooks/useTopbarVisible";
 
 interface NavbarProps {
   currentSection: string;
@@ -12,6 +13,7 @@ export default function Navbar({ currentSection }: NavbarProps) {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const topbarVisible = useTopbarVisible();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +61,9 @@ export default function Navbar({ currentSection }: NavbarProps) {
   return (
     <nav
       id="main-navbar"
-      className={`fixed top-9 left-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed left-0 w-full z-50 transition-all duration-300 ${
+        topbarVisible ? "top-9" : "top-0"
+      } ${
         isScrolled
           ? "bg-white/95 backdrop-blur-md shadow-md py-3 text-slate-850"
           : "bg-gradient-to-b from-brand-dark/90 to-brand-dark/10 text-white py-5"
